@@ -18,17 +18,18 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
 #include "src/xkblibwrapper.h"
+#include "logger.h"
 #include <QX11Info>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/extensions/XKBrules.h>
-#include <QDebug>
 
 XKBLibWrapper::XKBLibWrapper(QObject *parent) :
     QObject(parent)
 {
     display = QX11Info::display();
+    logger = new Logger(this);
 }
 
 void XKBLibWrapper::setLayout(unsigned int layoutIndex)
@@ -39,7 +40,9 @@ void XKBLibWrapper::setLayout(unsigned int layoutIndex)
         XkbGetState( display, XkbUseCoreKbd, &xkbState );
 
     } else {
-        qDebug() << "Failed to change layout group to " << layoutIndex;
+        logger->log(logger->red_color
+                    + "Failed to change layout group to " + layoutIndex
+                    + logger->no_color);
     }
 }
 
@@ -84,7 +87,9 @@ QList<LayoutUnit> XKBLibWrapper::getLayoutsList()
         }
     }
     else {
-        qDebug() << "Failed to get layout groups from X server";
+        logger->log(logger->red_color
+                    + "Failed to get layout groups from X server"
+                    + logger->no_color);
     }
     return lus;
 }
@@ -112,8 +117,11 @@ bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
 
     /* no such atom! */
     if (rules_atom == None) {       /* property cannot exist */
-        qDebug() << "Failed to fetch layouts from server:" <<
-                    "could not find the atom" << _XKB_RF_NAMES_PROP_ATOM;
+        logger->log(logger->red_color
+                    + "Failed to fetch layouts from server: "
+                    + "could not find the atom "
+                    + _XKB_RF_NAMES_PROP_ATOM
+                    + logger->no_color);
         return false;
     }
 
@@ -125,16 +133,20 @@ bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
                              (unsigned char **) (void *) &prop_data);
 
     if (ret != Success) {
-        qDebug() << "Failed to fetch layouts from server:" <<
-                    "Could not get the property";
+        logger->log(logger->red_color
+                    + "Failed to fetch layouts from server: "
+                    + "Could not get the property"
+                    + logger->no_color);
         return false;
     }
 
     if ((extra_bytes > 0) || (real_prop_type != XA_STRING) || (fmt != 8)) {
         if (prop_data)
             XFree(prop_data);
-        qDebug() << "Failed to fetch layouts from server:" <<
-                    "Wrong property format";
+        logger->log(logger->red_color
+                    + "Failed to fetch layouts from server: "
+                    + "Wrong property format"
+                    + logger->no_color);
         return false;
     }
 
@@ -159,10 +171,6 @@ bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
         xkbConfig->variants << (ii < variants.count()
                                 && variants[ii] != NULL ? variants[ii] : "");
     }
-    //qDebug() << "Fetched layout groups from X server:"
-    //        << "\tlayouts:" << xkbConfig->layouts
-    //        << "\tvariants:" << xkbConfig->variants;
-
 
     XFree(prop_data);
     return true;

@@ -28,7 +28,9 @@ struct xkb_context;
 struct xkb_keymap;
 struct xkb_state;
 typedef struct _XDisplay Display;
+
 class Helper;
+class Logger;
 
 struct keyboard {
     xcb_connection_t *conn;
@@ -58,6 +60,7 @@ private:
     keyboard *kbd;
     Display *display;
     Helper *helper;
+    Logger *logger;
 };
 
 #endif // XWRAPPER_H

@@ -21,9 +21,10 @@
 #define XKBLIBWRAPPER_H
 
 #include <QObject>
-#include <QDebug>
 #include <QStringList>
 #include <X11/XKBlib.h>
+
+class Logger;
 
 typedef struct _XDisplay Display;
 
@@ -55,6 +56,7 @@ private:
     bool getGroupNames(XkbConfig* xkbConfig);
     Display *display;
     XkbStateRec xkbState;
+    Logger *logger;
 };
 
 #endif // XKBLIBWRAPPER_H

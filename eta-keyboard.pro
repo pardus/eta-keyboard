@@ -10,7 +10,8 @@ SOURCES += src/xwrapper.cpp \
     src/settings.cpp \
     src/main.cpp \
     src/helper.cpp \
-    src/adaptor.cpp
+    src/adaptor.cpp \
+    src/logger.cpp
 
 RESOURCES += qml.qrc images.qrc
 
@@ -20,7 +21,8 @@ HEADERS += src/xwrapper.h \
     src/singleinstance.h \
     src/settings.h \
     src/helper.h \
-    src/adaptor.h
+    src/adaptor.h \
+    src/logger.h
 
 LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst -lxcb-xkb
 

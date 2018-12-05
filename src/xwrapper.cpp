@@ -19,7 +19,7 @@
  *****************************************************************************/
 #include "src/xwrapper.h"
 #include "src/helper.h"
-#include <QDebug>
+#include "logger.h"
 #include <QX11Info>
 #define explicit redefine_explicit
 #include <xcb/xkb.h>
@@ -42,6 +42,8 @@ XWrapper::XWrapper()
                                                kbd->conn, kbd->device_id);
     kbd->active_laypout_index = 0;
     display = QX11Info::display();
+
+    logger = new Logger();
 }
 
 XWrapper::~XWrapper()
@@ -73,8 +75,9 @@ int XWrapper::updateKeymap(keyboard *kbd)
     if (!new_state)
         goto err_keymap;
 
-    if (kbd->keymap)
-        qDebug() << "Keymap updated!";
+    if (kbd->keymap) {
+        //logger->log("Keymap updated!");
+    }
 
     xkb_state_unref(kbd->state);
     xkb_keymap_unref(kbd->keymap);
@@ -111,12 +114,12 @@ void XWrapper::processXkbEvents(xcb_generic_event_t *gevent, keyboard *kbd)
         if (event->new_keyboard_notify.changed & XCB_XKB_NKN_DETAIL_KEYCODES)
             updateKeymap(kbd);
         helper->layoutChangedCallback();
-        qDebug() << "new keyboard notify";
+        //logger->log("new keyboard notify");
         break;
 
     case XCB_XKB_MAP_NOTIFY:
         updateKeymap(kbd);
-        qDebug() << "map of keyboard notify";
+        //logger->log("map of keyboard notify");
         break;
 
     case XCB_XKB_STATE_NOTIFY:
