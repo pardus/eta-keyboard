@@ -1,3 +1,9 @@
+eta-keyboard (0.3.5) unstable; urgency=medium
+
+  * Add logger
+
+ -- Hikmet Baş <hikmet.bas@pardus.org.tr>  Wed, 05 Dec 2018 11:16:25 +0300
+
 eta-keyboard (0.3.4) unstable; urgency=medium
 
   * Pardus CI integration
