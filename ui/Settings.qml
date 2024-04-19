@@ -268,6 +268,13 @@ ApplicationWindow {
                 Key{
                     id: languageKey
                     leVis4: true
+                    Image {
+                        id: flagImage
+                        anchors.fill: parent
+                        source: languageIndex == 0 ?
+                        "qrc:/ui/Images/flags/tr.svg" :
+                        "qrc:/ui/Images/flags/en.svg"
+                    }
 
                     MouseArea {
                         id: ma
@@ -285,7 +292,6 @@ ApplicationWindow {
                             languageKey.btnPressed()
                             settings.waitFlag = false
                             changeLanguageLayout(true)
-
                         }
 
                         onPressAndHold: {
