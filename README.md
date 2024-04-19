@@ -38,7 +38,7 @@ git clone https://github.com/E-Tahta/eta-keyboard.git
 ```
 Install build dependencies
 ```bash
-sudo apt install build-essential libc6 libgcc1 libgl1-mesa-glx | libgl1 libqt5core5a libqt5dbus5 libqt5gui5  libqt5network5 libqt5qml5 libqt5quick5 libqt5svg5-dev libqt5widgets5 libqt5x11extras5-dev libstdc++6 libx11-6 libx11-xcb-dev libxcb-xkb-dev libxcb1-dev libxkbcommon-x11-0 libxkbcommon-x11-dev libxkbcommon0   libxkbcommon-dev libxkbfile-dev libxtst-dev qtdeclarative5-dev
+sudo apt install build-essential libc6 libgcc1 libgl1-mesa-glx libgl1 libqt5core5a libqt5dbus5 libqt5gui5 libqt5network5 libqt5qml5 libqt5quick5 libqt5svg5-dev libqt5widgets5 libqt5x11extras5-dev libstdc++6 libx11-6 libx11-xcb-dev libxcb-xkb-dev libxcb1-dev libxkbcommon-x11-0 libxkbcommon-x11-dev libxkbcommon0 libxkbcommon-dev libxkbfile-dev libxtst-dev qtdeclarative5-dev
 ```
 
 Build
