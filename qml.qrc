@@ -16,8 +16,5 @@
         <file>ui/Test.qml</file>
         <file>ui/TabletKey.qml</file>
         <file>ui/PinLayout.qml</file>
-        <file>ui/Images/flags/tr.svg</file>
-        <file>ui/Images/flags/us.svg</file>
-        <file>ui/Images/flags/ara.svg</file>
     </qresource>
 </RCC>

@@ -3,5 +3,10 @@
         <file>ui/Images/gear.svg</file>
         <file>ui/Images/pardus.svg</file>
         <file>ui/Images/close.svg</file>
+        <file>ui/Images/flags/tr.svg</file>
+        <file>ui/Images/flags/us.svg</file>
+        <file>ui/Images/flags/ara.svg</file>
+        <file>ui/Images/flags/de.svg</file>
+        <file>ui/Images/flags/fr.svg</file>
     </qresource>
 </RCC>

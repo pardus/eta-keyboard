@@ -38,7 +38,8 @@ ApplicationWindow {
     property variant colorsTr: ["Gri","Yeşil","Mavi","Kahve","Beyaz"]
     property variant colorsUs: ["Grey","Green","Blue","Brown","White"]
     property variant colorsAra: ["رمادي","أخضر","أزرق","بنى","أبيض"]
-
+    property variant colorsDe: ["Grau", "Grün", "Blau", "Braun", "Weiß"]
+    property variant colorsFr: ["Gris", "Vert", "Bleu", "Marron", "Blanc"]
 
     visible: true
     color: main.color
@@ -148,6 +149,14 @@ ApplicationWindow {
                 // Assuming index 2 is Arabic
                 settings.colorsCurrentArr = settings.colorsAra;
                 break;
+            case 3:
+                // Assuming index 3 is German
+                settings.colorsCurrentArr = settings.colorsDe;
+                break;
+            case 4:
+                // Assuming index 4 is French
+                settings.colorsCurrentArr = settings.colorsFr;
+                break;
             default:
                 settings.colorsCurrentArr = settings.colorsUs;
                 break;
@@ -167,6 +176,14 @@ ApplicationWindow {
         ListElement {
             text: "Arabic";
             flagSrc: "qrc:/ui/Images/flags/ara.svg"
+        }
+        ListElement {
+            text: "German";
+            flagSrc: "qrc:/ui/Images/flags/de.svg"
+        }
+        ListElement {
+            text: "French";
+            flagSrc: "qrc:/ui/Images/flags/fr.svg"
         }
     }
 
@@ -636,6 +653,12 @@ ApplicationWindow {
         } else if (languageKey.keyText.substring(0, 3) == "ara") {
             console.log("ara")
             settings.colorsCurrentArr = settings.colorsAra
+        }  else if (languageKey.keyText.substring(0, 2) == "de"){
+            console.log("de")
+            settings.colorsCurrentArr = settings.colorsDe
+        } else if (languageKey.keyText.substring(0, 2) == "fr") {
+            console.log("fr")
+            settings.colorsCurrentArr = settings.colorsFr
         } else {
             console.log("us")
             settings.colorsCurrentArr = settings.colorsUs
