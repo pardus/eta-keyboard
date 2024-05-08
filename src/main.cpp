@@ -26,9 +26,38 @@
 #include <QtQml>
 #include <QDir>
 #include <QCursor>
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <X11/Xresource.h>
 
 #define SINGLE_INSTANCE ".virtualkeyboard"
 static int setup_unix_signal_handlers();
+
+
+double getDpi() {
+    Display* display = XOpenDisplay(NULL);
+    if (!display) {
+        return 96;  // Default scale factor
+    }
+
+    char *resourceString = XResourceManagerString(display);
+    XrmDatabase db;
+    XrmValue value;
+    char *type = NULL;
+
+    XrmInitialize();
+    db = XrmGetStringDatabase(resourceString);
+
+    if (XrmGetResource(db, "Xft.dpi", "String", &type, &value)) {
+        if (value.addr) {
+            XCloseDisplay(display);
+            return atoi(value.addr);
+        }
+    }
+    XCloseDisplay(display);
+    return 96;  // Default scale factor if not set
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -41,7 +70,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
     QApplication app(argc, argv);
 
-    app.setOverrideCursor(QCursor(Qt::BlankCursor));
+    // app.setOverrideCursor(QCursor(Qt::BlankCursor));
 
     QString pidName = SINGLE_INSTANCE;
     QString username = qgetenv("USER");
@@ -81,6 +110,11 @@ int main(int argc, char *argv[])
     }
 
     QQmlApplicationEngine engine;
+
+    // Expose DPI value to QML
+    double dpi = getDpi();
+    engine.rootContext()->setContextProperty("dpiValue", dpi);
+
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
 
     return app.exec();

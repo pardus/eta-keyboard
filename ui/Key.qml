@@ -18,6 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
 import QtQuick 2.3
+import QtQuick.Window 2.0
+import eta.helper 1.0
 
 Rectangle {
     id: key
@@ -36,7 +38,12 @@ Rectangle {
     property double keyWidth: main.keyWidth
     property double keyHeight: main.keyHeight
     property int keyLevel: main.keyLevel
-    property int fontPointSize : main.keyHeight / 4
+    property int screenWidth: Screen.width
+    property int screenHeight: Screen.height
+    property double screenScaleFactor: dpiValue / 96
+    property int divisor: (screenWidth === 3840 && screenHeight === 2160 &&
+    screenScaleFactor === 2) ? 4 * screenScaleFactor : 4
+    property int fontPointSize: main.keyHeight / divisor
     property int keyRadius: main.layout == "Full" ? main.keyHeight / 10 : main.keyHeight / 8
     property int keyCode: 24
     property bool leVis0: false
