@@ -605,6 +605,7 @@ ApplicationWindow {
                     text: qsTr("P")
                     color: main.textColor
                     anchors.centerIn: parent
+                    font.pixelSize: dpiValue / 96 * 15
                 }
 
                 MouseArea{
@@ -661,7 +662,7 @@ ApplicationWindow {
                 Text {
                     id: mirrorText
                     text: ""
-                    font.pointSize: main.dockSize ? main.dockSize / 2 : 15
+                    font.pixelSize: dpiValue / 96 * 15
                     color: main.activeTextColor
                     anchors.centerIn: mirrorTextContainer
                     wrapMode: Text.WordWrap
