@@ -600,12 +600,16 @@ ApplicationWindow {
                 }
                 z: +5
 
-                Text {
+                Image {
                     id: pToggleText
-                    text: qsTr("P")
-                    color: main.textColor
+                    source: main.password ?
+                    "Images/view-conceal-symbolic.svg"
+                    : "Images/view-reveal-symbolic.svg"
+
+                    smooth: true
                     anchors.centerIn: parent
-                    font.pixelSize: dpiValue / 96 * 15
+                    width: parent.width * 0.8
+                    height: parent.height * 0.8
                 }
 
                 MouseArea{
@@ -613,19 +617,15 @@ ApplicationWindow {
                     anchors.fill: parent
 
                     onClicked: {
-                        if (!main.password){
+                        main.password = !main.password
+                        pToggleText.source = main.password ?
+                        "Images/view-conceal-symbolic.svg"
+                        : "Images/view-reveal-symbolic.svg"
 
-                            main.password = true
-                            main.keyHover = false
-                        }
-                        else {
-
-                            main.password = false
-                            main.keyHover = true
-                        }
+                        main.keyHover = !main.password
                     }
                 }
-            }//End of passwordToggle
+            }
 
             Image {
                 id: closeBtnImage
@@ -882,9 +882,12 @@ ApplicationWindow {
         }
 
         passwordToggle.color = main.password ? main.keyPressedColor :
-                                               main.keyColor
-        pToggleText.color = main.password ? main.textPressedColor :
-                                            main.textColor
+        main.keyColor
+        // pToggleText.color = main.password ? main.textPressedColor :
+        // main.textColor
+        pToggleText.source = main.password ?
+        "Images/view-conceal-symbolic.svg" :
+        "Images/view-reveal-symbolic.svg"
     }
 
 

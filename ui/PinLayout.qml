@@ -153,11 +153,9 @@ Item{
     onUpdateThemeChanged: {
         if (main.password){
             passwordToggle.color = main.keyPressedColor
-            pToggleText.color = main.textPressedColor
         }
         else{
             passwordToggle.color = pToggleMa.containsMouse ? main.keyHoverColor : main.keyColor
-            pToggleText.color = main.textColor
         }
 
     }

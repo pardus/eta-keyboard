@@ -188,7 +188,6 @@ Item{
         }
         else{
             passwordToggle.color = pToggleMa.containsMouse ? main.keyHoverColor : main.keyColor
-            pToggleText.color = main.textColor
         }
     }
 }
