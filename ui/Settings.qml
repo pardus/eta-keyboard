@@ -114,17 +114,10 @@ ApplicationWindow {
 
     function changeLanguageLayout(buttonPressed) {
         if (buttonPressed) {
-            settings.languageIndex = (settings.languageIndex + 1) %
-            languageModel.count;
-
+            settings.languageIndex = (settings.languageIndex + 1) % languageModel.count;
         } else {
             settings.languageIndex = helper.getCurrentLayoutIndex();
         }
-
-        console.log("Changing language to index:", settings.languageIndex,
-                    "Language:", languageModel.get(settings.languageIndex).text,
-                    "Flag source:",
-                    languageModel.get(settings.languageIndex).flagSrc);
 
         main.languageLayoutIndex = settings.languageIndex;
         helper.setLayout(settings.languageIndex);
@@ -136,53 +129,40 @@ ApplicationWindow {
     }
 
     function updateColorsArray() {
-        switch(settings.languageIndex) {
-            case 0:
-                // Assuming index 0 is Turkish
-                settings.colorsCurrentArr = settings.colorsTr;
-                break;
-            case 1:
-                // Assuming index 1 is English
-                settings.colorsCurrentArr = settings.colorsUs;
-                break;
-            case 2:
-                // Assuming index 2 is Arabic
-                settings.colorsCurrentArr = settings.colorsAra;
-                break;
-            case 3:
-                // Assuming index 3 is German
-                settings.colorsCurrentArr = settings.colorsDe;
-                break;
-            case 4:
-                // Assuming index 4 is French
-                settings.colorsCurrentArr = settings.colorsFr;
-                break;
-            default:
-                settings.colorsCurrentArr = settings.colorsUs;
-                break;
+        var keyText = languageModel.get(settings.languageIndex).text;
+        if (keyText.substring(0, 2) === "tr") {
+            settings.colorsCurrentArr = settings.colorsTr;
+        } else if (keyText.substring(0, 3) === "ara") {
+            settings.colorsCurrentArr = settings.colorsAra;
+        } else if (keyText.substring(0, 2) === "de") {
+            settings.colorsCurrentArr = settings.colorsDe;
+        } else if (keyText.substring(0, 2) === "fr") {
+            settings.colorsCurrentArr = settings.colorsFr;
+        } else {
+            settings.colorsCurrentArr = settings.colorsUs;
         }
     }
 
     ListModel {
         id: languageModel
         ListElement {
-            text: "Turkish";
+            text: "tr";
             flagSrc: "qrc:/ui/Images/flags/tr.svg"
         }
         ListElement {
-            text: "English";
+            text: "us";
             flagSrc: "qrc:/ui/Images/flags/us.svg"
         }
         ListElement {
-            text: "Arabic";
+            text: "ara";
             flagSrc: "qrc:/ui/Images/flags/ara.svg"
         }
         ListElement {
-            text: "German";
+            text: "de";
             flagSrc: "qrc:/ui/Images/flags/de.svg"
         }
         ListElement {
-            text: "French";
+            text: "fr";
             flagSrc: "qrc:/ui/Images/flags/fr.svg"
         }
     }
@@ -322,10 +302,18 @@ ApplicationWindow {
                 Key{
                     id: languageKey
                     leVis4: true
-                    Image {
-                        id: flagImage
+                    Rectangle {
                         anchors.fill: parent
-                        source: languageModel.get(settings.languageIndex).flagSrc
+                        color: "transparent"
+
+                        Image {
+                            id: flagImage
+                            anchors.centerIn: parent
+                            width: parent.width * 0.6
+                            height: parent.height * 0.6
+                            source: languageModel.get(settings.languageIndex).flagSrc
+                            fillMode: Image.PreserveAspectFit
+                        }
                     }
 
                     MouseArea {
@@ -648,19 +636,14 @@ ApplicationWindow {
     onLoadedChanged: {
         settings.colorIndex = main.themeName
         if (languageKey.keyText.substring(0, 2) == "tr") {
-            console.log("tr")
             settings.colorsCurrentArr = settings.colorsTr
         } else if (languageKey.keyText.substring(0, 3) == "ara") {
-            console.log("ara")
             settings.colorsCurrentArr = settings.colorsAra
         }  else if (languageKey.keyText.substring(0, 2) == "de"){
-            console.log("de")
             settings.colorsCurrentArr = settings.colorsDe
         } else if (languageKey.keyText.substring(0, 2) == "fr") {
-            console.log("fr")
             settings.colorsCurrentArr = settings.colorsFr
         } else {
-            console.log("us")
             settings.colorsCurrentArr = settings.colorsUs
         }
         changeTheme()
@@ -671,12 +654,9 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        console.log("Initializing languages and flags");
         for (var i = 0; i < helper.getNumberOfLayouts(); i++) {
             var layoutName = helper.getLayoutName(i);
-            console.log("layout name = ", layoutName)
             var flagSrc = "qrc:/ui/Images/flags/" + layoutName.toLowerCase() + ".svg";
-            console.log("Layout #" + i + ": " + layoutName + ", Flag Source: " + flagSrc);
             languageModel.append({text: layoutName, flagSrc: flagSrc});
         }
         changeLanguageLayout(false);
