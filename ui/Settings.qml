@@ -145,26 +145,6 @@ ApplicationWindow {
 
     ListModel {
         id: languageModel
-        ListElement {
-            text: "tr";
-            flagSrc: "qrc:/ui/Images/flags/tr.svg"
-        }
-        ListElement {
-            text: "us";
-            flagSrc: "qrc:/ui/Images/flags/us.svg"
-        }
-        ListElement {
-            text: "ara";
-            flagSrc: "qrc:/ui/Images/flags/ara.svg"
-        }
-        ListElement {
-            text: "de";
-            flagSrc: "qrc:/ui/Images/flags/de.svg"
-        }
-        ListElement {
-            text: "fr";
-            flagSrc: "qrc:/ui/Images/flags/fr.svg"
-        }
     }
 
     ListModel {
@@ -635,25 +615,15 @@ ApplicationWindow {
 
     onLoadedChanged: {
         settings.colorIndex = main.themeName
-        if (languageKey.keyText.substring(0, 2) == "tr") {
-            settings.colorsCurrentArr = settings.colorsTr
-        } else if (languageKey.keyText.substring(0, 3) == "ara") {
-            settings.colorsCurrentArr = settings.colorsAra
-        }  else if (languageKey.keyText.substring(0, 2) == "de"){
-            settings.colorsCurrentArr = settings.colorsDe
-        } else if (languageKey.keyText.substring(0, 2) == "fr") {
-            settings.colorsCurrentArr = settings.colorsFr
-        } else {
-            settings.colorsCurrentArr = settings.colorsUs
-        }
-        changeTheme()
-        changeLanguageLayout(false)
-        setLayout()
-        settings.setAndSaveConf()
-
+        updateColorsArray();
+        changeTheme();
+        changeLanguageLayout(false);
+        setLayout();
+        settings.setAndSaveConf();
     }
 
     Component.onCompleted: {
+        languageModel.clear();
         for (var i = 0; i < helper.getNumberOfLayouts(); i++) {
             var layoutName = helper.getLayoutName(i);
             var flagSrc = "qrc:/ui/Images/flags/" + layoutName.toLowerCase() + ".svg";
