@@ -44,7 +44,7 @@ bool SingleInstance::hasPrevious(QString name, QStringList arg)
         QByteArray buffer;
         foreach(QString item, arg)
         {
-            buffer.append(item + "\n");
+            buffer.append(item.toUtf8() + "\n");
         }
         socket.write(buffer);
         socket.waitForBytesWritten();
