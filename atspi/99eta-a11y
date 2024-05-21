@@ -1,0 +1,4 @@
+export QT_ACCESSIBILITY=1
+export SAL_USE_VCLPLUGIN="gtk"
+export GTK_MODULES="gail:atk-bridge"
+gsettings set org.gnome.desktop.interface toolkit-accessibility true

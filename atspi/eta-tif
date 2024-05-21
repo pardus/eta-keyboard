@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+
+import pyatspi
+import dbus
+import signal
+import sys
+
+session_bus = dbus.SessionBus()
+
+
+def get_dbus_interface(name, path, interface):
+    try:
+        obj = session_bus.get_object(name, path)
+        return dbus.Interface(obj, dbus_interface=interface)
+    except dbus.DBusException as e:
+        print(f"Failed to retrieve dbus interface: {e}")
+        return None
+
+
+def get_keyboard():
+    try:
+        obj = get_dbus_interface(
+            'org.eta.virtualkeyboard',
+            '/VirtualKeyboard',
+            'org.eta.virtualkeyboard'
+        )
+        return obj
+    except Exception as e:
+        print(e)
+        return None
+
+
+def dbus_show_keyboard(show, is_password):
+    keyboard = get_keyboard()
+    if keyboard:
+        try:
+            if show:
+                keyboard.show(is_password)
+            else:
+                pass
+        except dbus.DBusException as e:
+            print(f"Failed to call method on keyboard: {e}")
+        except Exception as e:
+            print(f"Unexpected error calling method on keyboard: {e}")
+
+
+def create_focus_changed_callback(show_keyboard_function):
+    def on_focus_changed(event):
+        print(f"Focused role: {event.source.getRole()}")
+        try:
+            atspi_role = event.source.getRole()
+            show = atspi_role in [
+                pyatspi.ROLE_TEXT,
+                pyatspi.ROLE_ENTRY,
+                pyatspi.ROLE_COMBO_BOX,
+                pyatspi.ROLE_SPIN_BUTTON,
+                pyatspi.ROLE_PARAGRAPH
+            ]
+            is_password = atspi_role == pyatspi.ROLE_PASSWORD_TEXT
+            show_keyboard_function(show, is_password)
+        except Exception as e:
+            print(f"Error during focus change handling: {e}")
+
+    return on_focus_changed
+
+
+def signal_handler(signum, frame):
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, signal_handler)
+    signal.signal(signal.SIGINT, signal_handler)
+
+    # pyatspi.Registry.registerEventListener(onfocuschanged, 'focus')
+    focus_changed_callback = create_focus_changed_callback(dbus_show_keyboard)
+    pyatspi.Registry.registerEventListener(
+        focus_changed_callback,
+        'object:state-changed:focused'
+    )
+    pyatspi.Registry.start()
