@@ -39,4 +39,11 @@ icon.files = keyboard.svg
 icon.commands = mkdir -p /usr/share/eta/eta-keyboard
 icon.path = /usr/share/eta/eta-keyboard/
 
-INSTALLS += target desktop_file autostart_file icon
+atspi_env.files = atspi/99eta-a11y
+atspi_env.path = /etc/X11/Xsession.d
+tif.files = atspi/eta-tif
+tif.path = /usr/bin
+tif_desktop.files = atspi/eta-tif-autostart.desktop
+tif_desktop.path = /etc/xdg/autostart
+
+INSTALLS += target desktop_file autostart_file icon atspi_env tif tif_desktop

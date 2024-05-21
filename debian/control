@@ -37,6 +37,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
  qdbus-qt5,
  qml-module-qtquick-controls,
  qml-module-qtquick-window2,
- qml-module-qtquick2
+ qml-module-qtquick2,
+ python3-pyatspi
 Description: ETAP Sanal Klavye
  Sürüklenebilir, rahat kullanımlı , TrQ , TrF , Arapça desteği vardır.
