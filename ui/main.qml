@@ -480,10 +480,24 @@ ApplicationWindow {
         }
     }
 
-    function showKeyboardFromBottom(){
-        if (!main.pinMode){
-            if (!keyboardVisible && autoShowToggle){
+    function resetFocus() {
+        main.forceActiveFocus();
+    }
+
+    function hideKeyboard() {
+        if (!main.pinMode) {
+            if (keyboardVisible && autoShowToggle) {
+                hide.start();
+                resetFocus();
+            }
+        }
+    }
+
+    function showKeyboardFromBottom() {
+        if (!main.pinMode) {
+            if (!keyboardVisible && autoShowToggle) {
                 showFromBottom.start();
+                main.forceActiveFocus();
             }
             main.password = false
         }
@@ -517,6 +531,21 @@ ApplicationWindow {
                 showFromBottom.start()
             }
         }
+    }
+
+    Connections {
+        target: helper
+
+        onShowFromBottomCalled: {
+            showKeyboardFromBottom();
+            main.forceActiveFocus();
+        }
+
+        onHideCalled: {
+            hideKeyboard();
+            resetFocus();
+        }
+
     }
 
     Helper {
