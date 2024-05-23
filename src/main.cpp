@@ -41,19 +41,31 @@ double getDpi() {
     }
 
     char *resourceString = XResourceManagerString(display);
-    XrmDatabase db;
+    if (!resourceString) {
+        XCloseDisplay(display);
+        return 96;
+    }
+
+    XrmInitialize();
+
+    XrmDatabase db = XrmGetStringDatabase(resourceString);
+    if (!db) {
+        XCloseDisplay(display);
+        return 96;
+    }
+
     XrmValue value;
     char *type = NULL;
 
-    XrmInitialize();
-    db = XrmGetStringDatabase(resourceString);
-
     if (XrmGetResource(db, "Xft.dpi", "String", &type, &value)) {
         if (value.addr) {
+            XrmDestroyDatabase(db);
             XCloseDisplay(display);
             return atoi(value.addr);
         }
     }
+
+    XrmDestroyDatabase(db);
     XCloseDisplay(display);
     return 96;  // Default scale factor if not set
 }
