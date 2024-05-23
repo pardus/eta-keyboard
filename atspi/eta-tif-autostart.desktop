@@ -1,8 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Name=Text Input Finder
-Exec=/usr/bin/eta-tif
-Terminal=false
-Type=Application
-GenericName=An ATSPI client for Eta Keyboard
-X-KDE-Autostart-enabled=true 

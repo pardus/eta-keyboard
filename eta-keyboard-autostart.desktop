@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.1
 Name=Qt Virtual Keyboard
-Exec=/usr/bin/eta-keyboard
+Exec=/bin/sh -c "/usr/bin/eta-tif & /usr/bin/eta-keyboard"
 Icon=
 Terminal=false
 Type=Application
