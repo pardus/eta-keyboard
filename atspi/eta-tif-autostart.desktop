@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.1
-Name=Qt Virtual Keyboard
-Exec=eta-keyboard
+Name=Eta Tif
+Exec=eta-tif
 Icon=
 Terminal=false
 Type=Application
