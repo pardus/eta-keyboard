@@ -231,14 +231,12 @@ ApplicationWindow {
 
                 if (mirror && !btnAlt && !btnCtrl && !btnMeta){
 
-                    if (helper.getCapslockStatus() &&
-                            main.keyLevel == 0) {
-
-
-                        mirrorCharacter = helper.getSymbol(keyCode,
-                                                           main.languageLayoutIndex,
-                                                           main.keyLevel)
-
+                    if (helper.getCapslockStatus() && main.keyLevel == 0) {
+                        mirrorCharacter = helper.getSymbol(
+                            keyCode,
+                            main.languageLayoutIndex,
+                            main.keyLevel
+                        )
                         main.storedMirror += mirrorCharacter.toUpperCase()
                         if (main.password) {
                             mirrorText.text +="*"
@@ -246,23 +244,24 @@ ApplicationWindow {
                         else {
                             mirrorText.text += mirrorCharacter.toUpperCase()
                         }
-                    } else if (helper.getCapslockStatus() &&
-                               main.keyLevel == 1 ){
-
-                        mirrorCharacter = helper.getSymbol(keyCode,
-                                                           main.languageLayoutIndex,
-                                                           main.keyLevel)
-
+                    } else if (helper.getCapslockStatus() && main.keyLevel == 1) {
+                        mirrorCharacter = helper.getSymbol(
+                            keyCode,
+                            main.languageLayoutIndex,
+                            main.keyLevel
+                        )
                         main.storedMirror += mirrorCharacter.toLowerCase()
-                        if (main.password)
+                        if (main.password) {
                             mirrorText.text +="*"
-                        else
+                        } else {
                             mirrorText.text += mirrorCharacter.toLowerCase()
+                        }
                     } else {
-                        mirrorCharacter = helper.getSymbol(keyCode,
-                                                           main.languageLayoutIndex,
-                                                           main.keyLevel)
-
+                        mirrorCharacter = helper.getSymbol(
+                            keyCode,
+                            main.languageLayoutIndex,
+                            main.keyLevel
+                        )
                         main.storedMirror += mirrorCharacter
                         if (main.password) {
                             mirrorText.text +="*"
@@ -368,12 +367,13 @@ ApplicationWindow {
         } else {
 
             main.storedMirror += keyText
-            if (main.password)
-                mirrorText.text +="*"
-            else
+            if (main.password) {
+                mirrorText.text += "*"
+            }
+            else {
                 mirrorText.text += keyText
+            }
         }
-
     }
 
 
@@ -386,7 +386,7 @@ ApplicationWindow {
             scaleVariable = main.scale
         } else if (main.layout == "Tablet") {
             scaleVariable = main.scale + 0.2
-        }  else {
+        } else {
             scaleVariable = 0.8
         }
 
@@ -394,20 +394,15 @@ ApplicationWindow {
 
         main.keyHeight =  main.screenHeight * scaleVariable / 23
         main.dockSize = main.screenHeight * scaleVariable / 35
-        if (main.layout == "Full"){
+        if (main.layout == "Full") {
             main.width = main.keyHeight * 15 + main.spacing * 16
-            main.height = main.keyHeight * 11 / 2 + main.dockSize +
-                    main.spacing * 8
-        }
-        else if (main.layout == "Tablet"){
+            main.height = main.keyHeight * 11 / 2 + main.dockSize + main.spacing * 8
+        } else if (main.layout == "Tablet") {
             main.width = main.keyHeight * 12 + main.spacing * 13
-            main.height = main.keyHeight * 4  + main.dockSize +
-                    main.spacing * 6
-        }
-        else {
+            main.height = main.keyHeight * 4 + main.dockSize + main.spacing * 6
+        } else {
             main.width = main.keyHeight * 4 + main.spacing * 5
-            main.height = main.keyHeight * 4  + main.dockSize +
-                    main.spacing * 6
+            main.height = main.keyHeight * 4 + main.dockSize + main.spacing * 6
         }
 
         settings.width =  main.keyWidth * 4 + main.spacing * 6
@@ -416,27 +411,20 @@ ApplicationWindow {
         main.m_width = main.width
         main.m_settings_height = settings.height
         main.m_settings_width = settings.width
-        main.x += (oldWidth - main.width) / 2
-        main.y += (oldHeight - main.height) / 2
-
-
-
     }
 
     function pressedBackspace(){
         helper.fakeKeyPress(22)
-        mirrorText.text =
-                mirrorText.text.substring(0, mirrorText.text.length - 1)
-        main.storedMirror =
-                main.storedMirror.substring(0, main.storedMirror.length - 1)
+        mirrorText.text = mirrorText.text.substring(0, mirrorText.text.length - 1)
+        main.storedMirror = main.storedMirror.substring(0, main.storedMirror.length - 1)
     }
 
     function releasedBackspace(){
         helper.fakeKeyRelease(22)
     }
 
-    function holdBackspace(keyCode){
-        if (keyCode == 22){
+    function holdBackspace(keyCode) {
+        if (keyCode == 22) {
             mirrorText.text = ""
             main.storedMirror = ""
         }
@@ -448,90 +436,56 @@ ApplicationWindow {
             main.pinMode = true
             main.password = true
             main.shuffle = true
-            main.previousLayout = main.layout == "Pin" ? main.previousLayout:
-                                                         main.layout
+            main.previousLayout = main.layout == "Pin" ? main.previousLayout : main.layout
             main.layout = "Pin"
             main.settingsVisible = false
-            settings.visible  = false
+            settings.visible = false
             closeBtnImage.visible = false
-            if (main.panelPos<1) {
-                showFromLeft.start()
-            }
-            else {
-                showFromRight.start()
-            }
-
+            main.show();
+            setPosition();
         }
     }
 
-    function hidePinMode(){
-        if (main.pinMode){
+    function hidePinMode() {
+        if (main.pinMode) {
             main.opacity = main.previousOpacity
-            hide.start()
+            main.hide();
         }
     }
 
-
-    function hideKeyboard(){
+    function hideKeyboard() {
         if (!main.pinMode) {
-            if (keyboardVisible && autoShowToggle){
-                hide.start();
+            if (keyboardVisible && autoShowToggle) {
+                main.hide();
             }
         }
     }
 
-    function showKeyboardFromBottom(){
-        if (!main.pinMode){
-            if (!keyboardVisible && autoShowToggle){
-                showFromBottom.start();
-            }
-            main.password = false
-        }
-    }
-
-    function showKeyboardFromLeft(){
-        if (!main.pinMode) {
-            if (!keyboardVisible && autoShowToggle){
-                showFromLeft.start();
-            }
-            main.password = false
-        }
-    }
-
-    function showKeyboardFromRight(){
-        if (!main.pinMode) {
-            if (!keyboardVisible && autoShowToggle){
-                showFromRight.start();
-            }
-            main.password = false
-        }
-
-    }
-
-    function toggleKeyboard(){
+    function toggleKeyboard() {
         if (!main.pinMode) {
             if (keyboardVisible) {
-                hide.start()
+                main.hide();
+            } else {
+                main.show();
+                setPosition();
             }
-            else {
-                showFromBottom.start()
-            }
+        }
+    }
+
+    function setPosition() {
+        main.x = main.screenWidth / 2 - main.width / 2
+        main.y = main.screenHeight - main.height - main.spacing * 20
+        if (main.pinMode) {
+            main.y = main.screenHeight / 2 - main.height / 2
         }
     }
 
     Helper {
         id: helper
 
-        onShowFromBottomCalled: {
-            showKeyboardFromBottom()
-        }
-
-        onShowFromLeftCalled: {
-            showKeyboardFromLeft()
-        }
-
-        onShowFromRightCalled: {
-            showKeyboardFromRight()
+        onShowCalled: {
+            main.show();
+            setPosition();
         }
 
         onHideCalled: {
@@ -548,15 +502,15 @@ ApplicationWindow {
             }
         }
 
-
         onLayoutChanged: {
             main.layoutChange = !main.layoutChange
         }
 
         onPasswordDetected: {
             main.password = true
-            if (!keyboardVisible && autoShowToggle && !main.pinMode){
-                showFromBottom.start();
+            if (!keyboardVisible && autoShowToggle && !main.pinMode) {
+                main.show();
+                setPosition();
             }
         }
 
@@ -645,7 +599,8 @@ ApplicationWindow {
                     anchors.fill: closeBtnImage
 
                     onClicked: {
-                        hide.start();
+                        main.hide();
+                        settings.hide();
                     }
                 }
             }
@@ -724,138 +679,6 @@ ApplicationWindow {
         visible: false
     }
 
-    NumberAnimation {
-        id:showFromBottom
-        target:main
-        property: "y"
-        from: main.screenHeight + main.height
-        to : main.screenHeight - main.m_height - main.spacing * 20
-        duration: 400
-        easing.type: Easing.OutBack
-
-        onStarted: {
-
-            main.visible = true
-            main.keyboardVisible = true
-            main.height = main.m_height
-            main.width = main.m_width
-            settings.height = main.m_settings_height
-            main.opacity = main.transparency
-            settings.opacity = main.transparency
-            main.x = main.screenWidth / 2 - main.m_width / 2
-
-        }
-    }
-
-    NumberAnimation {
-        id:showFromLeft
-        target:main
-        property: "x"
-        from: -main.width
-        to : main.pinMode ? main.screenWidth / 7 :
-                            main.screenWidth / 2 - main.m_width /2
-        duration: 400
-        easing.type: Easing.OutBack
-
-        onStarted: {
-
-
-            main.visible = true
-            main.keyboardVisible = true
-            main.height = main.m_height
-            main.width = main.m_width
-            settings.height = main.m_settings_height
-            main.opacity = main.pinMode? 1 : main.transparency
-            settings.opacity = main.transparency
-            main.y = main.screenHeight - main.m_height - main.spacing * 20
-            if (main.pinMode) {
-                main.y = main.screenHeight / 2 - main.m_height / 2
-            }
-
-
-
-        }
-    }
-
-    NumberAnimation {
-        id:showFromRight
-        target:main
-        property: "x"
-        from: main.screenWidth
-        to : main.pinMode ? main.screenWidth * 6 / 7 - main.m_width :
-                            main.screenWidth / 2 - main.m_width /2
-        duration: 400
-        easing.type: Easing.OutBack
-
-        onStarted: {
-
-            main.visible = true
-            main.keyboardVisible = true
-            main.height = main.m_height
-            main.width = main.m_width
-            settings.height = main.m_settings_height
-            main.opacity = main.pinMode? 1 : main.transparency
-            settings.opacity = main.transparency
-            main.y = main.screenHeight - main.m_height - main.spacing * 20
-            if (main.pinMode) {
-                main.y = main.screenHeight / 2 - main.m_height / 2
-            }
-
-
-        }
-    }
-
-    ParallelAnimation {
-        id: hide
-
-        NumberAnimation {
-            target: main
-            property: "height"
-            from: main.height
-            to : 0
-            duration: 100
-        }
-
-
-        NumberAnimation {
-            target: main
-            property: "y"
-            from: main.y
-            to : main.y + main.m_height / 2
-            duration: 100
-            easing.type: Easing.Linear
-        }
-
-        onStarted: {
-
-            main.keyboardVisible = false
-            main.settingsVisible = false
-            settings.visible  = false
-
-            main.symbolMode = false
-            mirrorText.text = ""
-            main.storedMirror = ""
-            main.password = false
-            releaseAllSticky()
-
-        }
-
-        onStopped: {
-            main.visible = false
-            if (main.pinMode) {
-                main.layout = main.previousLayout != "Pin" &&
-                        main.layout == "Pin"? main.previousLayout : "Tablet"
-                main.pinMode = false
-                closeBtnImage.visible = true
-
-            } else {
-                main.layout = main.previousLayout == "Pin" &&
-                        main.layout == "Pin" ? "Tablet" : main.layout
-            }
-
-        }
-    }
-
     onLayoutChanged: {
         setSize()
     }
@@ -867,7 +690,6 @@ ApplicationWindow {
     onTransparencyChanged: {
         main.opacity = main.transparency
     }
-
 
     onPasswordChanged: {
         if (main.password){
@@ -881,15 +703,9 @@ ApplicationWindow {
             mirrorText.text = main.storedMirror
         }
 
-        passwordToggle.color = main.password ? main.keyPressedColor :
-        main.keyColor
-        // pToggleText.color = main.password ? main.textPressedColor :
-        // main.textColor
-        pToggleText.source = main.password ?
-        "Images/view-conceal-symbolic.svg" :
-        "Images/view-reveal-symbolic.svg"
+        passwordToggle.color = main.password ? main.keyPressedColor : main.keyColor
+        pToggleText.source = main.password ? "Images/view-conceal-symbolic.svg" : "Images/view-reveal-symbolic.svg"
     }
-
 
     onKeyHoverTimerChanged: {
         timer.start()
@@ -897,11 +713,8 @@ ApplicationWindow {
 
     Component.onCompleted: {
         main.themeName = helper.getColor() ? helper.getColor() : 0
-        main.autoShowToggle = helper.getAutoShow() ?
-                    helper.getAutoShow() : false
-        main.layout = helper.getLayoutType() == "Tablet" ||
-                helper.getLayoutType() == "Full" ?
-                    helper.getLayoutType() : "Tablet"
+        main.autoShowToggle = helper.getAutoShow() ? helper.getAutoShow() : false
+        main.layout = helper.getLayoutType() == "Tablet" || helper.getLayoutType() == "Full" ? helper.getLayoutType() : "Tablet"
         main.previousLayout = main.layout
         main.scale = helper.getScale() ? helper.getScale() : 1
         main.transparency = helper.getOpacity() ? helper.getOpacity() : 1
@@ -909,38 +722,23 @@ ApplicationWindow {
         main.previousOpacity = main.opacity
         settings.opacity = main.transparency
 
+        main.screenHeight = Screen.height
+        main.screenWidth = Screen.width
+        main.layout = "Full"
+        setSize()
+        main.settingsVisible = false
+        closeBtnImage.visible = true
+        main.loaded = true
         if (helper.isLogin()) {
-            main.screenHeight = Screen.height
-            main.screenWidth = Screen.width
-            main.layout = "Full"
-            setSize()
-            main.settingsVisible = false
             closeBtnImage.visible = false
             main.password = true
-            main.loaded = true
-            showFromBottom.start()
+            setPosition()
         } else if (helper.isShowOnStartEnabled()) {
-            main.screenHeight = Screen.height
-            main.screenWidth = Screen.width
-            setSize()
-            main.x =  main.screenWidth / 2 - main.width /2
-            main.y = main.screenHeight + main.height
-            main.settingsVisible = false
-            settings.visible = false
-            main.loaded = true
-            showFromBottom.start()
+            main.show();
+            setPosition();
         } else {
-            hide.start()
-            main.screenHeight = Screen.height
-            main.screenWidth = Screen.width
-            setSize()
-            main.x =  main.screenWidth / 2 - main.width /2
-            main.y = main.screenHeight + main.height
-            main.settingsVisible = false
-            settings.visible = false
-            main.loaded = true
+            main.hide();
         }
-
     }
 
     Timer {

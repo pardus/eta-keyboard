@@ -41,9 +41,6 @@ Helper::Helper(QObject *parent):
 
     connect(vkdi,SIGNAL(hide()),this,SIGNAL(hideCalled()));
     connect(vkdi,SIGNAL(show(bool)),this,SLOT(showSlot(bool)));
-    connect(vkdi,SIGNAL(showFromLeft()),this,SIGNAL(showFromLeftCalled()));
-    connect(vkdi,SIGNAL(showFromRight()),this,SIGNAL(showFromRightCalled()));
-    connect(vkdi,SIGNAL(showFromBottom()),this,SIGNAL(showFromBottomCalled()));
     connect(vkdi,SIGNAL(toggle()),this,SIGNAL(toggleCalled()));
     connect(vkdi,SIGNAL(toggleAutoShow()),this,SIGNAL(toggleAutoShowCalled()));
     connect(vkdi,SIGNAL(showPinInput()),this,SIGNAL(showPinInputCalled()));
@@ -58,11 +55,11 @@ Helper::~Helper()
 
 void Helper::showSlot(bool password)
 {
-    if(s->getAutoShow()) {
+    if(true || s->getAutoShow()) {
         if (password) {
             emit passwordDetected();
         } else {
-            emit showFromBottomCalled();
+            emit showCalled();
         }
     }
 }

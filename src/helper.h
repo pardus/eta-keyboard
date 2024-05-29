@@ -35,9 +35,7 @@ class Helper : public QObject
     Q_PROPERTY(QString layout READ layout
                NOTIFY hideCalled
                NOTIFY layoutChanged
-               NOTIFY showFromLeftCalled
-               NOTIFY showFromRightCalled
-               NOTIFY showFromBottomCalled
+               NOTIFY showCalled
                NOTIFY toggleCalled
                NOTIFY toggleAutoShowCalled
                NOTIFY passwordDetected
@@ -85,9 +83,7 @@ private slots:
 signals:
     void hideCalled();
     void layoutChanged();
-    void showFromLeftCalled();
-    void showFromRightCalled();
-    void showFromBottomCalled();
+    void showCalled();
     void toggleCalled();
     void toggleAutoShowCalled();
     void passwordDetected();
