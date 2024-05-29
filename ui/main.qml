@@ -86,6 +86,9 @@ ApplicationWindow {
     property string previousLayout
     property double previousOpacity
     property int panelPos : 0 // 0 is default left, 1 is right
+    property int lastX: -1
+    property int lastY: -1
+
     function setAndSave(){
 
         if (main.layout == "Pin") {
@@ -473,10 +476,15 @@ ApplicationWindow {
     }
 
     function setPosition() {
-        main.x = main.screenWidth / 2 - main.width / 2
-        main.y = main.screenHeight - main.height - main.spacing * 20
-        if (main.pinMode) {
-            main.y = main.screenHeight / 2 - main.height / 2
+        if (main.lastX !== -1 && main.lastY !== -1) {
+            main.x = main.lastX;
+            main.y = main.lastY;
+        } else {
+            main.x = main.screenWidth / 2 - main.width / 2;
+            main.y = main.screenHeight - main.height - main.spacing * 20;
+            if (main.pinMode) {
+                main.y = main.screenHeight / 2 - main.height / 2;
+            }
         }
     }
 
@@ -627,30 +635,29 @@ ApplicationWindow {
 
 
 
-            MouseArea{
+            MouseArea {
                 property variant cpos: "1,1"
-                anchors{
+                anchors {
                     top: dock.top
                     left: passwordToggle.right
                     bottom: dock.bottom
-                    right:closeBtnImage.left
+                    right: closeBtnImage.left
                 }
 
                 onPressed: {
-                    cpos = Qt.point(mouse.x,mouse.y);
+                    cpos = Qt.point(mouse.x, mouse.y);
                 }
 
                 onPositionChanged: {
-
                     main.settingsVisible = false
                     var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
                     main.x += delta.x;
                     main.y += delta.y;
-
                 }
 
                 onReleased: {
-
+                    main.lastX = main.x;
+                    main.lastY = main.y;
                 }
             }
         }
