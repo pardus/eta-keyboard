@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 
     QString name = pidPath.append("/").append(pidName);
 
-    SingleInstance cInstance;    
+    SingleInstance cInstance;
 
     if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
     {
@@ -149,7 +149,7 @@ static void handle_signal(int sig)
 
 static int setup_unix_signal_handlers()
 {
-    struct sigaction sig;    
+    struct sigaction sig;
     sig.sa_handler = handle_signal;
     sigemptyset(&sig.sa_mask);
     sig.sa_flags = 0;

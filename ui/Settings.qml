@@ -536,8 +536,6 @@ ApplicationWindow {
                     id: autoShowKey
                     leVis4: true
                     keyText: "OTO"
-                    highlighted: main.autoShowToggle ? true : false
-                    activeOpacity: main.autoShowToggle ? 1 : 0.2
 
                     MouseArea {
                         id: ma6
@@ -558,7 +556,6 @@ ApplicationWindow {
 
                         onClicked: {
                             autoShowKey.btnClicked()
-                            main.autoShowToggle = !main.autoShowToggle
                             settings.setAndSaveConf()
                         }
                     }

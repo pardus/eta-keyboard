@@ -34,15 +34,16 @@ Helper::Helper(QObject *parent):
 {
     xw = new XWrapper;
     xw->setHelper(this);
-    QAbstractEventDispatcher::instance()->installNativeEventFilter(xw);
-    vkdi = new VkDbusInterface(this);
     xkblw = new XKBLibWrapper(this);
     s = new Settings(this);
+    if (getenv("DBUS_SESSION_BUS_ADDRESS") == NULL)
+        return;
+    QAbstractEventDispatcher::instance()->installNativeEventFilter(xw);
+    vkdi = new VkDbusInterface(this);
 
     connect(vkdi,SIGNAL(hide()),this,SIGNAL(hideCalled()));
     connect(vkdi,SIGNAL(show(bool)),this,SLOT(showSlot(bool)));
     connect(vkdi,SIGNAL(toggle()),this,SIGNAL(toggleCalled()));
-    connect(vkdi,SIGNAL(toggleAutoShow()),this,SIGNAL(toggleAutoShowCalled()));
     connect(vkdi,SIGNAL(showPinInput()),this,SIGNAL(showPinInputCalled()));
     connect(vkdi,SIGNAL(hidePinInput()),this,SIGNAL(hidePinInputCalled()));
 
@@ -55,12 +56,10 @@ Helper::~Helper()
 
 void Helper::showSlot(bool password)
 {
-    if(true || s->getAutoShow()) {
-        if (password) {
-            emit passwordDetected();
-        } else {
-            emit showCalled();
-        }
+    if (password) {
+        emit passwordDetected();
+    } else {
+        emit showCalled();
     }
 }
 
@@ -68,9 +67,9 @@ void Helper::setSettings(int color,
                          const QString& layoutType,
                          double scale,
                          unsigned int languageLayoutIndex,
-                         bool autoShow, double opacity)
+                         double opacity)
 {
-    s->setSettings(color, layoutType, scale, languageLayoutIndex, autoShow, opacity);
+    s->setSettings(color, layoutType, scale, languageLayoutIndex, opacity);
 }
 
 int Helper::getColor() const
@@ -96,11 +95,6 @@ double Helper::getOpacity()
 unsigned int Helper::getLanguageLayoutIndex()
 {
     return s->getLanguageLayoutIndex();
-}
-
-bool Helper::getAutoShow()
-{
-    return s->getAutoShow();
 }
 
 void Helper::saveSettings()
@@ -138,8 +132,16 @@ bool Helper::isLogin() const
    return Helper::login;
 }
 
+bool Helper::isDbusAvailable() const
+{
+   return (getenv("DBUS_SESSION_BUS_ADDRESS") != NULL);
+}
+
 bool Helper::isShowOnStartEnabled() const
 {
+    if (getenv("DBUS_SESSION_BUS_ADDRESS") == NULL)
+        return true;
+
     return Helper::showOnStart;
 }
 

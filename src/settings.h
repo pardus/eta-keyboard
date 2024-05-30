@@ -32,13 +32,12 @@ public:
     explicit Settings(QObject *parent = 0);
     void setSettings(const int color, const QString& layoutType,
                      double scale,
-                     unsigned int languageLayoutIndex, bool autoShow,
+                     unsigned int languageLayoutIndex,
                      double opacity);
     int getColor() const;
     QString getLayoutType() const;
     double getScale();
     unsigned int getLanguageLayoutIndex();
-    bool getAutoShow();
     double getOpacity();
     void saveSettings();
 private:
@@ -46,7 +45,6 @@ private:
     QString m_layoutType;
     double m_scale;
     unsigned int m_languageLayoutIndex;
-    bool m_autoShow;
     QString configpath;
     QSettings *preferences;
     double m_opacity;

@@ -68,7 +68,6 @@ ApplicationWindow {
     property int m_settings_height
     property int m_settings_width
     property bool keyboardVisible: false
-    property bool autoShowToggle
     property bool layoutChange: false
     property int themeName
     property bool loaded: false
@@ -99,7 +98,6 @@ ApplicationWindow {
                                main.layout,
                                main.scale,
                                main.languageLayoutIndex,
-                               main.autoShowToggle,
                                main.opacity)
             helper.saveSettings()
         }
@@ -453,26 +451,16 @@ ApplicationWindow {
         if (main.pinMode) {
             main.opacity = main.previousOpacity
             main.hide();
+
         }
     }
 
     function hideKeyboard() {
-        if (!main.pinMode) {
-            if (keyboardVisible && autoShowToggle) {
-                main.hide();
+            if (!helper.isDbusAvailable()){
+                Qt.quit();
             }
-        }
-    }
-
-    function toggleKeyboard() {
-        if (!main.pinMode) {
-            if (keyboardVisible) {
-                main.hide();
-            } else {
-                main.show();
-                setPosition();
-            }
-        }
+            main.hide();
+            settings.hide();
     }
 
     function setPosition() {
@@ -500,23 +488,13 @@ ApplicationWindow {
             hideKeyboard()
         }
 
-        onToggleCalled: {
-            toggleKeyboard()
-        }
-
-        onToggleAutoShowCalled: {
-            if (!main.pinMode) {
-                main.autoShowToggle = !main.autoShowToggle
-            }
-        }
-
         onLayoutChanged: {
             main.layoutChange = !main.layoutChange
         }
 
         onPasswordDetected: {
             main.password = true
-            if (!keyboardVisible && autoShowToggle && !main.pinMode) {
+            if (!keyboardVisible) {
                 main.show();
                 setPosition();
             }
@@ -607,8 +585,7 @@ ApplicationWindow {
                     anchors.fill: closeBtnImage
 
                     onClicked: {
-                        main.hide();
-                        settings.hide();
+                        hideKeyboard();
                     }
                 }
             }
@@ -720,7 +697,6 @@ ApplicationWindow {
 
     Component.onCompleted: {
         main.themeName = helper.getColor() ? helper.getColor() : 0
-        main.autoShowToggle = helper.getAutoShow() ? helper.getAutoShow() : false
         main.layout = helper.getLayoutType() == "Tablet" || helper.getLayoutType() == "Full" ? helper.getLayoutType() : "Tablet"
         main.previousLayout = main.layout
         main.scale = helper.getScale() ? helper.getScale() : 1
@@ -744,7 +720,7 @@ ApplicationWindow {
             main.show();
             setPosition();
         } else {
-            main.hide();
+            hideKeyboard();
         }
     }
 

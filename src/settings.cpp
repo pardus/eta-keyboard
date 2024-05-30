@@ -28,7 +28,6 @@ Settings::Settings(QObject *parent) :
     QObject(parent),
     m_color(0),
     m_scale(1.0),
-    m_autoShow(true),
     m_opacity(1.0)
 {
     configpath = QDir::homePath() + "/.config/eta/virtualkeyboard/config.ini";
@@ -43,7 +42,6 @@ Settings::Settings(QObject *parent) :
         m_scale = preferences->value("Scale").toDouble();
         m_languageLayoutIndex = preferences->
                 value("LanguageLayoutIndex").toUInt();
-        m_autoShow = preferences->value("AutoShow").toBool();
         m_opacity = preferences->value("Opacity").toDouble();
         preferences->endGroup();
     }
@@ -51,14 +49,13 @@ Settings::Settings(QObject *parent) :
 
 void Settings::setSettings(const int color, const QString& layoutType,
                            double scale,
-                           unsigned int languageLayoutIndex, bool autoShow,
+                           unsigned int languageLayoutIndex,
                            double opacity)
 {
     this->m_color = color;
     this->m_layoutType = layoutType;
     this->m_scale = scale;
     this->m_languageLayoutIndex = languageLayoutIndex;
-    this->m_autoShow = autoShow;
     this->m_opacity = opacity;
 }
 
@@ -82,11 +79,6 @@ unsigned int Settings::getLanguageLayoutIndex()
     return this->m_languageLayoutIndex;
 }
 
-bool Settings::getAutoShow()
-{
-    return this->m_autoShow;
-}
-
 double Settings::getOpacity()
 {
     return this->m_opacity;
@@ -104,8 +96,6 @@ void Settings::saveSettings()
     preferences->setValue("Scale",varScale);
     QVariant varLanguage(this->m_languageLayoutIndex);
     preferences->setValue("LanguageLayoutIndex",varLanguage);
-    QVariant varAutoShow(this->m_autoShow);
-    preferences->setValue("AutoShow",varAutoShow);
     QVariant varOpacity(this->m_opacity);
     preferences->setValue("Opacity",varOpacity);
     preferences->endGroup();

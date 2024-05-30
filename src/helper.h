@@ -37,7 +37,6 @@ class Helper : public QObject
                NOTIFY layoutChanged
                NOTIFY showCalled
                NOTIFY toggleCalled
-               NOTIFY toggleAutoShowCalled
                NOTIFY passwordDetected
                NOTIFY showPinInputCalled
                NOTIFY hidePinInputCalled)
@@ -53,6 +52,7 @@ public:
     Q_INVOKABLE QString getLayoutName(int layoutIndex) const;
     Q_INVOKABLE QString getCurrentLayout() const;
     Q_INVOKABLE bool isLogin() const;
+    Q_INVOKABLE bool isDbusAvailable() const;
     Q_INVOKABLE bool isShowOnStartEnabled() const;
     Q_INVOKABLE int getCurrentLayoutIndex();
     Q_INVOKABLE void setLayout(unsigned int layoutIndex);
@@ -61,13 +61,12 @@ public:
                                  const QString& layoutType,
                                  double scale,
                                  unsigned int languageLayoutIndex,
-                                 bool autoShow, double opacity);
+                                 double opacity);
     Q_INVOKABLE int getColor() const;
     Q_INVOKABLE QString getLayoutType() const;
     Q_INVOKABLE double getScale();
     Q_INVOKABLE double getOpacity();
     Q_INVOKABLE unsigned int getLanguageLayoutIndex();
-    Q_INVOKABLE bool getAutoShow();
     Q_INVOKABLE void saveSettings();
     Q_INVOKABLE void layoutChangedCallback();
     static bool login;
@@ -85,7 +84,6 @@ signals:
     void layoutChanged();
     void showCalled();
     void toggleCalled();
-    void toggleAutoShowCalled();
     void passwordDetected();
     void showPinInputCalled();
     void hidePinInputCalled();
