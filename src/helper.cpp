@@ -43,6 +43,7 @@ Helper::Helper(QObject *parent):
 
     connect(vkdi,SIGNAL(hide()),this,SIGNAL(hideCalled()));
     connect(vkdi,SIGNAL(show(bool)),this,SLOT(showSlot(bool)));
+    connect(vkdi,SIGNAL(showForce(bool)),this,SLOT(showForceSlot(bool)));
     connect(vkdi,SIGNAL(toggle()),this,SIGNAL(toggleCalled()));
     connect(vkdi,SIGNAL(showPinInput()),this,SIGNAL(showPinInputCalled()));
     connect(vkdi,SIGNAL(hidePinInput()),this,SIGNAL(hidePinInputCalled()));
@@ -61,6 +62,10 @@ void Helper::showSlot(bool password)
     } else {
         emit showCalled();
     }
+}
+void Helper::showForceSlot(bool password)
+{
+    showSlot(password);
 }
 
 void Helper::setSettings(int color,

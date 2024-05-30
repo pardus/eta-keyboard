@@ -31,6 +31,11 @@ Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::show(bool password)
     QMetaObject::invokeMethod(parent(), "showSlot", Q_ARG(bool, password));
 }
 
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::showForce(bool password)
+{
+    QMetaObject::invokeMethod(parent(), "showForceSlot", Q_ARG(bool, password));
+}
+
 Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::toggle()
 {
     QMetaObject::invokeMethod(parent(), "toggleSlot");
@@ -39,21 +44,6 @@ Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::toggle()
 Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::hide()
 {
     QMetaObject::invokeMethod(parent(), "hideSlot");
-}
-
-Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::showFromLeft()
-{
-    QMetaObject::invokeMethod(parent(), "fromLeftSlot");
-}
-
-Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::showFromRight()
-{
-    QMetaObject::invokeMethod(parent(), "fromRightSlot");
-}
-
-Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::showFromBottom()
-{
-    QMetaObject::invokeMethod(parent(), "fromBottomSlot");
 }
 
 Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::toggleAutoShow()

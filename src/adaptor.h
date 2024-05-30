@@ -31,11 +31,9 @@ public:
     VirtualKeyboardInterfaceAdaptor(QObject *parent);
 public slots:
     Q_NOREPLY void show(bool password);
+    Q_NOREPLY void showForce(bool password);
     Q_NOREPLY void toggle();
     Q_NOREPLY void hide();
-    Q_NOREPLY void showFromLeft();
-    Q_NOREPLY void showFromRight();
-    Q_NOREPLY void showFromBottom();
     Q_NOREPLY void toggleAutoShow();
     Q_NOREPLY void showPinInput();
     Q_NOREPLY void hidePinInput();

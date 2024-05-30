@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
         if (argc == 2 && QString(argv[1]) == "show") {
             qDebug("Trying to show");
             return system("qdbus org.eta.virtualkeyboard /VirtualKeyboard "
-                          "org.eta.virtualkeyboard.showFromBottom");
+                          "org.eta.virtualkeyboard.showForce false");
         } else {
             qDebug("eta-keyboard is allready running");
             return 0;

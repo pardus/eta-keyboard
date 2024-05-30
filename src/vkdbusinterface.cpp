@@ -47,17 +47,11 @@ void VkDbusInterface::hideSlot()
 {
     emit hide();
 }
-void VkDbusInterface::fromLeftSlot()
+
+void VkDbusInterface::showForceSlot(bool password)
 {
-    emit showFromLeft();
-}
-void VkDbusInterface::fromRightSlot()
-{
-    emit showFromRight();
-}
-void VkDbusInterface::fromBottomSlot()
-{
-    emit showFromBottom();
+    puts("Force show");
+    emit showForce(password);
 }
 void VkDbusInterface::toggleAutoShowSlot()
 {

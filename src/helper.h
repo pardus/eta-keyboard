@@ -79,6 +79,7 @@ private:
     Settings *s;    
 private slots:    
     void showSlot(bool password);
+    void showForceSlot(bool password);
 signals:
     void hideCalled();
     void layoutChanged();

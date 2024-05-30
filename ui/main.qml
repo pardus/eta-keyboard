@@ -484,6 +484,7 @@ ApplicationWindow {
             setPosition();
         }
 
+
         onHideCalled: {
             hideKeyboard()
         }
