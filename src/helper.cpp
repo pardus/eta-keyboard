@@ -36,7 +36,7 @@ Helper::Helper(QObject *parent):
     xw->setHelper(this);
     xkblw = new XKBLibWrapper(this);
     s = new Settings(this);
-    if (getenv("DBUS_SESSION_BUS_ADDRESS") == NULL)
+    if (!isDbusAvailable())
         return;
     QAbstractEventDispatcher::instance()->installNativeEventFilter(xw);
     vkdi = new VkDbusInterface(this);
@@ -134,12 +134,14 @@ bool Helper::isLogin() const
 
 bool Helper::isDbusAvailable() const
 {
+   if (getenv("DISABLE_TIF") != NULL)
+       return false;
    return (getenv("DBUS_SESSION_BUS_ADDRESS") != NULL);
 }
 
 bool Helper::isShowOnStartEnabled() const
 {
-    if (getenv("DBUS_SESSION_BUS_ADDRESS") == NULL)
+    if (!isDbusAvailable())
         return true;
 
     return Helper::showOnStart;
