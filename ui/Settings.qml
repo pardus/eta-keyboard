@@ -556,6 +556,13 @@ ApplicationWindow {
 
                         onClicked: {
                             autoShowKey.btnClicked()
+                            helper.setEnableAtspi(!helper.getEnableAtspi());
+                            if(helper.getEnableAtspi()){
+                                console.log("Atspi enabled");
+                            }else {
+                                console.log("Atspi disabled");
+                            }
+
                             settings.setAndSaveConf()
                         }
                     }

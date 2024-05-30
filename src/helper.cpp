@@ -28,6 +28,7 @@
 
 bool Helper::login = false;
 bool Helper::showOnStart = false;
+static bool showAtspi = true;
 
 Helper::Helper(QObject *parent):
     QObject (parent)
@@ -36,6 +37,7 @@ Helper::Helper(QObject *parent):
     xw->setHelper(this);
     xkblw = new XKBLibWrapper(this);
     s = new Settings(this);
+
     if (!isDbusAvailable())
         return;
     QAbstractEventDispatcher::instance()->installNativeEventFilter(xw);
@@ -55,7 +57,7 @@ Helper::~Helper()
     delete xw;
 }
 
-void Helper::showSlot(bool password)
+void Helper::showForceSlot(bool password)
 {
     if (password) {
         emit passwordDetected();
@@ -63,9 +65,11 @@ void Helper::showSlot(bool password)
         emit showCalled();
     }
 }
-void Helper::showForceSlot(bool password)
+void Helper::showSlot(bool password)
 {
-    showSlot(password);
+    if(getEnableAtspi()){
+         showSlot(password);
+    }
 }
 
 void Helper::setSettings(int color,
@@ -113,7 +117,7 @@ void Helper::layoutChangedCallback()
 }
 
 void Helper::setLayout(unsigned int layoutIndex)
-{    
+{
     xkblw->setLayout(layoutIndex);
 }
 
@@ -180,5 +184,15 @@ void Helper::fakeKeyPress( unsigned int code)
 void Helper::fakeKeyRelease(unsigned int code)
 {
     xw->fakeKeyRelease(code);
+}
+
+
+void Helper::setEnableAtspi(bool status)
+{
+    showAtspi = status;
+}
+bool Helper::getEnableAtspi()
+{
+    return showAtspi;
 }
 

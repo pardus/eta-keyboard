@@ -69,6 +69,8 @@ public:
     Q_INVOKABLE unsigned int getLanguageLayoutIndex();
     Q_INVOKABLE void saveSettings();
     Q_INVOKABLE void layoutChangedCallback();
+    Q_INVOKABLE void setEnableAtspi(bool status);
+    Q_INVOKABLE bool getEnableAtspi();
     static bool login;
     static bool showOnStart;
 private:
