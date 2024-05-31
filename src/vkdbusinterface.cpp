@@ -36,6 +36,7 @@ VkDbusInterface::VkDbusInterface(QObject *parent) :
 
 void VkDbusInterface::showSlot(bool password)
 {
+    puts("Show");
     emit show(password);
 }
 

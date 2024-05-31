@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
 export QT_SELECT := qt5
-
+export CXXFLAGS = -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG
 %:
 	dh $@

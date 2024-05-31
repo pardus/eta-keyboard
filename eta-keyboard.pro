@@ -26,6 +26,8 @@ HEADERS += src/xwrapper.h \
 
 LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst -lxcb-xkb
 
+CONFIG+=declarative_debug qml_debug
+
 target.path = /usr/bin/
 
 desktop_file.files = eta-keyboard.desktop

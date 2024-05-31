@@ -68,7 +68,7 @@ void Helper::showForceSlot(bool password)
 void Helper::showSlot(bool password)
 {
     if(getEnableAtspi()){
-         showSlot(password);
+         showForceSlot(password);
     }
 }
 
