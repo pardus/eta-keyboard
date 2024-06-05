@@ -87,6 +87,7 @@ ApplicationWindow {
     property int panelPos : 0 // 0 is default left, 1 is right
     property int lastX: -1
     property int lastY: -1
+    property rect screenGeometry
 
     function setAndSave(){
 
@@ -333,6 +334,12 @@ ApplicationWindow {
     }
 
 
+    function updateScreenGeometry(geometry) {
+        screenGeometry = geometry
+        console.log("Screen geometry changed: ", screenGeometry)
+    }
+
+
     function fakeKeyTablet(code,level,keyText) {
         main.settingsVisible = false
         switch(level) {
@@ -474,6 +481,11 @@ ApplicationWindow {
                 main.y = main.screenHeight / 2 - main.height / 2;
             }
         }
+    }
+
+    Connections {
+        target: screen
+        onGeometryChanged: updateScreenGeometry
     }
 
     Helper {
@@ -697,6 +709,8 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        updateScreenGeometry(screen.geometry)
+
         main.themeName = helper.getColor() ? helper.getColor() : 0
         main.layout = helper.getLayoutType() == "Tablet" || helper.getLayoutType() == "Full" ? helper.getLayoutType() : "Tablet"
         main.previousLayout = main.layout

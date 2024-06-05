@@ -29,10 +29,14 @@
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xresource.h>
+#include <QQmlContext>
+#include <QScreen>
+#include <QGuiApplication>
+#include <QRect>
+#include <QDebug>
 
 #define SINGLE_INSTANCE ".virtualkeyboard"
 static int setup_unix_signal_handlers();
-
 
 double getDpi() {
     Display* display = XOpenDisplay(NULL);
@@ -123,11 +127,26 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+    QScreen *screen = QGuiApplication::primaryScreen();
+
+    // Expose screen object to QML
+    engine.rootContext()->setContextProperty("screen", screen);
+
     // Expose DPI value to QML
     double dpi = getDpi();
     engine.rootContext()->setContextProperty("dpiValue", dpi);
 
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
+    if (engine.rootObjects().isEmpty())
+        return -1;
+
+    QObject::connect(screen, &QScreen::geometryChanged, [&engine](const QRect &geometry){
+        QVariant returnedValue;
+        QVariant msg = geometry;
+        QMetaObject::invokeMethod(engine.rootObjects().first(), "updateScreenGeometry",
+                                  Q_RETURN_ARG(QVariant, returnedValue),
+                                  Q_ARG(QVariant, msg));
+    });
 
     return app.exec();
 }
