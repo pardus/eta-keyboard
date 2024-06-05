@@ -336,7 +336,11 @@ ApplicationWindow {
 
     function updateScreenGeometry(geometry) {
         screenGeometry = geometry
+        screenWidth = geometry.width
+        screenHeight = geometry.height
         console.log("Screen geometry changed: ", screenGeometry)
+        setPosition()
+        // Resize key text sizes (dpi)
     }
 
 
@@ -485,7 +489,7 @@ ApplicationWindow {
 
     Connections {
         target: screen
-        onGeometryChanged: updateScreenGeometry
+        onGeometryChanged: updateScreenGeometry(screen.geometry)
     }
 
     Helper {
