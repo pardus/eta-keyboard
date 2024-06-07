@@ -535,7 +535,15 @@ ApplicationWindow {
                 Key{
                     id: autoShowKey
                     leVis4: true
-                    keyText: "OTO"
+
+                    Image {
+                        id: autoShowImage
+                        anchors.centerIn: parent
+                        width: parent.width * 0.8
+                        height: parent.height * 0.8
+                        source: helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.png" : "qrc:/ui/Images/auto-off.png"
+                        fillMode: Image.PreserveAspectFit
+                    }
 
                     MouseArea {
                         id: ma6
@@ -543,7 +551,6 @@ ApplicationWindow {
 
                         onPressed: {
                             autoShowKey.btnPressed()
-
                         }
 
                         onPressAndHold: {
@@ -557,6 +564,7 @@ ApplicationWindow {
                         onClicked: {
                             autoShowKey.btnClicked()
                             helper.setEnableAtspi(!helper.getEnableAtspi());
+                            autoShowImage.source = helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.png" : "qrc:/ui/Images/auto-off.png";
                             if(helper.getEnableAtspi()){
                                 console.log("Atspi enabled");
                             }else {
