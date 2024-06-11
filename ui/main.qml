@@ -489,7 +489,9 @@ ApplicationWindow {
 
     Connections {
         target: screen
-        onGeometryChanged: updateScreenGeometry(screen.geometry)
+        function onGeometryChanged(geometry) {
+            updateScreenGeometry(geometry)
+        }
     }
 
     Helper {
