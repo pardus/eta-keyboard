@@ -60,7 +60,7 @@ ApplicationWindow {
     property bool keyHover: true
     property bool keyHoverTimer: false
     property bool keyHoverTimerTriggered: false
-    property bool password: false
+    property bool password: true
     property int screenWidth: Screen.width
     property int screenHeight: Screen.height
     property int m_height

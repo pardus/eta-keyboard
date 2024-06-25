@@ -184,10 +184,10 @@ Item{
     onUpdateThemeChanged: {
         if (main.password){
             passwordToggle.color = main.keyPressedColor
-            pToggleText.color = main.textPressedColor
-        }
-        else{
+            pToggleText.source = "Images/view-conceal-symbolic.svg"
+        } else {
             passwordToggle.color = pToggleMa.containsMouse ? main.keyHoverColor : main.keyColor
+            pToggleText.source = "Images/view-reveal-symbolic.svg"
         }
     }
 }
