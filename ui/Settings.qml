@@ -40,6 +40,14 @@ ApplicationWindow {
     property variant colorsAra: ["رمادي","أخضر","أزرق","بنى","أبيض"]
     property variant colorsDe: ["Grau", "Grün", "Blau", "Braun", "Weiß"]
     property variant colorsFr: ["Gris", "Vert", "Bleu", "Marron", "Blanc"]
+    property var languageData: [
+        { text: "tr", flagSrc: "qrc:/ui/Images/flags/tr.svg" },
+        { text: "us", flagSrc: "qrc:/ui/Images/flags/us.svg" },
+        { text: "de", flagSrc: "qrc:/ui/Images/flags/de.svg" },
+        { text: "fr", flagSrc: "qrc:/ui/Images/flags/fr.svg" },
+        { text: "ara", flagSrc: "qrc:/ui/Images/flags/ara.svg" }
+    ]
+
 
     visible: true
     color: main.color
@@ -120,8 +128,14 @@ ApplicationWindow {
         }
 
         main.languageLayoutIndex = settings.languageIndex;
-        helper.setLayout(settings.languageIndex);
-        languageKey.keyText = languageModel.get(settings.languageIndex).text;
+        console.log("language layout index = ", main.languageLayoutIndex)
+
+        var selectedLang = languageModel.get(settings.languageIndex).text;
+        console.log("selected lang = ", selectedLang)
+
+        helper.setKeyboardLayout(selectedLang);
+
+        languageKey.keyText = selectedLang;
         flagImage.source = languageModel.get(settings.languageIndex).flagSrc;
 
         updateColorsArray();
@@ -130,13 +144,13 @@ ApplicationWindow {
 
     function updateColorsArray() {
         var keyText = languageModel.get(settings.languageIndex).text;
-        if (keyText.substring(0, 2) === "tr") {
+        if (keyText === "tr") {
             settings.colorsCurrentArr = settings.colorsTr;
-        } else if (keyText.substring(0, 3) === "ara") {
+        } else if (keyText === "ara") {
             settings.colorsCurrentArr = settings.colorsAra;
-        } else if (keyText.substring(0, 2) === "de") {
+        } else if (keyText === "de") {
             settings.colorsCurrentArr = settings.colorsDe;
-        } else if (keyText.substring(0, 2) === "fr") {
+        } else if (keyText === "fr") {
             settings.colorsCurrentArr = settings.colorsFr;
         } else {
             settings.colorsCurrentArr = settings.colorsUs;
@@ -597,18 +611,18 @@ ApplicationWindow {
         easing.type: Easing.OutQuad
     }
 
+    function fillListModel() {
+        languageModel.clear();
+        for (var i = 0; i < languageData.length; i++) {
+            languageModel.append(languageData[i]);
+        }
+    }
 
     onLayoutChanged: {
-        languageModel.clear();
-        for(var i = 0; i < helper.getNumberOfLayouts(); i++) {
-            var layoutName = helper.getLayoutName(i);
-            var flagSrc = "qrc:/ui/Images/flags/" + layoutName.toLowerCase()
-            + ".svg";
-            languageModel.append({ text: layoutName, flagSrc: flagSrc });
-        }
-
+        fillListModel();
         if (settings.waitFlag) {
-            changeLanguageLayout(false);
+            // Infinite loop
+            // changeLanguageLayout(false);
         }
     }
 
@@ -635,12 +649,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        languageModel.clear();
-        for (var i = 0; i < helper.getNumberOfLayouts(); i++) {
-            var layoutName = helper.getLayoutName(i);
-            var flagSrc = "qrc:/ui/Images/flags/" + layoutName.toLowerCase() + ".svg";
-            languageModel.append({text: layoutName, flagSrc: flagSrc});
-        }
+        fillListModel();
         changeLanguageLayout(false);
         hideSettings.start();
     }

@@ -25,6 +25,8 @@
 #include "src/settings.h"
 #include <QAbstractEventDispatcher>
 #include <QString>
+#include <QProcess>
+
 
 bool Helper::login = false;
 bool Helper::showOnStart = false;
@@ -70,6 +72,10 @@ void Helper::showSlot(bool password)
     if(getEnableAtspi()){
          showForceSlot(password);
     }
+}
+
+void Helper::setKeyboardLayout(const QString &langCode) {
+    QProcess::execute("setxkbmap", QStringList() << langCode);
 }
 
 void Helper::setSettings(int color,
