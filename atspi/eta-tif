@@ -5,6 +5,13 @@ import dbus
 import signal
 import sys
 
+import gi
+
+gi.require_version('Gtk', '3.0')
+from gi.repository import GLib, Gtk
+
+import threading
+
 session_bus = dbus.SessionBus()
 
 
@@ -67,10 +74,23 @@ def create_focus_changed_callback(show_keyboard_function):
 def signal_handler(signum, frame):
     sys.exit(0)
 
+def create_indicator():
+    def indicator_action(widget):
+        keyboard = get_keyboard()
+        if keyboard:
+            keyboard.showForce(True)
+    indicator = Gtk.StatusIcon.new_from_file("/usr/share/eta/eta-keyboard/keyboard.svg")
+    indicator.connect("activate", indicator_action)
+    Gtk.main()
+
 
 if __name__ == "__main__":
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
+
+    th = threading.Thread(target=create_indicator)
+    th.start()
+
 
     # pyatspi.Registry.registerEventListener(onfocuschanged, 'focus')
     focus_changed_callback = create_focus_changed_callback(dbus_show_keyboard)
