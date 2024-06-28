@@ -44,7 +44,7 @@ Rectangle {
     property int divisor: (screenWidth === 3840 && screenHeight === 2160 &&
     screenScaleFactor === 2) ? 4 * screenScaleFactor : 4
     property int fontPointSize: main.keyHeight / divisor
-    property int keyRadius: main.layout == "Full" ? main.keyHeight / 10 : main.keyHeight / 8
+    property int keyRadius: main.layout == "Tam" ? main.keyHeight / 10 : main.keyHeight / 8
     property int keyCode: 24
     property bool leVis0: false
     property bool leVis1: false

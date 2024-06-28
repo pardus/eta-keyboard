@@ -409,11 +409,11 @@ ApplicationWindow {
 
                         onClicked: {
                             layoutKey.btnClicked()
-                            if (main.layout == "Full") {
-                                main.layout = "Tablet"
+                            if (main.layout == "Tam") {
+                                main.layout = "Sade"
                             }
                             else {
-                                main.layout = "Full"
+                                main.layout = "Tam"
                             }
                             main.symbolMode = false
                             settings.setLayout()

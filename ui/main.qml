@@ -394,9 +394,9 @@ ApplicationWindow {
         var oldHeight = main.height
         var scaleVariable
 
-        if (main.layout == "Full") {
+        if (main.layout == "Tam") {
             scaleVariable = main.scale
-        } else if (main.layout == "Tablet") {
+        } else if (main.layout == "Sade") {
             scaleVariable = main.scale + 0.2
         } else {
             scaleVariable = 0.8
@@ -406,10 +406,10 @@ ApplicationWindow {
 
         main.keyHeight =  main.screenHeight * scaleVariable / 23
         main.dockSize = main.screenHeight * scaleVariable / 35
-        if (main.layout == "Full") {
+        if (main.layout == "Tam") {
             main.width = main.keyHeight * 15 + main.spacing * 16
             main.height = main.keyHeight * 11 / 2 + main.dockSize + main.spacing * 8
-        } else if (main.layout == "Tablet") {
+        } else if (main.layout == "Sade") {
             main.width = main.keyHeight * 12 + main.spacing * 13
             main.height = main.keyHeight * 4 + main.dockSize + main.spacing * 6
         } else {
@@ -660,13 +660,13 @@ ApplicationWindow {
 
         FullLayout{
             id: fullLay
-            visible: main.layout=="Full" ? true : false
+            visible: main.layout=="Tam" ? true : false
             anchors.top: dock.bottom
         }
 
         TabletLayout{
             id: tabletLayout
-            visible: main.layout=="Tablet" ? true : false
+            visible: main.layout=="Sade" ? true : false
             anchors.top: dock.bottom
         }
 
@@ -718,7 +718,7 @@ ApplicationWindow {
         updateScreenGeometry(screen.geometry)
 
         main.themeName = helper.getColor() ? helper.getColor() : 0
-        main.layout = helper.getLayoutType() == "Tablet" || helper.getLayoutType() == "Full" ? helper.getLayoutType() : "Tablet"
+        main.layout = helper.getLayoutType() == "Sade" || helper.getLayoutType() == "Tam" ? helper.getLayoutType() : "Sade"
         main.previousLayout = main.layout
         main.scale = helper.getScale() ? helper.getScale() : 1
         main.transparency = helper.getOpacity() ? helper.getOpacity() : 1
@@ -728,7 +728,7 @@ ApplicationWindow {
 
         main.screenHeight = Screen.height
         main.screenWidth = Screen.width
-        main.layout = "Full"
+        main.layout = "Tam"
         setSize()
         main.settingsVisible = false
         closeBtnImage.visible = true
