@@ -17,7 +17,7 @@
       }
     </style>
   </defs>
-  <image width="512" height="512" transform="translate(-762.9 -102.1)" xlink:href="auto-off.png"/>
+  <image width="512" height="512" transform="translate(-762.9 -102.1)" xlink:href="auto-off.svg"/>
   <path class="cls-2" d="M78.4,91.9c-31,0-56.3,25.2-56.3,56.3s25.2,56.3,56.3,56.3,56.3-25.2,56.3-56.3-25.2-56.3-56.3-56.3Z"/>
   <g>
     <path class="cls-2" d="M82.8,99.9l24.2-24.2c-10.5,5.1-19.1,13.7-24.2,24.2Z"/>

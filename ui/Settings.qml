@@ -606,7 +606,7 @@ ApplicationWindow {
                         anchors.centerIn: parent
                         width: parent.width * 0.8
                         height: parent.height * 0.8
-                        source: helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.png" : "qrc:/ui/Images/auto-off.png"
+                        source: helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.svg" : "qrc:/ui/Images/auto-off.svg"
                         fillMode: Image.PreserveAspectFit
                     }
 
@@ -629,7 +629,7 @@ ApplicationWindow {
                         onClicked: {
                             autoShowKey.btnClicked()
                             helper.setEnableAtspi(!helper.getEnableAtspi());
-                            autoShowImage.source = helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.png" : "qrc:/ui/Images/auto-off.png";
+                            autoShowImage.source = helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.svg" : "qrc:/ui/Images/auto-off.svg";
                             if(helper.getEnableAtspi()){
                                 console.log("Atspi enabled");
                             }else {
