@@ -232,29 +232,40 @@ ApplicationWindow {
     }
 
 
-
-    Rectangle{
+    Rectangle {
         id: container
         color: main.color
 
-        Column{
+        Column {
             id: col1
             spacing: main.spacing
-            anchors{
+            anchors {
                 top: container.top
                 left: container.left
                 margins: main.spacing
             }
 
-            Row{
+            Row {
                 id: row1
                 spacing: main.spacing
 
-
-                Key{
+                Key {
                     id: transUp
                     leVis4: true
-                    keyText: "O"
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "transparent"
+
+                        Image {
+                            id: transUpImage
+                            anchors.centerIn: parent
+                            width: parent.width * 0.6
+                            height: parent.height * 0.6
+                            source: "Images/transparent-inc.svg"
+                            fillMode: Image.PreserveAspectFit
+                        }
+                    }
 
                     MouseArea {
                         id: ma8
@@ -282,10 +293,9 @@ ApplicationWindow {
 
                         onClicked: {
                             transUp.btnClicked()
-                            if (main.transparency<1) {
-                                main.transparency+=0.1
+                            if (main.transparency < 1) {
+                                main.transparency += 0.1
                                 settings.opacity = main.transparency
-
                             }
 
                             settings.setAndSaveConf()
@@ -422,14 +432,27 @@ ApplicationWindow {
                 }
             }
 
-            Row{
+            Row {
                 id: r2
                 spacing: main.spacing
 
-                Key{
+                Key {
                     id: transDown
                     leVis4: true
-                    keyText: "o"
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "transparent"
+
+                        Image {
+                            id: transDownImage
+                            anchors.centerIn: parent
+                            width: parent.width * 0.6
+                            height: parent.height * 0.6
+                            source: "Images/transparent-dec.svg"
+                            fillMode: Image.PreserveAspectFit
+                        }
+                    }
 
                     MouseArea {
                         id: ma7
@@ -457,8 +480,8 @@ ApplicationWindow {
 
                         onClicked: {
                             transDown.btnClicked()
-                            if (main.transparency>0.4) {
-                                main.transparency-=0.1
+                            if (main.transparency > 0.4) {
+                                main.transparency -= 0.1
                                 settings.opacity = main.transparency
                             }
 
@@ -467,10 +490,23 @@ ApplicationWindow {
                     }
                 }
 
-                Key{
+                Key {
                     id: scaleDown
                     leVis4: true
-                    keyText: "-"
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "transparent"
+
+                        Image {
+                            id: scaleDownImage
+                            anchors.centerIn: parent
+                            width: parent.width * 0.6
+                            height: parent.height * 0.6
+                            source: "Images/k-.svg"
+                            fillMode: Image.PreserveAspectFit
+                        }
+                    }
 
                     MouseArea {
                         id: ma3
@@ -487,6 +523,7 @@ ApplicationWindow {
                         onPressed: {
                             scaleDown.btnPressed()
                         }
+
                         onPressAndHold: {
                             scaleDown.btnHold()
                         }
@@ -497,8 +534,8 @@ ApplicationWindow {
 
                         onClicked: {
                             scaleDown.btnClicked()
-                            if (main.scale>0.5) {
-                                main.scale-=0.1
+                            if (main.scale > 0.5) {
+                                main.scale -= 0.1
                             }
 
                             settings.setAndSaveConf()
@@ -506,10 +543,23 @@ ApplicationWindow {
                     }
                 }
 
-                Key{
+                Key {
                     id: scaleUp
                     leVis4: true
-                    keyText: "+"
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "transparent"
+
+                        Image {
+                            id: scaleUpImage
+                            anchors.centerIn: parent
+                            width: parent.width * 0.6
+                            height: parent.height * 0.6
+                            source: "Images/k+.svg"
+                            fillMode: Image.PreserveAspectFit
+                        }
+                    }
 
                     MouseArea {
                         id: ma4
@@ -536,15 +586,16 @@ ApplicationWindow {
                         }
 
                         onClicked: {
-                            scaleDown.btnClicked()
-                            if (main.scale<1.5) {
-                                main.scale+=0.1
+                            scaleUp.btnClicked()
+                            if (main.scale < 1.5) {
+                                main.scale += 0.1
                             }
 
                             settings.setAndSaveConf()
                         }
                     }
                 }
+
 
                 Key{
                     id: autoShowKey

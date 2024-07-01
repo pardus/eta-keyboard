@@ -12,5 +12,9 @@
         <file>ui/Images/flags/fr.svg</file>
         <file>ui/Images/auto-on.png</file>
         <file>ui/Images/auto-off.png</file>
+        <file>ui/Images/transparent-inc.svg</file>
+        <file>ui/Images/transparent-dec.svg</file>
+        <file>ui/Images/k+.svg</file>
+        <file>ui/Images/k-.svg</file>
     </qresource>
 </RCC>

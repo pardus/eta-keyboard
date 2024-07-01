@@ -597,6 +597,7 @@ ApplicationWindow {
                     right: dock.right
                     top: dock.top
                     bottom: dock.bottom
+                    rightMargin: 10
                 }
                 z: +5
 
