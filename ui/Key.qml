@@ -65,6 +65,8 @@ Rectangle {
     property int keyCodeSymbol
     property int symbolLevel
     property double transparency: main.transparency
+    property bool isSpecialKey: false
+
 
     color: ma.containsMouse && main.keyHoverTimer ? key.keyHoverColor : key.keyColor
     radius: key.keyRadius
@@ -121,6 +123,16 @@ Rectangle {
         key.hold = false
         key.pressed = false
         btnHovered()
+    }
+
+    function changeLayoutUpdate(){
+        if (!key.isSpecialKey) {
+            lev0.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 0)
+            lev1.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 1)
+            lev2.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 2)
+            lev3.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 3)
+            lev4.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 4)
+        }
     }
 
     Text {
@@ -249,23 +261,28 @@ Rectangle {
 
     onReleaseAllChanged: {
         btnHovered()
+        changeLayoutUpdate()
     }
 
     onUpdateThemeChanged:{
         btnHovered()
+        changeLayoutUpdate()
     }
 
     onKeyLevelChanged: {
         btnHovered()
+        changeLayoutUpdate()
     }
 
     Component.onCompleted: {
         btnHovered()
+        changeLayoutUpdate()
     }
 
     onKeyHoverTimerTriggeredChanged: {
         if (!key.pressed) {
             btnHovered()
+            changeLayoutUpdate()
         }
     }
 

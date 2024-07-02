@@ -89,7 +89,7 @@ ApplicationWindow {
             main.color = colorModel.get(settings.colorIndex).bColor;
 
             main.updateTheme = !main.updateTheme
-           main.themeName = settings.colorIndex
+            main.themeName = settings.colorIndex
 
             colorKey.keyText = settings.colorsCurrentArr[settings.colorIndex]
 
@@ -134,7 +134,7 @@ ApplicationWindow {
         console.log("selected lang = ", selectedLang)
 
         helper.setKeyboardLayout(selectedLang);
-
+        main.updateTheme = !main.updateTheme
         languageKey.keyText = selectedLang;
         flagImage.source = languageModel.get(settings.languageIndex).flagSrc;
 
@@ -356,6 +356,7 @@ ApplicationWindow {
                 Key{
                     id: colorKey
                     leVis4: true
+                    isSpecialKey: true
 
                     MouseArea {
                         id: ma1
@@ -392,6 +393,7 @@ ApplicationWindow {
                 Key{
                     id: layoutKey
                     leVis4: true
+                    isSpecialKey: true
 
                     MouseArea {
                         id: ma2
