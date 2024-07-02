@@ -65,8 +65,6 @@ Rectangle {
     property int keyCodeSymbol
     property int symbolLevel
     property double transparency: main.transparency
-    property bool isSpecialKey: false
-
 
     color: ma.containsMouse && main.keyHoverTimer ? key.keyHoverColor : key.keyColor
     radius: key.keyRadius
@@ -126,7 +124,7 @@ Rectangle {
     }
 
     function changeLayoutUpdate(){
-        if (!key.isSpecialKey) {
+        if (!key.leVis4) {
             lev0.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 0)
             lev1.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 1)
             lev2.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 2)

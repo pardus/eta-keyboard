@@ -356,7 +356,6 @@ ApplicationWindow {
                 Key{
                     id: colorKey
                     leVis4: true
-                    isSpecialKey: true
 
                     MouseArea {
                         id: ma1
@@ -393,7 +392,6 @@ ApplicationWindow {
                 Key{
                     id: layoutKey
                     leVis4: true
-                    isSpecialKey: true
 
                     MouseArea {
                         id: ma2

@@ -44,24 +44,24 @@ Item{
                 id: row1
                 spacing: main.spacing
 
-                FunctionKey { id: keyEsc; keyText: "Esc"; keyCode: 9; isSpecialKey: true }
-                FunctionKey { id: keyF1; keyText: "F1"; keyCode: 67; isSpecialKey: true }
-                FunctionKey { id: keyF2; keyText: "F2"; keyCode: 68; isSpecialKey: true }
-                FunctionKey { id: keyF3; keyText: "F3"; keyCode: 69; isSpecialKey: true }
-                FunctionKey { id: keyF4; keyText: "F4"; keyCode: 70; isSpecialKey: true }
-                FunctionKey { id: keyF5; keyText: "F5"; keyCode: 71; isSpecialKey: true }
-                FunctionKey { id: keyF6; keyText: "F6"; keyCode: 72; isSpecialKey: true }
-                FunctionKey { id: keyF7; keyText: "F7"; keyCode: 73; isSpecialKey: true }
-                FunctionKey { id: keyF8; keyText: "F8"; keyCode: 74; isSpecialKey: true }
-                FunctionKey { id: keyF9; keyText: "F9"; keyCode: 75; isSpecialKey: true }
-                FunctionKey { id: keyF10; keyText: "F10"; keyCode: 76; isSpecialKey: true }
-                FunctionKey { id: keyF11; keyText: "F11"; keyCode: 95; isSpecialKey: true }
-                FunctionKey { id: keyF12; keyText: "F12"; keyCode: 96; isSpecialKey: true }
-                FunctionKey { id: keyDel; keyText: "Delete"; keyCode: 119; isSpecialKey: true }
-                FunctionKey { id: keyHome; keyText: "Home"; keyCode: 110; isSpecialKey: true }
-                FunctionKey { id: keyPageUp; keyText: "PgUp"; keyCode: 112; isSpecialKey: true }
-                FunctionKey { id: keyPageDown; keyText: "PgDn"; keyCode: 117; isSpecialKey: true }
-                FunctionKey { id: keyEnd; keyText: "End"; keyCode: 115; isSpecialKey: true }
+                FunctionKey { id: keyEsc; keyText: "Esc"; keyCode: 9 }
+                FunctionKey { id: keyF1; keyText: "F1"; keyCode: 67 }
+                FunctionKey { id: keyF2; keyText: "F2"; keyCode: 68 }
+                FunctionKey { id: keyF3; keyText: "F3"; keyCode: 69 }
+                FunctionKey { id: keyF4; keyText: "F4"; keyCode: 70 }
+                FunctionKey { id: keyF5; keyText: "F5"; keyCode: 71 }
+                FunctionKey { id: keyF6; keyText: "F6"; keyCode: 72 }
+                FunctionKey { id: keyF7; keyText: "F7"; keyCode: 73 }
+                FunctionKey { id: keyF8; keyText: "F8"; keyCode: 74 }
+                FunctionKey { id: keyF9; keyText: "F9"; keyCode: 75 }
+                FunctionKey { id: keyF10; keyText: "F10"; keyCode: 76 }
+                FunctionKey { id: keyF11; keyText: "F11"; keyCode: 95 }
+                FunctionKey { id: keyF12; keyText: "F12"; keyCode: 96 }
+                FunctionKey { id: keyDel; keyText: "Delete"; keyCode: 119 }
+                FunctionKey { id: keyHome; keyText: "Home"; keyCode: 110 }
+                FunctionKey { id: keyPageUp; keyText: "PgUp"; keyCode: 112 }
+                FunctionKey { id: keyPageDown; keyText: "PgDn"; keyCode: 117 }
+                FunctionKey { id: keyEnd; keyText: "End"; keyCode: 115 }
             }
 
             Row {
@@ -81,14 +81,14 @@ Item{
                 NumericKey { id: key0; keyCode: 19 }
                 NumericKey { id: keyStar; keyCode: 20 }
                 NumericKey { id: keyMinus; keyCode: 21 }
-                AlphaNumericKey { id: keyBackspace; leVis4: true; keyText: "← Backspace"; keyWidth: main.keyWidth * 2 + main.spacing; keyCode: 22; mirror: false;  isSpecialKey: true}
+                AlphaNumericKey { id: keyBackspace; leVis4: true; keyText: "← Backspace"; keyWidth: main.keyWidth * 2 + main.spacing; keyCode: 22; mirror: false}
             }
 
             Row {
                 id: row3
                 spacing: main.spacing
 
-                AlphaNumericKey { id: keyTab; leVis4: true; keyText: "Tab ↔"; keyWidth: main.keyWidth * 3 / 2; keyCode: 23; isSpecialKey: true }
+                AlphaNumericKey { id: keyTab; leVis4: true; keyText: "Tab ↔"; keyWidth: main.keyWidth * 3 / 2; keyCode: 23}
                 AlphaNumericKey { id: keyQ; keyCode: 24; leVis0: true; leVis1: true; leVis2: true }
                 AlphaNumericKey { id: keyW; keyCode: 25; leVis0: true; leVis1: true }
                 AlphaNumericKey { id: keyE; keyCode: 26; leVis0: true; leVis1: true }
@@ -107,7 +107,7 @@ Item{
                 id: row4
                 spacing: main.spacing
 
-                CapsLockKey { id: keyCapsLock; keyText: "CapsLock"; keyWidth: main.keyWidth * 7 / 4; keyCode: 66; isSpecialKey: true }
+                CapsLockKey { id: keyCapsLock; keyText: "CapsLock"; keyWidth: main.keyWidth * 7 / 4; keyCode: 66 }
                 AlphaNumericKey { id: keyA; keyCode: 38; leVis0: true; leVis1: true }
                 AlphaNumericKey { id: keyS; keyCode: 39; leVis0: true; leVis1: true }
                 AlphaNumericKey { id: keyD; keyCode: 40; leVis0: true; leVis1: true }
@@ -132,8 +132,8 @@ Item{
                     keyWidth: main.keyWidth;
                     keyCode: 50;
                     lock: main.btnShift;
-                    isSpecialKey: true
                 }
+
                 NumericKey { id: keyCompare; keyCode: 94 }
                 AlphaNumericKey { id: keyZ; keyCode: 52; leVis0: true; leVis1: true }
                 AlphaNumericKey { id: keyX; keyCode: 53; leVis0: true; leVis1: true }
@@ -152,14 +152,14 @@ Item{
                 spacing: main.spacing
 
                 SettingsKey { id: keySettings }
-                StickyKey { id: keyCtrlL; keyText: "Ctrl"; keyWidth: main.keyWidth; keyCode: 37; lock: main.btnCtrl; isSpecialKey: true }
-                MetaKey { id: keyMeta; keyCode: 133; lock: main.btnMeta; isSpecialKey: true }
-                StickyKey { id: keyAlt; keyText: "Alt"; keyWidth: main.keyWidth; keyCode: 64; lock: main.btnAlt; isSpecialKey: true }
+                StickyKey { id: keyCtrlL; keyText: "Ctrl"; keyWidth: main.keyWidth; keyCode: 37; lock: main.btnCtrl }
+                MetaKey { id: keyMeta; keyCode: 133; lock: main.btnMeta }
+                StickyKey { id: keyAlt; keyText: "Alt"; keyWidth: main.keyWidth; keyCode: 64; lock: main.btnAlt }
                 AlphaNumericKey { id: keySpace; keyWidth: main.keyWidth * 7 + 6 * main.spacing; keyCode: 65 }
-                StickyKey { id: keyAltGr; keyText: "Alt Gr"; keyWidth: main.keyWidth; keyCode: 108; lock: main.btnAltGr; isSpecialKey: true }
-                AlphaNumericKey { id: keyArrowL; leVis4: true; keyText: "◄"; keyCode: 113; isSpecialKey: true }
-                AlphaNumericKey { id: keyArrowB; leVis4: true; keyText: "▼"; keyCode: 116; isSpecialKey: true }
-                AlphaNumericKey { id: keyArrowR; leVis4: true; keyText: "►"; keyCode: 114; isSpecialKey: true }
+                StickyKey { id: keyAltGr; keyText: "Alt Gr"; keyWidth: main.keyWidth; keyCode: 108; lock: main.btnAltGr }
+                AlphaNumericKey { id: keyArrowL; leVis4: true; keyText: "◄"; keyCode: 113 }
+                AlphaNumericKey { id: keyArrowB; leVis4: true; keyText: "▼"; keyCode: 116 }
+                AlphaNumericKey { id: keyArrowR; leVis4: true; keyText: "►"; keyCode: 114 }
             }
         }//End of the column
 
@@ -177,7 +177,6 @@ Item{
             leVis4: true
             keyText: "▲"
             keyCode: 111
-            isSpecialKey: true
         }
     }//End of the container
 

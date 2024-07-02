@@ -93,7 +93,15 @@ Item{
                 TabletKey{id: keyM; keyCode: 58; keyCodeSymbol: 13; symbolLevel: 1}
                 TabletKey{id: keyOO; keyCode: 59; keyCodeSymbol: 19; symbolLevel: 1}
                 TabletKey{id: keyCC; keyCode: 60; keyCodeSymbol: 21; symbolLevel: 1}
-                AlphaNumericKey{id: keyBackspace; keyText: "←"; keyCode: 22; leVis4: true; mirror: false; keyWidth: main.keyWidth + main.spacing + splitter.width; fontPointSize: main.keyHeight / 2}
+                AlphaNumericKey {
+                    id: keyBackspace;
+                    keyText: "←";
+                    keyCode: 22;
+                    leVis4: true;
+                    mirror: false;
+                    keyWidth: main.keyWidth + main.spacing + splitter.width;
+                    fontPointSize: main.keyHeight / 2;
+                }
             }
 
             Row {
