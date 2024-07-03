@@ -1,13 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="katman_1" data-name="katman 1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 16 16">
-  <defs>
-    <style>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="katman_1"
+   data-name="katman 1"
+   version="1.1"
+   viewBox="0 0 64 64"
+   sodipodi:docname="view-reveal-symbolic.svg"
+   width="64"
+   height="64"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview11"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="4.1300796"
+     inkscape:cx="-83.412436"
+     inkscape:cy="-17.433078"
+     inkscape:window-width="1920"
+     inkscape:window-height="1003"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="katman_1" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">
       .cls-1 {
         fill: #2e3436;
         stroke-width: 0px;
       }
     </style>
   </defs>
-  <path class="cls-1" d="M1.1,6.9c1-1.1,2.1-2.1,3.4-2.8,1.2-.7,2.5-1,4-1s2,.4,2.8.9c1.2.6,2.3,1.5,3.2,2.5l.7.7c.4.5.4,1,0,1.4-1,1.2-2.1,2.2-3.4,2.9-.9.6-1.8,1-3.4,1.2s-1.7-.1-2.5-.4c-1.4-.5-2.6-1.3-3.7-2.3-.4-.4-.8-.8-1.2-1.2-.2-.2-.4-.5-.5-.8v-.4s.3-.4.6-.7ZM5.7,4.6c-1.7.7-3,1.9-4.2,3.3v.2c1.1,1.2,2.3,2.3,3.7,3.1.8.4,1.6.7,2.5.7s1.7-.1,2.5-.5c1.7-.7,3.1-2,4.3-3.4v-.2c-1.1-1.3-2.3-2.4-3.8-3.1-.8-.4-1.7-.7-2.4-.7-1.3,0-1.9.3-2.6.6Z"/>
-  <path class="cls-1" d="M8,4.8c-1.8,0-3.2,1.4-3.2,3.2s1.4,3.2,3.2,3.2,3.2-1.4,3.2-3.2-1.4-3.2-3.2-3.2Z"/>
+  <g
+     id="g119"
+     transform="matrix(4.0774919,0,0,4.0774919,-0.61993498,-0.34421091)"
+     style="fill:#000000">
+    <path
+       class="cls-1"
+       d="m 1.1,6.9 c 1,-1.1 2.1,-2.1 3.4,-2.8 1.2,-0.7 2.5,-1 4,-1 1.5,0 2,0.4 2.8,0.9 1.2,0.6 2.3,1.5 3.2,2.5 l 0.7,0.7 c 0.4,0.5 0.4,1 0,1.4 -1,1.2 -2.1,2.2 -3.4,2.9 -0.9,0.6 -1.8,1 -3.4,1.2 C 6.8,12.9 6.7,12.6 5.9,12.3 4.5,11.8 3.3,11 2.2,10 1.8,9.6 1.4,9.2 1,8.8 0.8,8.6 0.6,8.3 0.5,8 V 7.6 c 0,0 0.3,-0.4 0.6,-0.7 z M 5.7,4.6 C 4,5.3 2.7,6.5 1.5,7.9 v 0.2 c 1.1,1.2 2.3,2.3 3.7,3.1 0.8,0.4 1.6,0.7 2.5,0.7 0.9,0 1.7,-0.1 2.5,-0.5 1.7,-0.7 3.1,-2 4.3,-3.4 V 7.8 C 13.4,6.5 12.2,5.4 10.7,4.7 9.9,4.3 9,4 8.3,4 7,4 6.4,4.3 5.7,4.6 Z"
+       id="path6"
+       style="fill:#000000" />
+    <path
+       class="cls-1"
+       d="M 8,4.8 C 6.2,4.8 4.8,6.2 4.8,8 4.8,9.8 6.2,11.2 8,11.2 9.8,11.2 11.2,9.8 11.2,8 11.2,6.2 9.8,4.8 8,4.8 Z"
+       id="path8"
+       style="fill:#000000" />
+  </g>
 </svg>
