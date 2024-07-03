@@ -71,6 +71,16 @@ Rectangle {
     width: key.keyWidth
     height: key.keyHeight
 
+    Timer {
+        id: langTimer
+        interval: 500
+        running: true
+        repeat: true
+        onTriggered: {
+            changeLayoutUpdate();
+        }
+    }
+
     function btnClicked(){
 
     }
@@ -252,38 +262,29 @@ Rectangle {
 
         onClicked: {
             key.btnClicked()
-
         }
 
     }
 
     onReleaseAllChanged: {
         btnHovered()
-        changeLayoutUpdate()
     }
 
     onUpdateThemeChanged:{
         btnHovered()
-        changeLayoutUpdate()
     }
 
     onKeyLevelChanged: {
         btnHovered()
-        changeLayoutUpdate()
     }
 
     Component.onCompleted: {
         btnHovered()
-        changeLayoutUpdate()
     }
 
     onKeyHoverTimerTriggeredChanged: {
         if (!key.pressed) {
             btnHovered()
-            changeLayoutUpdate()
         }
     }
-
-
-
 }
