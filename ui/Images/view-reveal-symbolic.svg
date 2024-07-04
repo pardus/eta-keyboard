@@ -23,12 +23,12 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="4.1300796"
-     inkscape:cx="-83.412436"
-     inkscape:cy="-17.433078"
-     inkscape:window-width="1920"
-     inkscape:window-height="1003"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:cx="-83.049247"
+     inkscape:cy="-17.554141"
+     inkscape:window-width="1852"
+     inkscape:window-height="1011"
+     inkscape:window-x="68"
+     inkscape:window-y="32"
      inkscape:window-maximized="1"
      inkscape:current-layer="katman_1" />
   <defs
@@ -44,16 +44,16 @@
   <g
      id="g119"
      transform="matrix(4.0774919,0,0,4.0774919,-0.61993498,-0.34421091)"
-     style="fill:#000000">
+     style="fill:#d1d1d1;fill-opacity:1">
     <path
        class="cls-1"
        d="m 1.1,6.9 c 1,-1.1 2.1,-2.1 3.4,-2.8 1.2,-0.7 2.5,-1 4,-1 1.5,0 2,0.4 2.8,0.9 1.2,0.6 2.3,1.5 3.2,2.5 l 0.7,0.7 c 0.4,0.5 0.4,1 0,1.4 -1,1.2 -2.1,2.2 -3.4,2.9 -0.9,0.6 -1.8,1 -3.4,1.2 C 6.8,12.9 6.7,12.6 5.9,12.3 4.5,11.8 3.3,11 2.2,10 1.8,9.6 1.4,9.2 1,8.8 0.8,8.6 0.6,8.3 0.5,8 V 7.6 c 0,0 0.3,-0.4 0.6,-0.7 z M 5.7,4.6 C 4,5.3 2.7,6.5 1.5,7.9 v 0.2 c 1.1,1.2 2.3,2.3 3.7,3.1 0.8,0.4 1.6,0.7 2.5,0.7 0.9,0 1.7,-0.1 2.5,-0.5 1.7,-0.7 3.1,-2 4.3,-3.4 V 7.8 C 13.4,6.5 12.2,5.4 10.7,4.7 9.9,4.3 9,4 8.3,4 7,4 6.4,4.3 5.7,4.6 Z"
        id="path6"
-       style="fill:#000000" />
+       style="fill:#d1d1d1;fill-opacity:1" />
     <path
        class="cls-1"
        d="M 8,4.8 C 6.2,4.8 4.8,6.2 4.8,8 4.8,9.8 6.2,11.2 8,11.2 9.8,11.2 11.2,9.8 11.2,8 11.2,6.2 9.8,4.8 8,4.8 Z"
        id="path8"
-       style="fill:#000000" />
+       style="fill:#d1d1d1;fill-opacity:1" />
   </g>
 </svg>
