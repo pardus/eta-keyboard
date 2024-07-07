@@ -46,6 +46,7 @@ Rectangle {
     property int fontPointSize: main.keyHeight / divisor
     property int keyRadius: main.layout == "Tam" ? main.keyHeight / 10 : main.keyHeight / 8
     property int keyCode: 24
+    property bool kbdLayout: main.layoutChange
     property bool leVis0: false
     property bool leVis1: false
     property bool leVis2: false
@@ -70,16 +71,6 @@ Rectangle {
     radius: key.keyRadius
     width: key.keyWidth
     height: key.keyHeight
-
-    Timer {
-        id: langTimer
-        interval: 500
-        running: true
-        repeat: true
-        onTriggered: {
-            changeLayoutUpdate();
-        }
-    }
 
     function btnClicked(){
 
@@ -133,7 +124,11 @@ Rectangle {
         btnHovered()
     }
 
-    function changeLayoutUpdate(){
+    onKbdLayoutChanged: {
+        updateKeySymbols()
+    }
+
+    function updateKeySymbols() {
         if (!key.leVis4) {
             lev0.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 0)
             lev1.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 1)
