@@ -129,13 +129,26 @@ Rectangle {
         updateKeySymbols()
     }
 
+    function isSpecialKey(keyCode) {
+        // Shift, Space, Shift, Enter, ←, 12!?, AltGr
+        const specialKeyCodes = new Set([50, 65, 23, 36, 22, 500, 108]);
+        return specialKeyCodes.has(keyCode);
+    }
+
     function updateKeySymbols() {
-        if (!key.leVis4) {
-            lev0.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 0)
-            lev1.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 1)
-            lev2.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 2)
-            lev3.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 3)
-            lev4.text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, 4)
+        if (main.layout === "Sade" && !isSpecialKey(key.keyCode)) {
+            keyText = main.symbolMode
+                ? helper.getSymbol(key.keyCodeSymbol, main.languageLayoutIndex, key.symbolLevel)
+                : helper.getSymbol(key.keyCode, main.languageLayoutIndex, main.keyLevel);
+        } else {
+            if (!key.leVis4) {
+                let levels = [lev0, lev1, lev2, lev3, lev4];
+                for (let i = 0; i <= 4; i++) {
+                    if (levels[i]) {
+                        levels[i].text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, i);
+                    }
+                }
+            }
         }
     }
 
