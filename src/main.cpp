@@ -33,47 +33,11 @@
 #include <QScreen>
 #include <QGuiApplication>
 #include <QRect>
+#include <QDesktopWidget>
 #include <QDebug>
 
 #define SINGLE_INSTANCE ".virtualkeyboard"
 static int setup_unix_signal_handlers();
-
-double getDpi() {
-    Display* display = XOpenDisplay(NULL);
-    if (!display) {
-        return 96;  // Default scale factor
-    }
-
-    char *resourceString = XResourceManagerString(display);
-    if (!resourceString) {
-        XCloseDisplay(display);
-        return 96;
-    }
-
-    XrmInitialize();
-
-    XrmDatabase db = XrmGetStringDatabase(resourceString);
-    if (!db) {
-        XCloseDisplay(display);
-        return 96;
-    }
-
-    XrmValue value;
-    char *type = NULL;
-
-    if (XrmGetResource(db, "Xft.dpi", "String", &type, &value)) {
-        if (value.addr) {
-            XrmDestroyDatabase(db);
-            XCloseDisplay(display);
-            return atoi(value.addr);
-        }
-    }
-
-    XrmDestroyDatabase(db);
-    XCloseDisplay(display);
-    return 96;  // Default scale factor if not set
-}
-
 
 int main(int argc, char *argv[])
 {
@@ -133,8 +97,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("screen", screen);
 
     // Expose DPI value to QML
-    double dpi = getDpi();
-    engine.rootContext()->setContextProperty("dpiValue", dpi);
+    engine.rootContext()->setContextProperty("dpiValue",
+                                             qApp->desktop()->logicalDpiX());
 
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
     if (engine.rootObjects().isEmpty())
