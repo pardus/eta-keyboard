@@ -88,6 +88,7 @@ ApplicationWindow {
     property int lastX: -1
     property int lastY: -1
     property rect screenGeometry
+    property bool initialized: false
 
     function setAndSave(){
 
@@ -335,12 +336,21 @@ ApplicationWindow {
 
 
     function updateScreenGeometry(geometry) {
+        if (!main.initialized) return;
         screenGeometry = geometry
         screenWidth = geometry.width
         screenHeight = geometry.height
         console.log("Screen geometry changed: ", screenGeometry)
+        setSize()
         setPosition()
-        // Resize key text sizes (dpi)
+
+        // Recalculate position with new h/w vals
+        main.x = main.screenWidth / 2 - main.width / 2;
+        main.y = main.screenHeight - main.height - main.spacing * 20;
+        if (main.pinMode) {
+            main.y = main.screenHeight / 2 - main.height / 2;
+        }
+
     }
 
 
@@ -717,6 +727,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         updateScreenGeometry(screen.geometry)
+        main.initialized = true;
 
         main.themeName = helper.getColor() ? helper.getColor() : 0
         main.layout = helper.getLayoutType() == "Sade" || helper.getLayoutType() == "Tam" ? helper.getLayoutType() : "Sade"
