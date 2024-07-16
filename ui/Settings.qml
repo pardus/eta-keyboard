@@ -128,10 +128,8 @@ ApplicationWindow {
         }
 
         main.languageLayoutIndex = settings.languageIndex;
-        console.log("language layout index = ", main.languageLayoutIndex)
 
         var selectedLang = languageModel.get(settings.languageIndex).text;
-        console.log("selected lang = ", selectedLang)
 
         helper.setKeyboardLayout(selectedLang);
         main.updateTheme = !main.updateTheme

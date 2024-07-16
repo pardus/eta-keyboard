@@ -336,11 +336,11 @@ ApplicationWindow {
 
 
     function updateScreenGeometry(geometry) {
-        if (!main.initialized) return;
+        // if (!main.initialized) return;
         screenGeometry = geometry
         screenWidth = geometry.width
         screenHeight = geometry.height
-        console.log("Screen geometry changed: ", screenGeometry)
+
         setSize()
         setPosition()
 
@@ -350,7 +350,6 @@ ApplicationWindow {
         if (main.pinMode) {
             main.y = main.screenHeight / 2 - main.height / 2;
         }
-
     }
 
 
@@ -411,7 +410,6 @@ ApplicationWindow {
         } else {
             scaleVariable = 0.8
         }
-
 
 
         main.keyHeight =  main.screenHeight * scaleVariable / 23
