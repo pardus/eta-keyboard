@@ -48,6 +48,9 @@ int main(int argc, char *argv[])
     }
 
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
+
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
     QApplication app(argc, argv);
 
     // app.setOverrideCursor(QCursor(Qt::BlankCursor));
