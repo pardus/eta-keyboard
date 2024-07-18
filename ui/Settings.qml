@@ -28,6 +28,7 @@ ApplicationWindow {
            Qt.X11BypassWindowManagerHint
     id: settings
     property bool settingsVisible: main.settingsVisible
+    property int keyCode
     property string keyColor
     property int languageIndex: 0
     property int colorIndex: 0
@@ -354,6 +355,7 @@ ApplicationWindow {
                 Key{
                     id: colorKey
                     leVis4: true
+                    keyCode: 900
 
                     MouseArea {
                         id: ma1
@@ -390,6 +392,7 @@ ApplicationWindow {
                 Key{
                     id: layoutKey
                     leVis4: true
+                    keyCode: 901
 
                     MouseArea {
                         id: ma2

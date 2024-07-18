@@ -45,7 +45,7 @@ Rectangle {
     screenScaleFactor === 2) ? 4 * screenScaleFactor : 4
     property int fontPointSize: main.keyHeight / divisor
     property int keyRadius: main.layout == "Tam" ? main.keyHeight / 10 : main.keyHeight / 8
-    property int keyCode: 24
+    property int keyCode
     property bool kbdLayout: main.layoutChange
     property bool leVis0: false
     property bool leVis1: false
@@ -130,8 +130,11 @@ Rectangle {
     }
 
     function isSpecialKey(keyCode) {
-        // Shift, Space, Shift, Enter, ←, 12!?, AltGr
-        const specialKeyCodes = new Set([50, 65, 23, 36, 22, 500, 108]);
+        const specialKeyCodes = new Set([
+            9, 22, 23, 36, 37, 50, 64, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
+            95, 96, 108, 110, 111, 112, 113, 114, 115, 116, 117, 119, 500, 900, 901
+        ]);
+
         return specialKeyCodes.has(keyCode);
     }
 
