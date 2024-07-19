@@ -35,6 +35,8 @@ ApplicationWindow {
     property bool layout: main.layoutChange
     property bool loaded: main.loaded
     property bool waitFlag : true
+    property string fullLayoutText: ""
+    property string simpleLayoutText: ""
     property variant colorsCurrentArr: ["Grey","Green","Blue","Brown","White"]
     property variant colorsTr: ["Gri","Yeşil","Mavi","Kahve","Beyaz"]
     property variant colorsUs: ["Grey","Green","Blue","Brown","White"]
@@ -65,7 +67,7 @@ ApplicationWindow {
     function setLayout(){
 
         main.releaseAll = !main.releaseAll
-        layoutKey.keyText = main.layout
+        layoutKey.keyText = main.layout === "Tam" ? settings.fullLayoutText : settings.simpleLayoutText;
         settings.setAndSaveConf()
     }
 
@@ -138,6 +140,7 @@ ApplicationWindow {
         flagImage.source = languageModel.get(settings.languageIndex).flagSrc;
 
         updateColorsArray();
+        layoutKey.keyText = main.layout === "Tam" ? settings.fullLayoutText : settings.simpleLayoutText;
         settings.setAndSaveConf();
     }
 
@@ -145,14 +148,24 @@ ApplicationWindow {
         var keyText = languageModel.get(settings.languageIndex).text;
         if (keyText === "tr") {
             settings.colorsCurrentArr = settings.colorsTr;
+            settings.fullLayoutText = "Tam";
+            settings.simpleLayoutText = "Sade";
         } else if (keyText === "ara") {
             settings.colorsCurrentArr = settings.colorsAra;
+            settings.fullLayoutText = "كامل";
+            settings.simpleLayoutText = "بسيط";
         } else if (keyText === "de") {
             settings.colorsCurrentArr = settings.colorsDe;
+            settings.fullLayoutText = "Voll";
+            settings.simpleLayoutText = "Einfach";
         } else if (keyText === "fr") {
             settings.colorsCurrentArr = settings.colorsFr;
+            settings.fullLayoutText = "Complet";
+            settings.simpleLayoutText = "Simple";
         } else {
             settings.colorsCurrentArr = settings.colorsUs;
+            settings.fullLayoutText = "Full";
+            settings.simpleLayoutText = "Simple";
         }
     }
 
