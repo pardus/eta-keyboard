@@ -439,6 +439,7 @@ ApplicationWindow {
                             else {
                                 main.layout = "Tam"
                             }
+                            main.layoutChange = !main.layoutChange
                             main.symbolMode = false
                             settings.setLayout()
                         }
