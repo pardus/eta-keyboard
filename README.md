@@ -13,9 +13,9 @@ It is an advanced virtual keyboard based on x11 keycode relations and server-cli
 * EOE (easy on eyes) color themes
 * Easy to configure with the help of self contain settings
 
-![tablet](/screenshots/vk-tablet.png)
-
 ![full](/screenshots/vk-full.png)
+
+![tablet](/screenshots/vk-tablet.png)
 
 ![blue](/screenshots/vk-blue.png)
 
