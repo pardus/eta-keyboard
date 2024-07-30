@@ -1,17 +1,21 @@
 # **eta-keyboard**
 
-## Qt virtual Keyboard
+## Qt Virtual Keyboard
 
-It is an advanced virtual keyboard based on x11 keycode relations and server-client programming for UNIX like systems. Major Features are:
+`eta-keyboard` is an advanced virtual keyboard designed for UNIX-like systems,
+leveraging X11 keycode relations and server-client programming.
+
+Major features include:
 
 * Floating
 * Fast
-* Ability to change system wide keyboard layout
-* dbus interface can be reached in session
-* a11y support with the help of simple at-spi client [eta-tif](https://github.com/E-Tahta/eta-tif)
-* full and tablet keyboard layout support
-* EOE (easy on eyes) color themes
-* Easy to configure with the help of self contain settings
+* Ability to change system-wide keyboard layout
+* D-Bus interface accessible in session
+* A11y support with the help of simple AT-SPI client [eta-tif](https://github.com/E-Tahta/eta-tif)
+* Full and tablet keyboard layout support
+* EOE (Easy on Eyes) color themes
+* Easy to configure with self-contained settings
+* Support for 5 additional languages
 
 ![full](/screenshots/vk-full.png)
 
