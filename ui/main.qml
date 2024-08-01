@@ -89,6 +89,8 @@ ApplicationWindow {
     property int lastY: -1
     property rect screenGeometry
     property bool initialized: false
+    property int baseFontSize: 15
+    property int fontSize: baseFontSize * scale
 
     function setAndSave(){
 
@@ -630,7 +632,7 @@ ApplicationWindow {
                 Text {
                     id: mirrorText
                     text: ""
-                    font.pixelSize: dpiValue / 96 * 15
+                    font.pixelSize: main.fontSize
                     color: main.activeTextColor
                     anchors.centerIn: mirrorTextContainer
                     wrapMode: Text.WordWrap
@@ -696,6 +698,7 @@ ApplicationWindow {
     }
 
     onScaleChanged: {
+        fontSize = baseFontSize * scale;
         setSize()
     }
 
@@ -743,6 +746,9 @@ ApplicationWindow {
         main.settingsVisible = false
         closeBtnImage.visible = true
         main.loaded = true
+
+        fontSize = baseFontSize * scale;
+
         if (helper.isLogin()) {
             closeBtnImage.visible = false
             main.password = true
