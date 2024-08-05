@@ -22,6 +22,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 import eta.helper 1.0
 
+
 ApplicationWindow {
     flags: Qt.WindowStaysOnBottomHint |
            Qt.FramelessWindowHint |
@@ -38,17 +39,20 @@ ApplicationWindow {
     property string fullLayoutText: ""
     property string simpleLayoutText: ""
     property variant colorsCurrentArr: ["Grey","Green","Blue","Brown","White"]
-    property variant colorsTr: ["Gri","Yeşil","Mavi","Kahve","Beyaz"]
-    property variant colorsUs: ["Grey","Green","Blue","Brown","White"]
-    property variant colorsAra: ["رمادي","أخضر","أزرق","بنى","أبيض"]
+    property variant colorsTr: ["Gri", "Yeşil", "Mavi", "Kahve", "Beyaz"]
+    property variant colorsUs: ["Grey", "Green", "Blue", "Brown", "White"]
+    property variant colorsAra: ["رمادي", "أخضر", "أزرق", "بنى", "أبيض"]
     property variant colorsDe: ["Grau", "Grün", "Blau", "Braun", "Weiß"]
     property variant colorsFr: ["Gris", "Vert", "Bleu", "Marron", "Blanc"]
+    property variant colorsPt: ["Cinza", "Verde", "Azul", "Marrom", "Branco"]
+
     property var languageData: [
         { text: "tr", flagSrc: "qrc:/ui/Images/flags/tr.svg" },
         { text: "us", flagSrc: "qrc:/ui/Images/flags/us.svg" },
         { text: "de", flagSrc: "qrc:/ui/Images/flags/de.svg" },
         { text: "fr", flagSrc: "qrc:/ui/Images/flags/fr.svg" },
-        { text: "ara", flagSrc: "qrc:/ui/Images/flags/ara.svg" }
+        { text: "ara", flagSrc: "qrc:/ui/Images/flags/ara.svg" },
+        { text: "pt", flagSrc: "qrc:/ui/Images/flags/pt.svg" }
     ]
 
 
@@ -162,6 +166,10 @@ ApplicationWindow {
             settings.colorsCurrentArr = settings.colorsFr;
             settings.fullLayoutText = "Complet";
             settings.simpleLayoutText = "Simple";
+        } else if (keyText === "pt") {
+            settings.colorsCurrentArr = settings.colorsPt;
+            settings.fullLayoutText = "Completo";
+            settings.simpleLayoutText = "Simples";
         } else {
             settings.colorsCurrentArr = settings.colorsUs;
             settings.fullLayoutText = "Full";
