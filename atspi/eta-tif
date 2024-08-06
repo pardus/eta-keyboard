@@ -62,7 +62,8 @@ def create_focus_changed_callback(show_keyboard_function):
                 pyatspi.ROLE_COMBO_BOX,
                 pyatspi.ROLE_SPIN_BUTTON,
                 pyatspi.ROLE_PARAGRAPH,
-                pyatspi.ROLE_PASSWORD_TEXT
+                pyatspi.ROLE_PASSWORD_TEXT,
+                pyatspi.ROLE_TERMINAL
             ]
             is_password = atspi_role == pyatspi.ROLE_PASSWORD_TEXT
             show_keyboard_function(show, is_password)
