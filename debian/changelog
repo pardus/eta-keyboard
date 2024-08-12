@@ -1,3 +1,96 @@
+eta-keyboard (0.3.6) unstable; urgency=medium
+
+  [ Cihangir Akturk ]
+  * dbus: let the user know what went wrong
+
+  [ Emel Öztürk ]
+  * Fix typo
+  * Replace lang abbrs with flag icons
+  * Refactor lang switching
+  * Add new languages
+  * Add scale factor for 4K
+  * Adjust font size for mirror texts
+  * Add new icons for mirror texts
+  * Fix flag size & color array
+  * Fix dynamic lang layouts
+  * Fix append usage to handle qstring
+  * Add atspi files
+  * Change control file for deb pack
+  * Edit pro file
+  * Fix keyboard showing up
+  * Revert "Fix keyboard showing up"
+  * Edit autostart file
+  * Add null checks
+  * Fix focus issue & center keyboard
+  * Remember keyboard's last position
+
+  [ Ali Riza KESKIN ]
+  * fix tif autostart file
+  * add atspi env for firefox and electron apps
+
+  [ aliriza ]
+  * if session bus is not available, skip dbus
+  * force disable tif environment added for lightdm greeter
+
+  [ sulincix ]
+  * split atspi show event and manual show event
+  * atspi show enable disable feature on oto button
+
+  [ Ali Riza KESKIN ]
+  * minor fix about atspi show
+  * add firefox xinput
+
+  [ Emel Öztürk ]
+  * Add a new signal for screen geometry
+  * Fix keyboard disappearing when resolution changes
+  * Add auto-on-off icons to toggle button state
+  * Change auto key icons
+  * Fix deprecated syntax
+  * Change default conceal icon on startup
+
+  [ sulincix ]
+  * statusicon created (uses gtkstatusicon)
+
+  [ Emel Öztürk ]
+  * Add selected languages for keyboard layout
+  * Change button names for kb size settings
+  * Add new icons for settings
+  * Add new icons for settings
+  * Control key types for updates - layout change
+  * Use leVis4 status instead of using new added var
+  * Change flag for ara
+  * Change px val for icons
+  * Add timer for lang change
+  * Change icon color
+  * Call lang updates for layout styles
+
+  [ Cihangir Akturk ]
+  * Handle keyboard layout change events
+
+  [ Emel Öztürk ]
+  * Use update signal for tablet keys
+
+  [ Cihangir Akturk ]
+  * Use the Qt framework methods to find the DPI value
+
+  [ Emel Öztürk ]
+  * Fix dissappering issue after resolution change
+  * Fix dpi scaling issue for resolution changes
+  * Del prints
+  * Add special key exceptions for layout changes
+  * Update layout texts based on selected lang
+  * Fix layout change handling
+  * Add focus handling for password fields
+  * Add screenshots
+  * Add screenshots
+  * Edit readme
+  * Scale mirrorText font size with main scale
+  * feat: #1 Add portuguese support
+  * Add focus handling for terminal
+  * Revert "feat: #1 Add portuguese support"
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Mon, 12 Aug 2024 11:42:58 +0300
+
 eta-keyboard (0.3.5) unstable; urgency=medium
 
   * Add logger
