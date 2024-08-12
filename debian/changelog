@@ -1,4 +1,4 @@
-eta-keyboard (0.3.6) unstable; urgency=medium
+eta-keyboard (1.0.0) unstable; urgency=medium
 
   [ Cihangir Akturk ]
   * dbus: let the user know what went wrong
@@ -89,7 +89,7 @@ eta-keyboard (0.3.6) unstable; urgency=medium
   * Add focus handling for terminal
   * Revert "feat: #1 Add portuguese support"
 
- -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Mon, 12 Aug 2024 11:42:58 +0300
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Mon, 12 Aug 2024 11:45:12 +0300
 
 eta-keyboard (0.3.5) unstable; urgency=medium
 
