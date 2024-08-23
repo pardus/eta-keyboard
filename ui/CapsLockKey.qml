@@ -70,11 +70,18 @@ Key {
 
         onReleased: {
             btnReleased()
-            helper.fakeKeyRelease(66);
+            helper.fakeKeyRelease(66)
         }
 
         onClicked: {
             btnClicked()
+
+            // Check CapsLock status
+            const currentCapslockStatus = helper.getCapslockStatus();
+            if (key.clickedFlag !== currentCapslockStatus) {
+                key.clickedFlag = currentCapslockStatus;
+                main.layoutChange = !main.layoutChange;
+            }
         }
     }
 
@@ -86,5 +93,4 @@ Key {
             key.clickedFlag = helper.getCapslockStatus();
         }
     }
-
 }

@@ -139,16 +139,23 @@ Rectangle {
     }
 
     function updateKeySymbols() {
+        let symbol = main.symbolMode
+            ? helper.getSymbol(key.keyCodeSymbol, main.languageLayoutIndex, key.symbolLevel)
+            : helper.getSymbol(key.keyCode, main.languageLayoutIndex, main.keyLevel);
+
+        // If CapsLock is on, change the character to uppercase
+        if (helper.getCapslockStatus() && !isSpecialKey(key.keyCode)) {
+            symbol = symbol.toUpperCase();
+        }
+
         if (main.layout === "Sade" && !isSpecialKey(key.keyCode)) {
-            keyText = main.symbolMode
-                ? helper.getSymbol(key.keyCodeSymbol, main.languageLayoutIndex, key.symbolLevel)
-                : helper.getSymbol(key.keyCode, main.languageLayoutIndex, main.keyLevel);
+            keyText = symbol;
         } else {
             if (!key.leVis4) {
                 let levels = [lev0, lev1, lev2, lev3, lev4];
                 for (let i = 0; i <= 4; i++) {
                     if (levels[i]) {
-                        levels[i].text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, i);
+                        levels[i].text = symbol;
                     }
                 }
             }
