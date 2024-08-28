@@ -7,8 +7,9 @@ import sys
 
 import gi
 
+gi.require_version('XApp', '1.0')
 gi.require_version('Gtk', '3.0')
-from gi.repository import GLib, Gtk
+from gi.repository import GLib, Gtk, XApp
 
 import threading
 
@@ -77,12 +78,18 @@ def signal_handler(signum, frame):
     sys.exit(0)
 
 def create_indicator():
-    def indicator_action(widget):
+    def indicator_action(*args):
         keyboard = get_keyboard()
         if keyboard:
             keyboard.showForce(True)
-    indicator = Gtk.StatusIcon.new_from_file("/usr/share/eta/eta-keyboard/keyboard.svg")
-    indicator.connect("activate", indicator_action)
+
+    status_icon = XApp.StatusIcon()
+    status_icon.set_name('eta-keyboard')
+    status_icon.set_icon_name('/usr/share/eta/eta-keyboard/keyboard.svg')
+    status_icon.set_tooltip_text('ETA Klavye')
+    status_icon.set_visible(True)
+    status_icon.connect('button-press-event', indicator_action)
+    status_icon.connect('button-release-event', indicator_action)
     Gtk.main()
 
 
