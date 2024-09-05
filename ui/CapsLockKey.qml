@@ -76,12 +76,12 @@ Key {
         onClicked: {
             btnClicked()
 
-            // Check CapsLock status
-            const currentCapslockStatus = helper.getCapslockStatus();
-            if (key.clickedFlag !== currentCapslockStatus) {
-                key.clickedFlag = currentCapslockStatus;
-                main.layoutChange = !main.layoutChange;
-            }
+        //     const currentCapslockStatus = helper.getCapslockStatus();
+        //     if (currentCapslockStatus) {
+        //         main.keyLevel = 1
+        //     } else {
+        //         main.keyLevel = 0;
+        //     }
         }
     }
 
