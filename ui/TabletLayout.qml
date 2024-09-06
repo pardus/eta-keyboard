@@ -114,6 +114,13 @@ Item{
                     keyText: "12!?"
                     keyCode: 500
                     lock: main.symbolMode
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            main.symbolMode = !main.symbolMode
+                            main.layoutChange = !main.layoutChange
+                        }
+                    }
                 }
                 TabletKey{id: keyComma; keyCode: 51; keyCodeSymbol: 51; symbolLevel: 0}
                 AlphaNumericKey{id: keySpace;
