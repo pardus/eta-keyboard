@@ -741,8 +741,9 @@ ApplicationWindow {
 
         main.screenHeight = Screen.height
         main.screenWidth = Screen.width
-        main.layout = "Tam"
+
         setSize()
+
         main.settingsVisible = false
         closeBtnImage.visible = true
         main.loaded = true
