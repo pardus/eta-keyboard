@@ -26,7 +26,7 @@
 #include <QAbstractEventDispatcher>
 #include <QString>
 #include <QProcess>
-
+#include <QDir>
 
 bool Helper::login = false;
 bool Helper::showOnStart = false;
@@ -42,6 +42,11 @@ Helper::Helper(QObject *parent):
 
     if (!isDbusAvailable())
         return;
+
+    // Load Atspi state from QSettings
+    QSettings settings(QDir::homePath() + "/.config/eta/virtualkeyboard/config.ini", QSettings::IniFormat);
+    showAtspi = settings.value("AtspiEnabled", true).toBool();
+
     QAbstractEventDispatcher::instance()->installNativeEventFilter(xw);
     vkdi = new VkDbusInterface(this);
 
@@ -192,11 +197,15 @@ void Helper::fakeKeyRelease(unsigned int code)
     xw->fakeKeyRelease(code);
 }
 
-
 void Helper::setEnableAtspi(bool status)
 {
     showAtspi = status;
+    // Save Atspi state to QSettings
+    QSettings settings(QDir::homePath() + "/.config/eta/virtualkeyboard/config.ini", QSettings::IniFormat);
+    settings.setValue("AtspiEnabled", showAtspi);
+    settings.sync();
 }
+
 bool Helper::getEnableAtspi()
 {
     return showAtspi;
