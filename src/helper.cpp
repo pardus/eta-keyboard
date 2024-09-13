@@ -112,29 +112,19 @@ double Helper::getOpacity()
     return s->getOpacity();
 }
 
-unsigned int Helper::getLanguageLayoutIndex()
-{
-    return s->getLanguageLayoutIndex();
-}
-
 void Helper::saveSettings()
 {
     s->saveSettings();
 }
 
+int Helper::getCurrentLayoutIndex()
+{
+    return s->getLanguageLayoutIndex();
+}
+
 void Helper::layoutChangedCallback()
 {
     emit layoutChanged();
-}
-
-void Helper::setLayout(unsigned int layoutIndex)
-{
-    xkblw->setLayout(layoutIndex);
-}
-
-int Helper::getCurrentLayoutIndex()
-{
-    return xkblw->getCurrentLayoutIndex();
 }
 
 QString Helper::getLayoutName(int layoutIndex) const

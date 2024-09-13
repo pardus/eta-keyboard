@@ -55,7 +55,6 @@ public:
     Q_INVOKABLE bool isDbusAvailable() const;
     Q_INVOKABLE bool isShowOnStartEnabled() const;
     Q_INVOKABLE int getCurrentLayoutIndex();
-    Q_INVOKABLE void setLayout(unsigned int layoutIndex);
     Q_INVOKABLE int getCapslockStatus();
     Q_INVOKABLE void setSettings(int color,
                                  const QString& layoutType,
@@ -66,7 +65,6 @@ public:
     Q_INVOKABLE QString getLayoutType() const;
     Q_INVOKABLE double getScale();
     Q_INVOKABLE double getOpacity();
-    Q_INVOKABLE unsigned int getLanguageLayoutIndex();
     Q_INVOKABLE void saveSettings();
     Q_INVOKABLE void layoutChangedCallback();
     Q_INVOKABLE void setEnableAtspi(bool status);

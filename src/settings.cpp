@@ -32,17 +32,18 @@ Settings::Settings(QObject *parent) :
 {
     configpath = QDir::homePath() + "/.config/eta/virtualkeyboard/config.ini";
 
+    preferences = new QSettings(configpath, QSettings::IniFormat);
+
     QFileInfo checkConfig(configpath);
 
     if (checkConfig.exists() && checkConfig.isFile()) {
-        preferences = new QSettings(configpath,QSettings::IniFormat);
         preferences->beginGroup("virtualkeyboard");
         m_color = preferences->value("Color").toInt();
         m_layoutType = preferences->value("LayoutType").toString();
         m_scale = preferences->value("Scale").toDouble();
-        m_languageLayoutIndex = preferences->
-                value("LanguageLayoutIndex").toUInt();
+        m_languageLayoutIndex = preferences->value("LanguageLayoutIndex").toUInt();
         m_opacity = preferences->value("Opacity").toDouble();
+
         preferences->endGroup();
     }
 }
@@ -86,17 +87,14 @@ double Settings::getOpacity()
 
 void Settings::saveSettings()
 {
-    preferences = new QSettings(configpath,QSettings::IniFormat);
     preferences->beginGroup("virtualkeyboard");
-    QVariant varColor(this->m_color);
-    preferences->setValue("Color",varColor);
-    QVariant varLayoutType(this->m_layoutType);
-    preferences->setValue("LayoutType",varLayoutType);
-    QVariant varScale(this->m_scale);
-    preferences->setValue("Scale",varScale);
-    QVariant varLanguage(this->m_languageLayoutIndex);
-    preferences->setValue("LanguageLayoutIndex",varLanguage);
-    QVariant varOpacity(this->m_opacity);
-    preferences->setValue("Opacity",varOpacity);
+
+    preferences->setValue("Color", this->m_color);
+    preferences->setValue("LayoutType", this->m_layoutType);
+    preferences->setValue("Scale", this->m_scale);
+    preferences->setValue("LanguageLayoutIndex", this->m_languageLayoutIndex);
+    preferences->setValue("Opacity", this->m_opacity);
+
     preferences->endGroup();
+    preferences->sync();
 }
