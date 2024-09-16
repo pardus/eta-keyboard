@@ -71,17 +71,12 @@ Key {
         onReleased: {
             btnReleased()
             helper.fakeKeyRelease(66)
+            main.updateCapsLockState(helper.getCapslockStatus())
+            key.clickedFlag = !key.clickedFlag
         }
 
         onClicked: {
             btnClicked()
-
-        //     const currentCapslockStatus = helper.getCapslockStatus();
-        //     if (currentCapslockStatus) {
-        //         main.keyLevel = 1
-        //     } else {
-        //         main.keyLevel = 0;
-        //     }
         }
     }
 
@@ -91,6 +86,13 @@ Key {
         interval: 5
         onTriggered: {
             key.clickedFlag = helper.getCapslockStatus();
+        }
+    }
+
+    Component.onCompleted: {
+        if (helper.getCapslockStatus()) {
+            helper.fakeKeyPress(66);
+            helper.fakeKeyRelease(66);
         }
     }
 }

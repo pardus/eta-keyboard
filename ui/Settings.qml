@@ -37,6 +37,7 @@ ApplicationWindow {
     property bool waitFlag : true
     property string fullLayoutText: ""
     property string simpleLayoutText: ""
+    property string currentLanguageCode: ""
     property variant colorsCurrentArr: ["Grey","Green","Blue","Brown","White"]
     property variant colorsTr: ["Gri","Yeşil","Mavi","Kahve","Beyaz"]
     property variant colorsUs: ["Grey","Green","Blue","Brown","White"]
@@ -133,6 +134,7 @@ ApplicationWindow {
         main.languageLayoutIndex = settings.languageIndex;
 
         var selectedLang = languageModel.get(settings.languageIndex).text;
+        currentLanguageCode = selectedLang;
 
         helper.setKeyboardLayout(selectedLang);
         main.updateTheme = !main.updateTheme

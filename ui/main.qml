@@ -120,9 +120,29 @@ ApplicationWindow {
     }
 
 
+    function updateCapsLockState(capsLockOn) {
+        if (btnAltGr) {
+            main.keyLevel = 2;
+            return
+        }
+
+        if (settings.currentLanguageCode == "ara") {
+            return
+        }
+
+        if (capsLockOn) {
+            mirrorText.text = mirrorText.text.toUpperCase()
+        }
+
+        main.keyLevel = capsLockOn ? (btnShift ? 0 : 1) : (btnShift ? 1 : 0)
+        layoutChange = !layoutChange
+    }
+
+
     function keyClicked(keyCode,mirror,keyText,level,code){
 
         main.settingsVisible = false
+        let capsLockOn = helper.getCapslockStatus()
 
         if (symbolMode && mirror) {
             switch(level) {
@@ -200,6 +220,7 @@ ApplicationWindow {
                 stickyNum+= btnShift ? -1 : 1
                 main.keyLevel+= btnShift ? -1 : 1
                 btnShift = !btnShift
+                updateCapsLockState(capsLockOn)
                 sticky = true
                 break
             }
@@ -334,6 +355,8 @@ ApplicationWindow {
 
             sticky = false
         }
+
+        updateCapsLockState(capsLockOn)
     }
 
 
