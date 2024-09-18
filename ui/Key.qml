@@ -215,7 +215,7 @@ Rectangle {
         id: lev4
         color: key.textColor
         font.pointSize: key.fontPointSize ? key.fontPointSize * 3 / 4 : 2
-        text: (helper.getCapslockStatus() || main.keyLevel == 1) ? key.keyText.toUpperCase() : key.keyText
+        text: key.keyText
         font.bold: key.highlighted
         font.underline: key.highlighted
         visible: leVis4
