@@ -101,7 +101,7 @@ ApplicationWindow {
             helper.setSettings(main.themeName,
                                main.layout,
                                main.scale,
-                               main.languageLayoutIndex,
+                               settings.languageIndex,
                                main.opacity)
             helper.saveSettings()
         }

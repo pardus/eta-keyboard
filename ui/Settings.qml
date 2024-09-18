@@ -20,6 +20,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
+import QtQuick.Dialogs 1.2
 import eta.helper 1.0
 
 ApplicationWindow {
@@ -96,8 +97,7 @@ ApplicationWindow {
             main.themeName = settings.colorIndex
 
             colorKey.keyText = settings.colorsCurrentArr[settings.colorIndex]
-
-
+            layoutKey.keyText = main.layout === "Tam" ? settings.fullLayoutText : settings.simpleLayoutText;
         }
         else {
             settings.colorIndex = 0
@@ -118,31 +118,24 @@ ApplicationWindow {
             main.updateTheme = !main.updateTheme
             main.themeName = settings.colorIndex
             colorKey.keyText = settings.colorsCurrentArr[settings.colorIndex]
+            layoutKey.keyText = main.layout === "Tam" ? settings.fullLayoutText : settings.simpleLayoutText;
         }
 
         settings.setAndSaveConf()
-
     }
 
-    function changeLanguageLayout(buttonPressed) {
-        if (buttonPressed) {
-            settings.languageIndex = (settings.languageIndex + 1) % languageModel.count;
-        } else {
-            settings.languageIndex = helper.getCurrentLayoutIndex();
-        }
-
-        main.languageLayoutIndex = settings.languageIndex;
-
+    function changeLanguageLayout() {
         var selectedLang = languageModel.get(settings.languageIndex).text;
         currentLanguageCode = selectedLang;
 
-        helper.setKeyboardLayout(selectedLang);
-        main.updateTheme = !main.updateTheme
-        languageKey.keyText = selectedLang;
+        main.languageLayoutIndex = settings.languageIndex;
         flagImage.source = languageModel.get(settings.languageIndex).flagSrc;
+        helper.setKeyboardLayout(selectedLang);
 
+        main.updateTheme = !main.updateTheme;
         updateColorsArray();
         layoutKey.keyText = main.layout === "Tam" ? settings.fullLayoutText : settings.simpleLayoutText;
+
         settings.setAndSaveConf();
     }
 
@@ -173,6 +166,51 @@ ApplicationWindow {
 
     ListModel {
         id: languageModel
+    }
+
+    Dialog {
+        id: languageDialog
+        title: "Please Select a Language"
+        modality: Qt.ApplicationModal
+        width: 300
+        height: 300
+
+        contentItem: Item {
+            Grid {
+                columns: 3
+                spacing: 10
+                anchors.centerIn: parent
+
+                Repeater {
+                    model: languageModel
+
+                    Rectangle {
+                        width: 80
+                        height: 80
+                        color: "transparent"
+                        border.color: "gray"
+                        border.width: 1
+
+                        Image {
+                            anchors.centerIn: parent
+                            width: parent.width * 0.8
+                            height: parent.height * 0.8
+                            source: model.flagSrc
+                            fillMode: Image.PreserveAspectFit
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                settings.languageIndex = index
+                                changeLanguageLayout()
+                                languageDialog.close()
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     ListModel {
@@ -348,8 +386,6 @@ ApplicationWindow {
 
                         onPressed: {
                             languageKey.btnPressed()
-                            settings.waitFlag = false
-                            changeLanguageLayout(true)
                         }
 
                         onPressAndHold: {
@@ -358,11 +394,11 @@ ApplicationWindow {
 
                         onReleased: {
                             languageKey.btnReleased()
-                            settings.waitFlag = true
                         }
 
                         onClicked: {
                             languageKey.btnClicked()
+                            languageDialog.open()
                         }
                     }
                 }
@@ -688,10 +724,6 @@ ApplicationWindow {
 
     onLayoutChanged: {
         fillListModel();
-        if (settings.waitFlag) {
-            // Infinite loop
-            // changeLanguageLayout(false);
-        }
     }
 
     onColorsCurrentArrChanged : {
@@ -709,16 +741,18 @@ ApplicationWindow {
 
     onLoadedChanged: {
         settings.colorIndex = main.themeName
+        settings.languageIndex = helper.getCurrentLayoutIndex();
         updateColorsArray();
         changeTheme();
-        changeLanguageLayout(false);
+        changeLanguageLayout();
         setLayout();
         settings.setAndSaveConf();
     }
 
     Component.onCompleted: {
         fillListModel();
-        changeLanguageLayout(false);
+        settings.languageIndex = helper.getCurrentLayoutIndex();
+        changeLanguageLayout();
         hideSettings.start();
     }
 }
