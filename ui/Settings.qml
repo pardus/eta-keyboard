@@ -168,48 +168,105 @@ ApplicationWindow {
         id: languageModel
     }
 
+    function openLanguageDialog() {
+        // Get keyboard dimensions
+        var keyboardLeftX = main.x
+        var keyboardTopY = main.y
+        var keyboardWidth = main.width
+        var keyboardHeight = main.height
+
+        // Set dialog size
+        var dialogWidth = Math.min(300, keyboardWidth * 0.4)
+        var dialogHeight = Math.min(300, keyboardHeight * 0.8)
+
+        // Position dialog
+        var dialogLeftX = keyboardLeftX - dialogWidth
+        var dialogTopY = keyboardTopY - (keyboardHeight * 0.13)
+
+        // Apply size and position
+        languageDialog.width = dialogWidth
+        languageDialog.height = dialogHeight
+        languageDialog.x = dialogLeftX
+        languageDialog.y = dialogTopY
+
+        // Keep dialog on screen
+        if (dialogLeftX < 0) {
+            languageDialog.x = 0
+        }
+        if (dialogTopY < 0) {
+            languageDialog.y = 0
+        }
+        if (dialogTopY + dialogHeight > Screen.height) {
+            languageDialog.y = Screen.height - dialogHeight
+        }
+
+        languageDialog.open()
+    }
+
     Dialog {
         id: languageDialog
         title: "Please Select a Language"
-        modality: Qt.ApplicationModal
-        width: 300
-        height: 300
+        modality: Qt.NonModal
 
         contentItem: Item {
+            anchors.fill: parent
             Grid {
-                columns: 3
-                spacing: 10
+                id: languageGrid
+                columns: 4
+                rows: 4
+                spacing: main.spacing
                 anchors.centerIn: parent
 
                 Repeater {
-                    model: languageModel
-
+                    model: 16 // 4x4 grid
                     Rectangle {
-                        width: 80
-                        height: 80
-                        color: "transparent"
-                        border.color: "gray"
+                        width: transUp.width
+                        height: transUp.height
+                        color: main.keyColor
+                        border.color: main.color
                         border.width: 1
+                        radius: transUp.radius
+                        // visible: index < languageModel.count
 
                         Image {
                             anchors.centerIn: parent
-                            width: parent.width * 0.8
-                            height: parent.height * 0.8
-                            source: model.flagSrc
+                            width: parent.width * 0.6
+                            height: parent.height * 0.6
+                            source: index < languageModel.count ? languageModel.get(index).flagSrc : ""
                             fillMode: Image.PreserveAspectFit
+                            visible: index < languageModel.count
                         }
 
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                settings.languageIndex = index
-                                changeLanguageLayout()
-                                languageDialog.close()
+                                if (index < languageModel.count) {
+                                    settings.languageIndex = index
+                                    changeLanguageLayout()
+                                    languageDialog.close()
+                                }
                             }
+                            onPressed: parent.color = main.keyPressedColor
+                            onReleased: parent.color = main.keyColor
                         }
                     }
                 }
             }
+        }
+
+        // Center grid when dialog size changes
+        onWidthChanged: {
+            var totalGridWidth = languageGrid.columns * transUp.width + (languageGrid.columns - 1) * languageGrid.spacing
+            var horizontalMargin = (width - totalGridWidth) / 2
+            languageGrid.anchors.leftMargin = horizontalMargin > 0 ? horizontalMargin : 0
+            languageGrid.anchors.rightMargin = horizontalMargin > 0 ? horizontalMargin : 0
+        }
+
+        onHeightChanged: {
+            var totalGridHeight = languageGrid.rows * transUp.height + (languageGrid.rows - 1) * languageGrid.spacing
+            var verticalMargin = (height - totalGridHeight) / 2
+            languageGrid.anchors.topMargin = verticalMargin > 0 ? verticalMargin : 0
+            languageGrid.anchors.bottomMargin = verticalMargin > 0 ? verticalMargin : 0
         }
     }
 
@@ -398,7 +455,7 @@ ApplicationWindow {
 
                         onClicked: {
                             languageKey.btnClicked()
-                            languageDialog.open()
+                            openLanguageDialog()
                         }
                     }
                 }
