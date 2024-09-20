@@ -500,11 +500,13 @@ ApplicationWindow {
     }
 
     function hideKeyboard() {
-            if (!helper.isDbusAvailable()){
-                Qt.quit();
-            }
-            main.hide();
-            settings.hide();
+        if (!helper.isDbusAvailable()){
+            Qt.quit();
+        }
+        mirrorText.text = ""
+        main.storedMirror = ""
+        main.hide();
+        settings.hide();
     }
 
     function setPosition() {
