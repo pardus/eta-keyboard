@@ -50,7 +50,18 @@ ApplicationWindow {
         { text: "us", flagSrc: "qrc:/ui/Images/flags/us.svg" },
         { text: "de", flagSrc: "qrc:/ui/Images/flags/de.svg" },
         { text: "fr", flagSrc: "qrc:/ui/Images/flags/fr.svg" },
-        { text: "ara", flagSrc: "qrc:/ui/Images/flags/ara.svg" }
+        { text: "it", flagSrc: "qrc:/ui/Images/flags/it.svg" },
+        { text: "cn", flagSrc: "qrc:/ui/Images/flags/cn.svg" },
+        { text: "dk", flagSrc: "qrc:/ui/Images/flags/dk.svg" },
+        { text: "es", flagSrc: "qrc:/ui/Images/flags/es.svg" },
+        { text: "fi", flagSrc: "qrc:/ui/Images/flags/fi.svg" },
+        { text: "gr", flagSrc: "qrc:/ui/Images/flags/gr.svg" },
+        { text: "ir", flagSrc: "qrc:/ui/Images/flags/ir.svg" },
+        { text: "jp", flagSrc: "qrc:/ui/Images/flags/jp.svg" },
+        { text: "kr", flagSrc: "qrc:/ui/Images/flags/kr.svg" },
+        { text: "pt", flagSrc: "qrc:/ui/Images/flags/pt.svg" },
+        { text: "ru", flagSrc: "qrc:/ui/Images/flags/ru.svg" },
+        { text: "ara", flagSrc: "qrc:/ui/Images/flags/ara.svg" },
     ]
 
 
@@ -257,16 +268,16 @@ ApplicationWindow {
         // Center grid when dialog size changes
         onWidthChanged: {
             var totalGridWidth = languageGrid.columns * transUp.width + (languageGrid.columns - 1) * languageGrid.spacing
-            var horizontalMargin = (width - totalGridWidth) / 2
-            languageGrid.anchors.leftMargin = horizontalMargin > 0 ? horizontalMargin : 0
-            languageGrid.anchors.rightMargin = horizontalMargin > 0 ? horizontalMargin : 0
+            var horizontalMargin = Math.max((width - totalGridWidth) / 2, 5)
+            languageGrid.anchors.leftMargin = horizontalMargin
+            languageGrid.anchors.rightMargin = horizontalMargin
         }
 
         onHeightChanged: {
             var totalGridHeight = languageGrid.rows * transUp.height + (languageGrid.rows - 1) * languageGrid.spacing
-            var verticalMargin = (height - totalGridHeight) / 2
-            languageGrid.anchors.topMargin = verticalMargin > 0 ? verticalMargin : 0
-            languageGrid.anchors.bottomMargin = verticalMargin > 0 ? verticalMargin : 0
+            var verticalMargin = Math.max((height - totalGridHeight) / 2, 5)
+            languageGrid.anchors.topMargin = verticalMargin
+            languageGrid.anchors.bottomMargin = verticalMargin
         }
     }
 
