@@ -756,7 +756,7 @@ ApplicationWindow {
         main.initialized = true;
 
         main.themeName = helper.getColor() ? helper.getColor() : 0
-        main.layout = helper.getLayoutType() == "Sade" || helper.getLayoutType() == "Tam" ? helper.getLayoutType() : "Sade"
+        main.layout = helper.getLayoutType() == "Sade" || helper.getLayoutType() == "Tam" ? helper.getLayoutType() : "Tam"
         main.previousLayout = main.layout
         main.scale = helper.getScale() ? helper.getScale() : 1
         main.transparency = helper.getOpacity() ? helper.getOpacity() : 1
