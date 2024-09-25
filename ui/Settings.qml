@@ -136,11 +136,11 @@ ApplicationWindow {
     }
 
     function changeLanguageLayout() {
-        var selectedLang = languageModel.get(settings.languageIndex).text;
+        var selectedLang = languageModel.get(settings.languageIndex) ? languageModel.get(settings.languageIndex).text : "tr";
         currentLanguageCode = selectedLang;
 
         main.languageLayoutIndex = settings.languageIndex;
-        flagImage.source = languageModel.get(settings.languageIndex).flagSrc;
+        flagImage.source = languageModel.get(settings.languageIndex) ? languageModel.get(settings.languageIndex).flagSrc : "qrc:/ui/Images/flags/tr.svg";
         helper.setKeyboardLayout(selectedLang);
 
         main.updateTheme = !main.updateTheme;
@@ -151,7 +151,7 @@ ApplicationWindow {
     }
 
     function updateColorsArray() {
-        var keyText = languageModel.get(settings.languageIndex).text;
+        var keyText = languageModel.get(settings.languageIndex) ? languageModel.get(settings.languageIndex).text : "tr";
         if (keyText === "tr") {
             settings.colorsCurrentArr = settings.colorsTr;
             settings.fullLayoutText = "Tam";
@@ -820,6 +820,9 @@ ApplicationWindow {
     Component.onCompleted: {
         fillListModel();
         settings.languageIndex = helper.getCurrentLayoutIndex();
+        if (settings.languageIndex >= languageModel.count) {
+            settings.languageIndex = 0;
+        }
         changeLanguageLayout();
         hideSettings.start();
     }
