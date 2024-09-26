@@ -36,6 +36,10 @@ ApplicationWindow {
     property bool layout: main.layoutChange
     property bool loaded: main.loaded
     property bool waitFlag : true
+    property real keyboardWidth: main.width
+    property real keyboardHeight: main.height
+    property real keyboardX: main.x
+    property real keyboardY: main.y
     property string fullLayoutText: ""
     property string simpleLayoutText: ""
     property string currentLanguageCode: ""
@@ -179,39 +183,23 @@ ApplicationWindow {
         id: languageModel
     }
 
-    function openLanguageDialog() {
-        // Get keyboard dimensions
-        var keyboardLeftX = main.x
-        var keyboardTopY = main.y
-        var keyboardWidth = main.width
-        var keyboardHeight = main.height
+    function updateDialogSize() {
+        var dialogWidth = Math.min(400, keyboardWidth * 0.4)
+        var dialogHeight = Math.min(400, keyboardHeight * 0.8)
 
-        // Set dialog size
-        var dialogWidth = Math.min(300, keyboardWidth * 0.4)
-        var dialogHeight = Math.min(300, keyboardHeight * 0.8)
-
-        // Position dialog
-        var dialogLeftX = keyboardLeftX - dialogWidth
-        var dialogTopY = keyboardTopY - (keyboardHeight * 0.13)
-
-        // Apply size and position
         languageDialog.width = dialogWidth
         languageDialog.height = dialogHeight
-        languageDialog.x = dialogLeftX
-        languageDialog.y = dialogTopY
+
+        var dialogLeftX = keyboardX - dialogWidth
+        var dialogTopY = keyboardY - (keyboardHeight * 0.13)
 
         // Keep dialog on screen
-        if (dialogLeftX < 0) {
-            languageDialog.x = 0
-        }
-        if (dialogTopY < 0) {
-            languageDialog.y = 0
-        }
-        if (dialogTopY + dialogHeight > Screen.height) {
-            languageDialog.y = Screen.height - dialogHeight
-        }
+        dialogLeftX = Math.max(0, dialogLeftX)
+        dialogTopY = Math.max(0, dialogTopY)
+        dialogTopY = Math.min(Screen.height - dialogHeight, dialogTopY)
 
-        languageDialog.open()
+        languageDialog.x = dialogLeftX
+        languageDialog.y = dialogTopY
     }
 
     Dialog {
@@ -264,20 +252,33 @@ ApplicationWindow {
                 }
             }
         }
+    }
 
-        // Center grid when dialog size changes
-        onWidthChanged: {
-            var totalGridWidth = languageGrid.columns * transUp.width + (languageGrid.columns - 1) * languageGrid.spacing
-            var horizontalMargin = Math.max((width - totalGridWidth) / 2, 5)
-            languageGrid.anchors.leftMargin = horizontalMargin
-            languageGrid.anchors.rightMargin = horizontalMargin
+    Connections {
+        target: main
+        function onWidthChanged() {
+            keyboardWidth = main.width
+            if (languageDialog.visible) {
+                updateDialogSize()
+            }
         }
-
-        onHeightChanged: {
-            var totalGridHeight = languageGrid.rows * transUp.height + (languageGrid.rows - 1) * languageGrid.spacing
-            var verticalMargin = Math.max((height - totalGridHeight) / 2, 5)
-            languageGrid.anchors.topMargin = verticalMargin
-            languageGrid.anchors.bottomMargin = verticalMargin
+        function onHeightChanged() {
+            keyboardHeight = main.height
+            if (languageDialog.visible) {
+                updateDialogSize()
+            }
+        }
+        function onXChanged() {
+            keyboardX = main.x
+            if (languageDialog.visible) {
+                updateDialogSize()
+            }
+        }
+        function onYChanged() {
+            keyboardY = main.y
+            if (languageDialog.visible) {
+                updateDialogSize()
+            }
         }
     }
 
@@ -466,7 +467,8 @@ ApplicationWindow {
 
                         onClicked: {
                             languageKey.btnClicked()
-                            openLanguageDialog()
+                            updateDialogSize()
+                            languageDialog.open()
                         }
                     }
                 }
