@@ -51,17 +51,17 @@ ApplicationWindow {
         { text: "de", flagSrc: "qrc:/ui/Images/flags/de.svg" },
         { text: "fr", flagSrc: "qrc:/ui/Images/flags/fr.svg" },
         { text: "it", flagSrc: "qrc:/ui/Images/flags/it.svg" },
-        { text: "cn", flagSrc: "qrc:/ui/Images/flags/cn.svg" },
-        { text: "dk", flagSrc: "qrc:/ui/Images/flags/dk.svg" },
-        { text: "es", flagSrc: "qrc:/ui/Images/flags/es.svg" },
-        { text: "fi", flagSrc: "qrc:/ui/Images/flags/fi.svg" },
-        { text: "gr", flagSrc: "qrc:/ui/Images/flags/gr.svg" },
-        { text: "ir", flagSrc: "qrc:/ui/Images/flags/ir.svg" },
-        { text: "jp", flagSrc: "qrc:/ui/Images/flags/jp.svg" },
-        { text: "kr", flagSrc: "qrc:/ui/Images/flags/kr.svg" },
-        { text: "pt", flagSrc: "qrc:/ui/Images/flags/pt.svg" },
-        { text: "ru", flagSrc: "qrc:/ui/Images/flags/ru.svg" },
         { text: "ara", flagSrc: "qrc:/ui/Images/flags/ara.svg" },
+        { text: "es", flagSrc: "qrc:/ui/Images/flags/es.svg" },
+        { text: "pt", flagSrc: "qrc:/ui/Images/flags/pt.svg" },
+        { text: "jp", flagSrc: "qrc:/ui/Images/flags/jp.svg" },
+        { text: "cn", flagSrc: "qrc:/ui/Images/flags/cn.svg" },
+        { text: "kr", flagSrc: "qrc:/ui/Images/flags/kr.svg" },
+        { text: "ru", flagSrc: "qrc:/ui/Images/flags/ru.svg" },
+        { text: "az", flagSrc: "qrc:/ui/Images/flags/az.svg" },
+        { text: "al", flagSrc: "qrc:/ui/Images/flags/al.svg" },
+        { text: "ba", flagSrc: "qrc:/ui/Images/flags/ba.svg" },
+        { text: "ir", flagSrc: "qrc:/ui/Images/flags/ir.svg" }
     ]
 
 
