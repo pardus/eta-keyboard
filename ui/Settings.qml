@@ -209,8 +209,24 @@ ApplicationWindow {
         Window {
             id: languageWindow
             flags: Qt.Dialog | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
+            visible: false
             modality: Qt.NonModal
             color: "transparent"
+
+
+            property bool isOpen: false
+
+            function toggleVisibility() {
+                if (!visible) {
+                    show()
+                    raise()
+                    requestActivate()
+                    isOpen = true
+                } else {
+                    hide()
+                    isOpen = false
+                }
+            }
 
             Item {
                 anchors.fill: parent
@@ -246,7 +262,8 @@ ApplicationWindow {
                                     if (index < languageModel.count) {
                                         settings.languageIndex = index
                                         changeLanguageLayout()
-                                        languageWindow.close()
+                                        languageWindow.hide()
+                                        languageWindow.isOpen = false
                                     }
                                 }
                                 onPressed: parent.color = main.keyPressedColor
@@ -257,6 +274,7 @@ ApplicationWindow {
                 }
             }
 
+            /*
             // Add a close button if needed
             Rectangle {
                 width: 30
@@ -275,8 +293,22 @@ ApplicationWindow {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: languageWindow.close()
+                    onClicked: {
+                        languageWindow.hide()
+                        languageWindow.isOpen = false
+                    }
                 }
+            }
+            */
+
+            onVisibleChanged: {
+                isOpen = visible
+            }
+
+
+            Item {
+                focus: true
+                Keys.onEscapePressed: close()
             }
 
             Component.onCompleted: {
@@ -285,23 +317,42 @@ ApplicationWindow {
         }
     }
 
+    function toggleLanguageWindow() {
+        if (!languageWindow) {
+            languageWindow = languageWindowComponent.createObject(settings)
+        }
+        updateWindowSize()
+        languageWindow.toggleVisibility()
+    }
+
+    function closeLanguageWindowIfOpen() {
+        if (languageWindow && languageWindow.isOpen) {
+            languageWindow.hide()
+            languageWindow.isOpen = false
+        }
+    }
+
     Connections {
         target: main
         function onWidthChanged() {
             keyboardWidth = main.width
             updateWindowSize()
+            closeLanguageWindowIfOpen()
         }
         function onHeightChanged() {
             keyboardHeight = main.height
             updateWindowSize()
+            closeLanguageWindowIfOpen()
         }
         function onXChanged() {
             keyboardX = main.x
             updateWindowSize()
+            closeLanguageWindowIfOpen()
         }
         function onYChanged() {
             keyboardY = main.y
             updateWindowSize()
+            closeLanguageWindowIfOpen()
         }
     }
 
@@ -490,11 +541,7 @@ ApplicationWindow {
 
                         onClicked: {
                             languageKey.btnClicked()
-                            if (!languageWindow) {
-                                languageWindow = languageWindowComponent.createObject(settings)
-                            }
-                            updateWindowSize()
-                            languageWindow.show()
+                            toggleLanguageWindow()
                         }
                     }
                 }

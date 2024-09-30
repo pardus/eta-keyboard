@@ -507,6 +507,12 @@ ApplicationWindow {
         main.storedMirror = ""
         main.hide();
         settings.hide();
+
+        // Close language selection window if it is open
+        if (settings.languageWindow && settings.languageWindow.visible) {
+            settings.languageWindow.hide();
+            settings.languageWindow.isOpen = false;
+        }
     }
 
     function setPosition() {
