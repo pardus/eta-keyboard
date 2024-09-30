@@ -20,7 +20,6 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
-import QtQuick.Dialogs 1.2
 import eta.helper 1.0
 
 ApplicationWindow {
@@ -40,6 +39,7 @@ ApplicationWindow {
     property real keyboardHeight: main.height
     property real keyboardX: main.x
     property real keyboardY: main.y
+    property var languageWindow: null
     property string fullLayoutText: ""
     property string simpleLayoutText: ""
     property string currentLanguageCode: ""
@@ -183,73 +183,104 @@ ApplicationWindow {
         id: languageModel
     }
 
-    function updateDialogSize() {
-        var dialogWidth = Math.min(400, keyboardWidth * 0.4)
-        var dialogHeight = Math.min(400, keyboardHeight * 0.8)
+    function updateWindowSize() {
+        if (languageWindow) {
+            var windowWidth = Math.min(400, keyboardWidth * 0.4)
+            var windowHeight = Math.min(400, keyboardHeight * 0.8)
 
-        languageDialog.width = dialogWidth
-        languageDialog.height = dialogHeight
+            languageWindow.width = windowWidth
+            languageWindow.height = windowHeight
 
-        var dialogLeftX = keyboardX - dialogWidth
-        var dialogTopY = keyboardY - (keyboardHeight * 0.13)
+            var windowLeftX = keyboardX - windowWidth
+            var windowTopY = keyboardY - (keyboardHeight * 0.13)
 
-        // Keep dialog on screen
-        dialogLeftX = Math.max(0, dialogLeftX)
-        dialogTopY = Math.max(0, dialogTopY)
-        dialogTopY = Math.min(Screen.height - dialogHeight, dialogTopY)
+            // Keep window on screen
+            windowLeftX = Math.max(0, windowLeftX)
+            windowTopY = Math.max(0, windowTopY)
+            windowTopY = Math.min(Screen.height - windowHeight, windowTopY)
 
-        languageDialog.x = dialogLeftX
-        languageDialog.y = dialogTopY
+            languageWindow.x = windowLeftX
+            languageWindow.y = windowTopY
+        }
     }
 
-    Dialog {
-        id: languageDialog
-        title: "Please Select a Language"
-        modality: Qt.NonModal
+    Component {
+        id: languageWindowComponent
+        Window {
+            id: languageWindow
+            flags: Qt.Dialog | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
+            modality: Qt.NonModal
+            color: "transparent"
 
-        contentItem: Item {
-            anchors.fill: parent
-            Grid {
-                id: languageGrid
-                columns: 4
-                rows: 4
-                spacing: main.spacing
-                anchors.centerIn: parent
+            Item {
+                anchors.fill: parent
+                Grid {
+                    id: languageGrid
+                    columns: 4
+                    rows: 4
+                    spacing: main.spacing
+                    anchors.centerIn: parent
 
-                Repeater {
-                    model: 16 // 4x4 grid
-                    Rectangle {
-                        width: transUp.width
-                        height: transUp.height
-                        color: main.keyColor
-                        border.color: main.color
-                        border.width: 1
-                        radius: transUp.radius
-                        // visible: index < languageModel.count
+                    Repeater {
+                        model: 16 // 4x4 grid
+                        Rectangle {
+                            width: transUp.width
+                            height: transUp.height
+                            color: main.keyColor
+                            border.color: main.color
+                            border.width: 1
+                            radius: transUp.radius
 
-                        Image {
-                            anchors.centerIn: parent
-                            width: parent.width * 0.6
-                            height: parent.height * 0.6
-                            source: index < languageModel.count ? languageModel.get(index).flagSrc : ""
-                            fillMode: Image.PreserveAspectFit
-                            visible: index < languageModel.count
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                if (index < languageModel.count) {
-                                    settings.languageIndex = index
-                                    changeLanguageLayout()
-                                    languageDialog.close()
-                                }
+                            Image {
+                                anchors.centerIn: parent
+                                width: parent.width * 0.6
+                                height: parent.height * 0.6
+                                source: index < languageModel.count ? languageModel.get(index).flagSrc : ""
+                                fillMode: Image.PreserveAspectFit
+                                visible: index < languageModel.count
                             }
-                            onPressed: parent.color = main.keyPressedColor
-                            onReleased: parent.color = main.keyColor
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    if (index < languageModel.count) {
+                                        settings.languageIndex = index
+                                        changeLanguageLayout()
+                                        languageWindow.close()
+                                    }
+                                }
+                                onPressed: parent.color = main.keyPressedColor
+                                onReleased: parent.color = main.keyColor
+                            }
                         }
                     }
                 }
+            }
+
+            // Add a close button if needed
+            Rectangle {
+                width: 30
+                height: 30
+                color: "red"
+                radius: 15
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.margins: 10
+
+                Text {
+                    anchors.centerIn: parent
+                    text: "X"
+                    color: "white"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: languageWindow.close()
+                }
+            }
+
+            Component.onCompleted: {
+                updateWindowSize()
             }
         }
     }
@@ -258,27 +289,19 @@ ApplicationWindow {
         target: main
         function onWidthChanged() {
             keyboardWidth = main.width
-            if (languageDialog.visible) {
-                updateDialogSize()
-            }
+            updateWindowSize()
         }
         function onHeightChanged() {
             keyboardHeight = main.height
-            if (languageDialog.visible) {
-                updateDialogSize()
-            }
+            updateWindowSize()
         }
         function onXChanged() {
             keyboardX = main.x
-            if (languageDialog.visible) {
-                updateDialogSize()
-            }
+            updateWindowSize()
         }
         function onYChanged() {
             keyboardY = main.y
-            if (languageDialog.visible) {
-                updateDialogSize()
-            }
+            updateWindowSize()
         }
     }
 
@@ -467,8 +490,11 @@ ApplicationWindow {
 
                         onClicked: {
                             languageKey.btnClicked()
-                            updateDialogSize()
-                            languageDialog.open()
+                            if (!languageWindow) {
+                                languageWindow = languageWindowComponent.createObject(settings)
+                            }
+                            updateWindowSize()
+                            languageWindow.show()
                         }
                     }
                 }
