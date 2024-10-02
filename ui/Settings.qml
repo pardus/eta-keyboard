@@ -49,6 +49,17 @@ ApplicationWindow {
     property variant colorsAra: ["رمادي","أخضر","أزرق","بنى","أبيض"]
     property variant colorsDe: ["Grau", "Grün", "Blau", "Braun", "Weiß"]
     property variant colorsFr: ["Gris", "Vert", "Bleu", "Marron", "Blanc"]
+    property variant colorsIt: ["Grigio","Verde","Blu","Marrone","Bianco"]
+    property variant colorsEs: ["Gris","Verde","Azul","Marrón","Blanco"]
+    property variant colorsPt: ["Cinza","Verde","Azul","Marrom","Branco"]
+    property variant colorsJp: ["灰色","緑","青","茶色","白"]
+    property variant colorsCn: ["灰色","绿色","蓝色","棕色","白色"]
+    property variant colorsKr: ["회색","초록색","파란색","갈색","흰색"]
+    property variant colorsRu: ["Серый","Зелёный","Синий","Коричневый","Белый"]
+    property variant colorsAz: ["Boz","Yaşıl","Mavi","Qəhvəyi","Ağ"]
+    property variant colorsAl: ["Gri","Jeshile","Blu","Kafe","E bardhë"]
+    property variant colorsBa: ["Siva","Zelena","Plava","Smeđa","Bijela"]
+    property variant colorsIr: ["خاکستری","سبز","آبی","قهوه‌ای","سفید"]
     property var languageData: [
         { text: "tr", flagSrc: "qrc:/ui/Images/flags/tr.svg" },
         { text: "us", flagSrc: "qrc:/ui/Images/flags/us.svg" },
@@ -172,6 +183,50 @@ ApplicationWindow {
             settings.colorsCurrentArr = settings.colorsFr;
             settings.fullLayoutText = "Complet";
             settings.simpleLayoutText = "Simple";
+        } else if (keyText === "it") {
+            settings.colorsCurrentArr = settings.colorsIt;
+            settings.fullLayoutText = "Completo";
+            settings.simpleLayoutText = "Semplice";
+        } else if (keyText === "es") {
+            settings.colorsCurrentArr = settings.colorsEs;
+            settings.fullLayoutText = "Completo";
+            settings.simpleLayoutText = "Simple";
+        } else if (keyText === "pt") {
+            settings.colorsCurrentArr = settings.colorsPt;
+            settings.fullLayoutText = "Completo";
+            settings.simpleLayoutText = "Simples";
+        } else if (keyText === "jp") {
+            settings.colorsCurrentArr = settings.colorsJp;
+            settings.fullLayoutText = "フル";
+            settings.simpleLayoutText = "シンプル";
+        } else if (keyText === "cn") {
+            settings.colorsCurrentArr = settings.colorsCn;
+            settings.fullLayoutText = "完整";
+            settings.simpleLayoutText = "简单";
+        } else if (keyText === "kr") {
+            settings.colorsCurrentArr = settings.colorsKr;
+            settings.fullLayoutText = "전체";
+            settings.simpleLayoutText = "간단한";
+        } else if (keyText === "ru") {
+            settings.colorsCurrentArr = settings.colorsRu;
+            settings.fullLayoutText = "Полный";
+            settings.simpleLayoutText = "Простой";
+        } else if (keyText === "az") {
+            settings.colorsCurrentArr = settings.colorsAz;
+            settings.fullLayoutText = "Tam";
+            settings.simpleLayoutText = "Sadə";
+        } else if (keyText === "al") {
+            settings.colorsCurrentArr = settings.colorsAl;
+            settings.fullLayoutText = "Plotë";
+            settings.simpleLayoutText = "Thjeshtë";
+        } else if (keyText === "ba") {
+            settings.colorsCurrentArr = settings.colorsBa;
+            settings.fullLayoutText = "Pun";
+            settings.simpleLayoutText = "Prost";
+        } else if (keyText === "ir") {
+            settings.colorsCurrentArr = settings.colorsIr;
+            settings.fullLayoutText = "کامل";
+            settings.simpleLayoutText = "ساده";
         } else {
             settings.colorsCurrentArr = settings.colorsUs;
             settings.fullLayoutText = "Full";
