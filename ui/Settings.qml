@@ -240,14 +240,32 @@ ApplicationWindow {
 
     function updateWindowSize() {
         if (languageWindow) {
-            var windowWidth = Math.min(400, keyboardWidth * 0.4)
-            var windowHeight = Math.min(400, keyboardHeight * 0.8)
+            var buttonSize = Math.min(transUp.width, transUp.height)
+
+            // Calculate total number of rows and columns
+            var totalButtons = languageModel.count
+            var columns = Math.ceil(Math.sqrt(totalButtons))
+            var rows = Math.ceil(totalButtons / columns)
+
+            // Calculate window size based on the number of buttons
+            var windowWidth = columns * (buttonSize + main.spacing) - main.spacing
+            var windowHeight = rows * (buttonSize + main.spacing) - main.spacing
+
+            windowWidth += 2 * main.spacing
+            windowHeight += 2 * main.spacing
 
             languageWindow.width = windowWidth
             languageWindow.height = windowHeight
 
             var windowLeftX = keyboardX - windowWidth
             var windowTopY = keyboardY - (keyboardHeight * 0.13)
+
+            // Adjust Y position based on layout
+            if (main.layout === "Sade") {
+                windowTopY -= keyboardHeight * 0.2
+            } else {
+                windowTopY += keyboardHeight * 0.1
+            }
 
             // Keep window on screen
             windowLeftX = Math.max(0, windowLeftX)
@@ -256,6 +274,13 @@ ApplicationWindow {
 
             languageWindow.x = windowLeftX
             languageWindow.y = windowTopY
+
+            // Update grid layout
+            if (languageWindow.contentItem && languageWindow.contentItem.children[0] && languageWindow.contentItem.children[0].children[0]) {
+                var grid = languageWindow.contentItem.children[0].children[0]
+                grid.columns = columns
+                grid.rows = rows
+            }
         }
     }
 
