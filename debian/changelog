@@ -1,3 +1,21 @@
+eta-keyboard (1.0.6) unstable; urgency=medium
+
+  * Remove key label capitalization
+  * Add dialog for lang selection
+  * Improve lang selection dialog
+  * Clear stored text when hiding keyboard
+  * Add new langs
+  * Change default layout
+  * Add turkish as the default lang
+  * Change langs
+  * Make lang dialog resizable
+  * Replace dialog with window component
+  * Improve lang select window & ensure it closes with kb
+  * Add translations for new added langs
+  * Adjust lang selection window for layouts
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Wed, 02 Oct 2024 09:48:38 +0300
+
 eta-keyboard (1.0.5) unstable; urgency=medium
 
   * Save last used layout
