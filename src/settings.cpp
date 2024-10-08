@@ -30,14 +30,14 @@ Settings::Settings(QObject *parent) :
     m_scale(1.0),
     m_opacity(1.0)
 {
-    configpath = QDir::homePath() + "/.config/eta/virtualkeyboard/config.ini";
+    configpath = QDir::homePath() + "/.config/eta/eta-keyboard/config.ini";
 
     preferences = new QSettings(configpath, QSettings::IniFormat);
 
     QFileInfo checkConfig(configpath);
 
     if (checkConfig.exists() && checkConfig.isFile()) {
-        preferences->beginGroup("virtualkeyboard");
+        preferences->beginGroup("eta-keyboard");
         m_color = preferences->value("Color").toInt();
         m_layoutType = preferences->value("LayoutType").toString();
         m_scale = preferences->value("Scale").toDouble();
@@ -87,7 +87,7 @@ double Settings::getOpacity()
 
 void Settings::saveSettings()
 {
-    preferences->beginGroup("virtualkeyboard");
+    preferences->beginGroup("eta-keyboard");
 
     preferences->setValue("Color", this->m_color);
     preferences->setValue("LayoutType", this->m_layoutType);
