@@ -66,6 +66,8 @@ Rectangle {
     property int keyCodeSymbol
     property int symbolLevel
     property double transparency: main.transparency
+    property bool isSpecialKeys: keyCode === 900 || keyCode === 901
+
 
     color: ma.containsMouse && main.keyHoverTimer ? key.keyHoverColor : key.keyColor
     radius: key.keyRadius
@@ -220,9 +222,13 @@ Rectangle {
         font.underline: key.highlighted
         visible: leVis4
         opacity: activeOpacity
-        anchors {
-            centerIn: key
-        }
+        anchors.fill: parent
+        anchors.margins: key.isSpecialKeys ? parent.height / 32 : 0
+        fontSizeMode: key.isSpecialKeys ? Text.Fit : Text.FixedSize
+        minimumPointSize: 1
+        elide: key.isSpecialKeys ? Text.ElideRight : Text.ElideNone
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
     }
 
     MouseArea{

@@ -51,7 +51,7 @@ ApplicationWindow {
     property variant colorsFr: ["Gris", "Vert", "Bleu", "Marron", "Blanc"]
     property variant colorsIt: ["Grigio","Verde","Blu","Marrone","Bianco"]
     property variant colorsEs: ["Gris","Verde","Azul","Marrón","Blanco"]
-    property variant colorsPt: ["Cinza","Verde","Azul","Marrom","Branco"]
+    property variant colorsPt: ["Cinza","Verde","Azul","Castanho","Branco"]
     property variant colorsJp: ["灰色","緑","青","茶色","白"]
     property variant colorsCn: ["灰色","绿色","蓝色","棕色","白色"]
     property variant colorsKr: ["회색","초록색","파란색","갈색","흰색"]
