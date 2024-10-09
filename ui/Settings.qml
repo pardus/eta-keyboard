@@ -318,36 +318,39 @@ ApplicationWindow {
                     anchors.centerIn: parent
 
                     Repeater {
-                        model: 16 // 4x4 grid
+                        model: languageModel.count
                         Rectangle {
                             width: transUp.width
                             height: transUp.height
-                            color: main.keyColor
+                            color: {
+                                main.updateTheme;
+                                settings.languageIndex;
+                                return (index === settings.languageIndex) ? main.keyPressedColor : main.keyColor;
+                            }
                             border.color: main.color
                             border.width: 1
                             radius: transUp.radius
+                            opacity: main.transparency
+
 
                             Image {
                                 anchors.centerIn: parent
                                 width: parent.width * 0.6
                                 height: parent.height * 0.6
-                                source: index < languageModel.count ? languageModel.get(index).flagSrc : ""
+                                source: languageModel.get(index).flagSrc
                                 fillMode: Image.PreserveAspectFit
-                                visible: index < languageModel.count
                             }
 
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
-                                    if (index < languageModel.count) {
-                                        settings.languageIndex = index
-                                        changeLanguageLayout()
-                                        languageWindow.hide()
-                                        languageWindow.isOpen = false
-                                    }
+                                    settings.languageIndex = index
+                                    changeLanguageLayout()
+                                    languageWindow.hide()
+                                    languageWindow.isOpen = false
                                 }
                                 onPressed: parent.color = main.keyPressedColor
-                                onReleased: parent.color = main.keyColor
+                                onReleased: parent.color = (index === settings.languageIndex) ? main.keyPressedColor : main.keyColor
                             }
                         }
                     }
