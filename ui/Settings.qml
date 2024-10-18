@@ -69,7 +69,7 @@ ApplicationWindow {
         { text: "ara", flagSrc: "qrc:/ui/Images/flags/ara.svg" },
         { text: "es", flagSrc: "qrc:/ui/Images/flags/es.svg" },
         { text: "pt", flagSrc: "qrc:/ui/Images/flags/pt.svg" },
-        { text: "jp", flagSrc: "qrc:/ui/Images/flags/jp.svg" },
+        { text: "jp", flagSrc: "qrc:/ui/Images/flags/jp.svg", variant: "kana"},
         { text: "cz", flagSrc: "qrc:/ui/Images/flags/cz.svg" },
         { text: "gr", flagSrc: "qrc:/ui/Images/flags/gr.svg" },
         { text: "ru", flagSrc: "qrc:/ui/Images/flags/ru.svg" },
@@ -151,12 +151,16 @@ ApplicationWindow {
     }
 
     function changeLanguageLayout() {
-        var selectedLang = languageModel.get(settings.languageIndex) ? languageModel.get(settings.languageIndex).text : "tr";
+        var selectedLangData = languageModel.get(settings.languageIndex);
+        var selectedLang = selectedLangData ? selectedLangData.text : "tr";
+        var selectedVariant = selectedLangData && selectedLangData.variant ? selectedLangData.variant : "";
+
         currentLanguageCode = selectedLang;
 
         main.languageLayoutIndex = settings.languageIndex;
-        flagImage.source = languageModel.get(settings.languageIndex) ? languageModel.get(settings.languageIndex).flagSrc : "qrc:/ui/Images/flags/tr.svg";
-        helper.setKeyboardLayout(selectedLang);
+        flagImage.source = selectedLangData ? selectedLangData.flagSrc : "qrc:/ui/Images/flags/tr.svg";
+
+        helper.setKeyboardLayout(selectedLang, selectedVariant);
 
         main.updateTheme = !main.updateTheme;
         updateColorsArray();

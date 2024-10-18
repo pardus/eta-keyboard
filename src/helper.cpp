@@ -79,8 +79,13 @@ void Helper::showSlot(bool password)
     }
 }
 
-void Helper::setKeyboardLayout(const QString &langCode) {
-    QProcess::execute("setxkbmap", QStringList() << langCode);
+void Helper::setKeyboardLayout(const QString &langCode, const QString &variant) {
+    QStringList args;
+    args << "-layout" << langCode;
+    if (!variant.isEmpty()) {
+        args << "-variant" << variant;
+    }
+    QProcess::execute("setxkbmap", args);
 }
 
 void Helper::setSettings(int color,

@@ -82,7 +82,7 @@ private slots:
     void showForceSlot(bool password);
 
 public slots:
-    void setKeyboardLayout(const QString &langCode);
+    void setKeyboardLayout(const QString &langCode, const QString &variant = QString());
 
 signals:
     void hideCalled();
