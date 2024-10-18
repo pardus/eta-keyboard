@@ -53,8 +53,8 @@ ApplicationWindow {
     property variant colorsEs: ["Gris","Verde","Azul","Marrón","Blanco"]
     property variant colorsPt: ["Cinza","Verde","Azul","Castanho","Branco"]
     property variant colorsJp: ["灰色","緑","青","茶色","白"]
-    property variant colorsCn: ["灰色","绿色","蓝色","棕色","白色"]
-    property variant colorsKr: ["회색","초록색","파란색","갈색","흰색"]
+    property variant colorsCz: ["Šedá","Zelená","Modrá","Hnědá","Bílá"]
+    property variant colorsGr: ["Γκρι","Πράσινο","Μπλε","Καφέ","Λευκό"]
     property variant colorsRu: ["Серый","Зелёный","Синий","Коричневый","Белый"]
     property variant colorsAz: ["Boz","Yaşıl","Mavi","Qəhvəyi","Ağ"]
     property variant colorsAl: ["Gri","Jeshile","Blu","Kafe","E bardhë"]
@@ -70,8 +70,8 @@ ApplicationWindow {
         { text: "es", flagSrc: "qrc:/ui/Images/flags/es.svg" },
         { text: "pt", flagSrc: "qrc:/ui/Images/flags/pt.svg" },
         { text: "jp", flagSrc: "qrc:/ui/Images/flags/jp.svg" },
-        { text: "cn", flagSrc: "qrc:/ui/Images/flags/cn.svg" },
-        { text: "kr", flagSrc: "qrc:/ui/Images/flags/kr.svg" },
+        { text: "cz", flagSrc: "qrc:/ui/Images/flags/cz.svg" },
+        { text: "gr", flagSrc: "qrc:/ui/Images/flags/gr.svg" },
         { text: "ru", flagSrc: "qrc:/ui/Images/flags/ru.svg" },
         { text: "az", flagSrc: "qrc:/ui/Images/flags/az.svg" },
         { text: "al", flagSrc: "qrc:/ui/Images/flags/al.svg" },
@@ -199,14 +199,14 @@ ApplicationWindow {
             settings.colorsCurrentArr = settings.colorsJp;
             settings.fullLayoutText = "フル";
             settings.simpleLayoutText = "シンプル";
-        } else if (keyText === "cn") {
-            settings.colorsCurrentArr = settings.colorsCn;
-            settings.fullLayoutText = "完整";
-            settings.simpleLayoutText = "简单";
-        } else if (keyText === "kr") {
-            settings.colorsCurrentArr = settings.colorsKr;
-            settings.fullLayoutText = "전체";
-            settings.simpleLayoutText = "간단한";
+        } else if (keyText === "cz") {
+            settings.colorsCurrentArr = settings.colorsCz;
+            settings.fullLayoutText = "Plný";
+            settings.simpleLayoutText = "Jednoduchý";
+        } else if (keyText === "gr") {
+            settings.colorsCurrentArr = settings.colorsGr;
+            settings.fullLayoutText = "Πλήρες";
+            settings.simpleLayoutText = "Απλό";
         } else if (keyText === "ru") {
             settings.colorsCurrentArr = settings.colorsRu;
             settings.fullLayoutText = "Полный";
