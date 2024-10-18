@@ -966,6 +966,7 @@ ApplicationWindow {
         }
         else {
             hideSettings.start()
+            closeLanguageWindowIfOpen()
         }
     }
 
