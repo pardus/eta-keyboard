@@ -268,7 +268,7 @@ ApplicationWindow {
             if (main.layout === "Sade") {
                 windowTopY -= keyboardHeight * 0.2
             } else {
-                windowTopY += keyboardHeight * 0.1
+                windowTopY += keyboardHeight * 0.15
             }
 
             // Keep window on screen
