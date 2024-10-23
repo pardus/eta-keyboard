@@ -1,3 +1,26 @@
+eta-keyboard (1.0.7) unstable; urgency=medium
+
+  [ Hugo Carvalho ]
+  * Add Portuguese translation
+
+  [ Emel Öztürk ]
+  * Change config file path
+  * Adjust key texts, fix typo in pt translation
+  * Sync lang buttons with theme
+  * Change langs
+  * Add variants for langs
+  * Close lang window when set. menu is closed
+
+  [ Ali Riza KESKIN ]
+  * disable strip and opts
+
+  [ Emel Öztürk ]
+  * Replace scaling icons
+  * Fix unnec. space
+  * Edit control file
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Wed, 23 Oct 2024 14:59:52 +0300
+
 eta-keyboard (1.0.6) unstable; urgency=medium
 
   * Remove key label capitalization
