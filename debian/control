@@ -1,7 +1,7 @@
 Source: eta-keyboard
 Section: utils
 Priority: optional
-Maintainer: Yunusemre Şentürk <yunusemre.senturk@pardus.org.tr>
+Maintainer: Emel Öztürk <emel.ozturk@pardus.org.tr>
 Build-Depends: debhelper (>= 9), 
     libc6,
     libgcc1,
@@ -27,7 +27,7 @@ Build-Depends: debhelper (>= 9),
     libxkbfile-dev,
     libxtst-dev,
     qtdeclarative5-dev
-Standards-Version: 3.9.6
+Standards-Version: 4.6.1
 Homepage: http://pardus.org.tr
 
 Package: eta-keyboard
@@ -39,5 +39,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
  qml-module-qtquick-window2,
  qml-module-qtquick2,
  python3-pyatspi
-Description: ETAP Sanal Klavye
- Sürüklenebilir, rahat kullanımlı , TrQ , TrF , Arapça desteği vardır.
+Description: ETAP Virtual Keyboard
+ An easy-to-use, draggable virtual keyboard supporting 16 languages.
+ Designed for accessibility and multilingual typing needs,
+ it provides a convenient on-screen keyboard solution for users who require input in multiple languages.
