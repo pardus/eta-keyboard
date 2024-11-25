@@ -1,3 +1,11 @@
+eta-keyboard (1.0.8) unstable; urgency=medium
+
+  * Edit readme
+  * Hide lang. window from taskbar
+  * Change ss & app icon
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Mon, 25 Nov 2024 15:08:59 +0300
+
 eta-keyboard (1.0.7) unstable; urgency=medium
 
   [ Hugo Carvalho ]
