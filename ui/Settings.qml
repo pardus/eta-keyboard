@@ -292,7 +292,7 @@ ApplicationWindow {
         id: languageWindowComponent
         Window {
             id: languageWindow
-            flags: Qt.Dialog | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
+            flags: Qt.Tool | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
             visible: false
             modality: Qt.NonModal
             color: "transparent"
