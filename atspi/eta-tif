@@ -85,7 +85,7 @@ def create_indicator():
 
     status_icon = XApp.StatusIcon()
     status_icon.set_name('eta-keyboard')
-    status_icon.set_icon_name('/usr/share/eta/eta-keyboard/keyboard.svg')
+    status_icon.set_icon_name('eta-keyboard')
     status_icon.set_tooltip_text('ETA Klavye')
     status_icon.set_visible(True)
     status_icon.connect('button-press-event', indicator_action)

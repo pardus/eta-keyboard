@@ -36,8 +36,11 @@ desktop_file.path = /usr/share/applications/
 autostart_file.files = eta-keyboard-autostart.desktop
 autostart_file.path = /etc/xdg/autostart/
 
-icon.files = keyboard.svg
-icon.path = /usr/share/eta/eta-keyboard/
+icon.files = eta-keyboard.svg
+icon.path = /usr/share/icons/hicolor/scalable/apps/
+
+icon_project.files = keyboard.svg
+icon_project.path = /usr/share/eta/eta-keyboard/
 
 atspi_env.files = atspi/99eta-a11y
 atspi_env.path = /etc/X11/Xsession.d
@@ -46,4 +49,4 @@ tif.path = /usr/bin
 tif_desktop.files = atspi/eta-tif-autostart.desktop
 tif_desktop.path = /etc/xdg/autostart
 
-INSTALLS += target desktop_file autostart_file icon atspi_env tif tif_desktop
+INSTALLS += target desktop_file autostart_file icon icon_project atspi_env tif tif_desktop
