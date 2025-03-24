@@ -791,6 +791,12 @@ ApplicationWindow {
         } else {
             hideKeyboard();
         }
+
+        // Clean mirror text when input field is changed
+        helper.focusChanged.connect(function() {
+            mirrorText.text = ""
+            main.storedMirror = ""
+        })
     }
 
     Timer {
@@ -806,4 +812,3 @@ ApplicationWindow {
         }
     }
 }
-

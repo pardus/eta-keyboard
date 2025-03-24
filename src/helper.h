@@ -28,6 +28,7 @@ class Settings;
 class VkDbusInterface;
 class XKBLibWrapper;
 class XWrapper;
+class FocusWatcher;
 
 class Helper : public QObject
 {
@@ -39,7 +40,8 @@ class Helper : public QObject
                NOTIFY toggleCalled
                NOTIFY passwordDetected
                NOTIFY showPinInputCalled
-               NOTIFY hidePinInputCalled)
+               NOTIFY hidePinInputCalled
+               NOTIFY focusChanged)
 public:
     explicit Helper(QObject *parent = 0);
     ~Helper();
@@ -77,6 +79,7 @@ private:
     QDBusInterface *interface;
     XKBLibWrapper *xkblw;
     Settings *s;    
+    FocusWatcher *focusWatcher;
 private slots:    
     void showSlot(bool password);
     void showForceSlot(bool password);
@@ -92,6 +95,7 @@ signals:
     void passwordDetected();
     void showPinInputCalled();
     void hidePinInputCalled();
+    void focusChanged();
 };
 
 #endif // HELPER_H
