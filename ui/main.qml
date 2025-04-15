@@ -138,6 +138,30 @@ ApplicationWindow {
         layoutChange = !layoutChange
     }
 
+    function constrainPosition(x, y){
+        var availableGeometry = screen.availableGeometry;
+        var screenGeometry = screen.geometry;
+        var topPanelHeight = availableGeometry.y - screenGeometry.y;
+        var bottomPanelHeight = (screenGeometry.y + screenGeometry.height) - (availableGeometry.y + availableGeometry.height);
+        var safetyMargin = 5;
+
+        // Horizontal constraints
+        if (x < screenGeometry.x) {
+            x = screenGeometry.x;
+        } else if (x + width > screenGeometry.x + screenGeometry.width) {
+            x = screenGeometry.x + screenGeometry.width - width;
+        }
+
+        // Vertical constraints
+        if (y < screenGeometry.y + topPanelHeight + safetyMargin) {
+            y = screenGeometry.y + topPanelHeight + safetyMargin;
+        } else if (y + height > screenGeometry.y + screenGeometry.height - bottomPanelHeight - safetyMargin) {
+            y = screenGeometry.y + screenGeometry.height - bottomPanelHeight - height - safetyMargin;
+        }
+
+        return Qt.point(x, y);
+    }
+
 
     function keyClicked(keyCode,mirror,keyText,level,code){
 
@@ -516,16 +540,20 @@ ApplicationWindow {
     }
 
     function setPosition() {
+        var initialX, initialY;
+        // If there is a saved pos use it, else use default pos
         if (main.lastX !== -1 && main.lastY !== -1) {
-            main.x = main.lastX;
-            main.y = main.lastY;
+            initialX = main.lastX;
+            initialY = main.lastY;
         } else {
-            main.x = main.screenWidth / 2 - main.width / 2;
-            main.y = main.screenHeight - main.height - main.spacing * 20;
-            if (main.pinMode) {
-                main.y = main.screenHeight / 2 - main.height / 2;
-            }
+            initialX = main.screenWidth / 2 - main.width / 2;
+            initialY = main.pinMode ?
+                    (main.screenHeight / 2 - main.height / 2) :
+                    (main.screenHeight - main.height - main.spacing * 20);
         }
+        var pos = constrainPosition(initialX, initialY);
+        main.x = pos.x;
+        main.y = pos.y;
     }
 
     Connections {
@@ -689,8 +717,9 @@ ApplicationWindow {
                 onPositionChanged: {
                     main.settingsVisible = false
                     var delta = Qt.point(mouse.x - cpos.x, mouse.y - cpos.y);
-                    main.x += delta.x;
-                    main.y += delta.y;
+                    var pos = constrainPosition(main.x + delta.x, main.y + delta.y);
+                    main.x = pos.x;
+                    main.y = pos.y;
                 }
 
                 onReleased: {
