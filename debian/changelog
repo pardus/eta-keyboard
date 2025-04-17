@@ -1,3 +1,12 @@
+eta-keyboard (1.1.1) unstable; urgency=medium
+
+  * Del duplicates
+  * Add focus watcher
+  * Implement mirror text cleaning
+  * Constrain keyboard borders
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Thu, 17 Apr 2025 09:35:04 +0300
+
 eta-keyboard (1.1.0) unstable; urgency=medium
 
   [ Fatih Altun ]
