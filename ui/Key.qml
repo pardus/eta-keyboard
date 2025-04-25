@@ -81,7 +81,9 @@ Rectangle {
     function btnPressed(){
         key.color = key.keyPressedColor
         key.pressed = true
-        switch (key.keyLevel){
+        var lvl = key.keyLevel;
+        if (key.capsMirror && main.capsLockActive && (lvl == 0 || lvl == 1)) lvl = lvl ^ 1;
+        switch (lvl) {
         case 0: lev0.color = key.textPressedColor; break;
         case 1: lev1.color = key.textPressedColor; break;
         case 2: lev2.color = key.textPressedColor; break;
@@ -95,16 +97,22 @@ Rectangle {
         if (!key.lock && !key.pressed){
             key.color = ma.containsMouse && main.keyHoverTimer ?
                         key.keyHoverColor : key.keyColor
-            lev0.color = key.keyLevel == 0 ? key.activeTextColor0 : key.textColor
-            lev1.color = key.keyLevel == 1 ? key.activeTextColor1 : key.textColor
-            lev2.color = key.keyLevel == 2 ? key.activeTextColor2 : key.textColor
-            lev3.color = key.keyLevel == 3 ? key.activeTextColor3 : key.textColor
+            var lvl = key.keyLevel;
+            if (key.capsMirror && main.capsLockActive && (lvl == 0 || lvl == 1)) {
+                lvl = lvl ^ 1;
+            }
+            lev0.color = lvl == 0 ? key.activeTextColor0 : key.textColor
+            lev1.color = lvl == 1 ? key.activeTextColor1 : key.textColor
+            lev2.color = lvl == 2 ? key.activeTextColor2 : key.textColor
+            lev3.color = lvl == 3 ? key.activeTextColor3 : key.textColor
             lev4.color = key.textColor;
         }
 
         else {
             key.color = key.keyPressedColor
-            switch (key.keyLevel){
+            var lvl = key.keyLevel;
+            if (key.capsMirror && main.capsLockActive && (lvl == 0 || lvl == 1)) lvl = lvl ^ 1;
+            switch (lvl) {
             case 0: lev0.color = key.textPressedColor; break;
             case 1: lev1.color = key.textPressedColor; break;
             case 2: lev2.color = key.textPressedColor; break;
@@ -142,15 +150,34 @@ Rectangle {
 
     function updateKeySymbols() {
         if (main.layout === "Sade" && !isSpecialKey(key.keyCode)) {
-            keyText = main.symbolMode
-                ? helper.getSymbol(key.keyCodeSymbol, main.languageLayoutIndex, key.symbolLevel)
-                : helper.getSymbol(key.keyCode, main.languageLayoutIndex, main.keyLevel);
+            if (main.symbolMode) {
+                keyText = helper.getSymbol(key.keyCodeSymbol, main.languageLayoutIndex, key.symbolLevel);
+            } else {
+                var lvl = main.keyLevel;
+                if (key.capsMirror && main.capsLockActive) {
+                    lvl = lvl ^ 1;
+                }
+                keyText = helper.getSymbol(key.keyCode, main.languageLayoutIndex, lvl);
+            }
         } else {
             if (!key.leVis4) {
                 let levels = [lev0, lev1, lev2, lev3, lev4];
                 for (let i = 0; i <= 4; i++) {
                     if (levels[i]) {
-                        levels[i].text = helper.getSymbol(key.keyCode, main.languageLayoutIndex, i);
+                        var symbol = helper.getSymbol(key.keyCode, main.languageLayoutIndex, i);
+
+                        // When capsLock is active and capsMirror is true, reverse the case of the symbol
+                        if (key.capsMirror && main.capsLockActive && (i === 0 || i === 1)) {
+                            // level 0 -> uppercase
+                            // level 1 -> lowercase
+                            if (i === 0) {
+                                symbol = symbol.toUpperCase();
+                            } else if (i === 1) {
+                                symbol = symbol.toLowerCase();
+                            }
+                        }
+
+                        levels[i].text = symbol;
                     }
                 }
             }

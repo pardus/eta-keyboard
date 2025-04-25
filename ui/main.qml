@@ -91,6 +91,7 @@ ApplicationWindow {
     property bool initialized: false
     property int baseFontSize: 15
     property int fontSize: baseFontSize * scale
+    property bool capsLockActive: helper.getCapslockStatus()
 
     function setAndSave(){
 
@@ -134,7 +135,7 @@ ApplicationWindow {
             mirrorText.text = mirrorText.text.toUpperCase()
         }
 
-        main.keyLevel = capsLockOn ? (btnShift ? 0 : 1) : (btnShift ? 1 : 0)
+        main.capsLockActive = capsLockOn
         layoutChange = !layoutChange
     }
 
