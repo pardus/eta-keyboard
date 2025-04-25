@@ -1,3 +1,9 @@
+eta-keyboard (1.1.2) unstable; urgency=medium
+
+  * Modify capslock to affect only letter keys
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Fri, 25 Apr 2025 11:45:52 +0300
+
 eta-keyboard (1.1.1) unstable; urgency=medium
 
   * Del duplicates
