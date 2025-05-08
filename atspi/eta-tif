@@ -78,18 +78,41 @@ def signal_handler(signum, frame):
     sys.exit(0)
 
 def create_indicator():
-    def indicator_action(*args):
+    def show_action(*args):
         keyboard = get_keyboard()
         if keyboard:
             keyboard.showForce(True)
 
+    # Create the menu for indicator
+    menu = Gtk.Menu()
+
+    # Show menu item
+    show_item = Gtk.MenuItem.new_with_label('Show')
+    show_item.connect('activate', show_action)
+    menu.append(show_item)
+
+    separator = Gtk.SeparatorMenuItem()
+    menu.append(separator)
+
+    auto_item = Gtk.MenuItem.new_with_label('Auto')
+    menu.append(auto_item)
+
+    manual_item = Gtk.MenuItem.new_with_label('Manual')
+    menu.append(manual_item)
+
+    menu.show_all()
+
+    # Configure status icon
     status_icon = XApp.StatusIcon()
     status_icon.set_name('eta-keyboard')
     status_icon.set_icon_name('eta-keyboard')
     status_icon.set_tooltip_text('ETA Klavye')
+    status_icon.set_primary_menu(menu)
     status_icon.set_visible(True)
-    status_icon.connect('button-press-event', indicator_action)
-    status_icon.connect('button-release-event', indicator_action)
+
+    # Connect show action to show the keyboard
+    status_icon.connect('activate', show_action)
+
     Gtk.main()
 
 
