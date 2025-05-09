@@ -83,6 +83,14 @@ def create_indicator():
         if keyboard:
             keyboard.showForce(True)
 
+    def auto_action(*args):
+        if auto_item.get_active():
+            print("Auto")
+
+    def manual_action(*args):
+        if manual_item.get_active():
+            print("Manual")
+
     # Create the menu for indicator
     menu = Gtk.Menu()
 
@@ -94,10 +102,16 @@ def create_indicator():
     separator = Gtk.SeparatorMenuItem()
     menu.append(separator)
 
-    auto_item = Gtk.MenuItem.new_with_label('Auto')
+    # Create radio menu items
+    radio_group = None
+    auto_item = Gtk.RadioMenuItem.new_with_label(radio_group, 'Auto')
+    radio_group = auto_item.get_group()
+    auto_item.connect('activate', auto_action)
+    auto_item.set_active(True)
     menu.append(auto_item)
 
-    manual_item = Gtk.MenuItem.new_with_label('Manual')
+    manual_item = Gtk.RadioMenuItem.new_with_label(radio_group, 'Manual')
+    manual_item.connect('activate', manual_action)
     menu.append(manual_item)
 
     menu.show_all()
