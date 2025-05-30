@@ -42,6 +42,8 @@ def dbus_show_keyboard(show, is_password):
     keyboard = get_keyboard()
     if keyboard:
         try:
+            if not keyboard.getEnableAtspi():
+                return
             if show:
                 keyboard.show(is_password)
             else:
@@ -85,11 +87,22 @@ def create_indicator():
 
     def auto_action(*args):
         if auto_item.get_active():
-            print("Auto")
+            keyboard = get_keyboard()
+            if keyboard:
+                try:
+                    keyboard.setEnableAtspi(True)
+                except Exception as e:
+                    print(f"Error enabling auto mode: {e}")
 
     def manual_action(*args):
         if manual_item.get_active():
-            print("Manual")
+            keyboard = get_keyboard()
+            if keyboard:
+                try:
+                    keyboard.setEnableAtspi(False)
+                    keyboard.hide()
+                except Exception as e:
+                    print(f"Error enabling manual mode: {e}")
 
     # Create the menu for indicator
     menu = Gtk.Menu()

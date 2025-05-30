@@ -37,6 +37,8 @@ public slots:
     Q_NOREPLY void toggleAutoShow();
     Q_NOREPLY void showPinInput();
     Q_NOREPLY void hidePinInput();
+    Q_NOREPLY void setEnableAtspi(bool enabled);
+    bool getEnableAtspi();
 };
 
 #endif // ADAPTOR_H

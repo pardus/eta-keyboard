@@ -19,6 +19,7 @@
  *****************************************************************************/
 #include "src/adaptor.h"
 #include <QMetaObject>
+#include "src/helper.h"
 
 VirtualKeyboardInterfaceAdaptor::VirtualKeyboardInterfaceAdaptor
 (QObject *parent): QDBusAbstractAdaptor(parent)
@@ -59,4 +60,21 @@ Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::showPinInput()
 Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::hidePinInput()
 {
     QMetaObject::invokeMethod(parent(), "hidePinInputSlot");
+}
+
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::setEnableAtspi(bool enabled)
+{
+    Helper* helper = qobject_cast<Helper*>(parent()->parent());
+    if (helper) {
+        helper->setEnableAtspi(enabled);
+    }
+}
+
+bool VirtualKeyboardInterfaceAdaptor::getEnableAtspi()
+{
+    Helper* helper = qobject_cast<Helper*>(parent()->parent());
+    if (helper) {
+        return helper->getEnableAtspi();
+    }
+    return true;
 }
