@@ -140,8 +140,14 @@ ApplicationWindow {
     }
 
     function constrainPosition(x, y){
+        // TODO: figure why it cannot get screen's info
         var availableGeometry = screen.availableGeometry;
         var screenGeometry = screen.geometry;
+        // TEMP: Fallback if screen properties are undefined
+        if (!availableGeometry || !screenGeometry) {
+            return Qt.point(x, y);
+        }
+
         var topPanelHeight = availableGeometry.y - screenGeometry.y;
         var bottomPanelHeight = (screenGeometry.y + screenGeometry.height) - (availableGeometry.y + availableGeometry.height);
         var safetyMargin = 5;
