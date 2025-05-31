@@ -17,9 +17,9 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-import QtQuick 2.3
-import QtQuick.Controls 1.2
-import QtQuick.Window 2.0
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Window 2.15
 import eta.helper 1.0
 
 
@@ -387,18 +387,20 @@ ApplicationWindow {
 
     function updateScreenGeometry(geometry) {
         // if (!main.initialized) return;
-        screenGeometry = geometry
-        screenWidth = geometry.width
-        screenHeight = geometry.height
+        if (geometry) {
+            screenGeometry = geometry
+            screenWidth = geometry.width
+            screenHeight = geometry.height
 
-        setSize()
-        setPosition()
+            setSize()
+            setPosition()
 
-        // Recalculate position with new h/w vals
-        main.x = main.screenWidth / 2 - main.width / 2;
-        main.y = main.screenHeight - main.height - main.spacing * 20;
-        if (main.pinMode) {
-            main.y = main.screenHeight / 2 - main.height / 2;
+            // Recalculate position with new h/w vals
+            main.x = main.screenWidth / 2 - main.width / 2;
+            main.y = main.screenHeight - main.height - main.spacing * 20;
+            if (main.pinMode) {
+                main.y = main.screenHeight / 2 - main.height / 2;
+        }
         }
     }
 
@@ -559,7 +561,7 @@ ApplicationWindow {
 
     Connections {
         target: screen
-        function onGeometryChanged(geometry) {
+        onGeometryChanged: function(geometry) {
             updateScreenGeometry(geometry)
         }
     }

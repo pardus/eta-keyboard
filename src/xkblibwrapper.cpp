@@ -19,45 +19,46 @@
  *****************************************************************************/
 #include "src/xkblibwrapper.h"
 #include "logger.h"
-#include <QX11Info>
+#include <QtCore/QTextStream>
+#include <QGuiApplication>
+
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
+#include <X11/XKBlib.h>
 #include <X11/extensions/XKBrules.h>
 
 XKBLibWrapper::XKBLibWrapper(QObject *parent) :
     QObject(parent)
 {
-    display = QX11Info::display();
+    auto *x11App = qGuiApp->nativeInterface<QNativeInterface::QX11Application>();
+    display = x11App->display();
     logger = new Logger(this);
+    xkbState = new XkbStateRec();
 }
 
 void XKBLibWrapper::setLayout(unsigned int layoutIndex)
 {
     if (XkbLockGroup(display, XkbUseCoreKbd, layoutIndex)) {
-        //XkbStateRec xkbState;
-
-        XkbGetState( display, XkbUseCoreKbd, &xkbState );
+        XkbGetState( display, XkbUseCoreKbd, xkbState );
 
     } else {
         logger->log(logger->red_color
-                    + "Failed to change layout group to " + layoutIndex
+                    + "Failed to change layout group to " + QString::number(layoutIndex)
                     + logger->no_color);
     }
 }
 
 int XKBLibWrapper::getCurrentLayoutIndex()
 {
-    //XkbStateRec xkbState;
-    XkbGetState( display, XkbUseCoreKbd, &xkbState );
-    return xkbState.group;
+    XkbGetState( display, XkbUseCoreKbd, xkbState );
+    return xkbState->group;
 }
 
 QString XKBLibWrapper::getCurrentLayout()
 {
-    //XkbStateRec xkbState;
-    XkbGetState( display, XkbUseCoreKbd, &xkbState );
-    unsigned int group = xkbState.group;
+    XkbGetState( display, XkbUseCoreKbd, xkbState );
+    unsigned int group = xkbState->group;
     return getLayoutName(group);
 }
 
@@ -104,7 +105,7 @@ QString LayoutUnit::toString() const
 
 bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
 {
-    Display *display = XOpenDisplay(NULL);
+    Display *display = XOpenDisplay(nullptr);
     static const char* OPTIONS_SEPARATOR = ",";
 
     Atom real_prop_type;
@@ -151,7 +152,7 @@ bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
     }
 
     QStringList names;
-    for(char* p=prop_data; p-prop_data < (long)nitems && p != NULL;
+    for(char* p=prop_data; p-prop_data < (long)nitems && p != nullptr;
         p += strlen(p)+1) {
         names.append( p );
 
@@ -167,9 +168,9 @@ bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
     QStringList variants = names[3].split(OPTIONS_SEPARATOR);
 
     for(int ii=0; ii<layouts.count(); ii++) {
-        xkbConfig->layouts << (layouts[ii] != NULL ? layouts[ii] : "");
+        xkbConfig->layouts << (layouts[ii] != nullptr ? layouts[ii] : "");
         xkbConfig->variants << (ii < variants.count()
-                                && variants[ii] != NULL ? variants[ii] : "");
+                                && variants[ii] != nullptr ? variants[ii] : "");
     }
 
     XFree(prop_data);

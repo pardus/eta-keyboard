@@ -20,7 +20,7 @@
 #include "src/xwrapper.h"
 #include "src/helper.h"
 #include "logger.h"
-#include <QX11Info>
+#include <QGuiApplication>
 #define explicit redefine_explicit
 #include <xcb/xkb.h>
 #undef explicit
@@ -33,7 +33,9 @@ XWrapper::XWrapper()
 {
     kbd = new keyboard;
     kbd->ctx = xkb_context_new((xkb_context_flags)0);
-    kbd->conn = QX11Info::connection();
+    
+    auto *x11App = qGuiApp->nativeInterface<QNativeInterface::QX11Application>();
+    kbd->conn = x11App->connection();
     kbd->device_id = xkb_x11_get_core_keyboard_device_id(kbd->conn);
     kbd->keymap = xkb_x11_keymap_new_from_device(kbd->ctx,
                                                  kbd->conn, kbd->device_id,
@@ -41,7 +43,7 @@ XWrapper::XWrapper()
     kbd->state = xkb_x11_state_new_from_device(kbd->keymap,
                                                kbd->conn, kbd->device_id);
     kbd->active_laypout_index = 0;
-    display = QX11Info::display();
+    display = x11App->display();
 
     logger = new Logger();
 }
@@ -147,8 +149,9 @@ void XWrapper::processXkbEvents(xcb_generic_event_t *gevent, keyboard *kbd)
 }
 
 bool XWrapper::nativeEventFilter(const QByteArray &eventType,
-                                 void *message, long *)
+                                 void *message, qintptr *result)
 {
+    Q_UNUSED(result)
 
     if (eventType == "xcb_generic_event_t") {
         xcb_generic_event_t* ev = static_cast<xcb_generic_event_t *>(message);

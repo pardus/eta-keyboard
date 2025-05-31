@@ -19,6 +19,7 @@
  *****************************************************************************/
 #include "src/helper.h"
 #include "src/singleinstance.h"
+#include <QtCore/QTextStream>
 #include <signal.h>
 #include <unistd.h>
 #include <QApplication>
@@ -26,15 +27,15 @@
 #include <QtQml>
 #include <QDir>
 #include <QCursor>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xresource.h>
 #include <QQmlContext>
 #include <QScreen>
 #include <QGuiApplication>
 #include <QRect>
-#include <QDesktopWidget>
 #include <QDebug>
+
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <X11/Xresource.h>
 
 #define SINGLE_INSTANCE ".virtualkeyboard"
 static int setup_unix_signal_handlers();
@@ -49,7 +50,8 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<Helper>("eta.helper",1,0,"Helper");
 
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    // TODO: this is no longer needed for Qt6, remove it
+    // QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QApplication app(argc, argv);
 
@@ -101,7 +103,7 @@ int main(int argc, char *argv[])
 
     // Expose DPI value to QML
     engine.rootContext()->setContextProperty("dpiValue",
-                                             qApp->desktop()->logicalDpiX());
+                                             screen->logicalDotsPerInch());
 
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
     if (engine.rootObjects().isEmpty())

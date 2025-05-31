@@ -52,7 +52,7 @@ public:
     int getNumberOfLayouts();
     int getCapslockStatus();
     virtual bool nativeEventFilter(const QByteArray &eventType,
-                                   void *message, long * );
+                                   void *message, qintptr *result) override;
     void setHelper(Helper *h);
 private:
     int updateKeymap(struct keyboard *kbd);

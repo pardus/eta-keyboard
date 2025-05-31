@@ -1,4 +1,4 @@
-QT += qml quick widgets dbus x11extras network svg
+QT += qml quick widgets dbus network svg
 
 TARGET = eta-keyboard
 TEMPLATE = app

@@ -18,7 +18,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
 
-import QtQuick 2.3
+import QtQuick 2.15
 
 Item{
     id: fullLayout
@@ -163,11 +163,19 @@ Item{
             }
         }//End of the column
 
-        EnterKey{
+        // TODO: try to bring back enterkey qml type
+        AlphaNumericKey{
             id: keyEnter
             x: keyUU.x + main.keyWidth + main.spacing + main.spacing
             y: row3.y + main.spacing
             z: -1
+            keyText: "\u23CE Enter"
+            keyCode: 36
+            leVis4: true
+            mirror: false
+            keyWidth: main.keyWidth * 3 / 2
+            keyHeight: main.keyHeight * 2 + main.spacing
+            fontPointSize: main.keyHeight / 4
         }
 
         AlphaNumericKey{

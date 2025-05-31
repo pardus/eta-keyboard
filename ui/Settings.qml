@@ -17,9 +17,9 @@
  *   Free Software Foundation, Inc.,                                         *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
-import QtQuick 2.3
-import QtQuick.Controls 1.2
-import QtQuick.Window 2.0
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Window 2.15
 import eta.helper 1.0
 
 ApplicationWindow {
