@@ -80,6 +80,16 @@ def signal_handler(signum, frame):
     sys.exit(0)
 
 def create_indicator():
+    def on_menu_show(widget):
+        keyboard = get_keyboard()
+        if keyboard:
+            try:
+                current_state = keyboard.getEnableAtspi()
+                auto_item.set_active(current_state)
+                manual_item.set_active(not current_state)
+            except Exception as e:
+                print(f"Error getting atspi state: {e}")
+
     def show_action(*args):
         keyboard = get_keyboard()
         if keyboard:
@@ -126,6 +136,8 @@ def create_indicator():
     manual_item = Gtk.RadioMenuItem.new_with_label(radio_group, 'Manual')
     manual_item.connect('activate', manual_action)
     menu.append(manual_item)
+
+    menu.connect('show', on_menu_show)
 
     menu.show_all()
 
