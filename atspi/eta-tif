@@ -5,16 +5,18 @@ import dbus
 import signal
 import sys
 
+from dbus.mainloop.glib import DBusGMainLoop
+
 import gi
 
 gi.require_version('XApp', '1.0')
 gi.require_version('Gtk', '3.0')
-from gi.repository import GLib, Gtk, XApp
 
-import threading
+from gi.repository import GLib, Gtk, XApp
 
 session_bus = dbus.SessionBus()
 
+DBusGMainLoop(set_as_default=True)
 
 def get_dbus_interface(name, path, interface):
     try:
@@ -77,6 +79,13 @@ def create_focus_changed_callback(show_keyboard_function):
 
 
 def signal_handler(signum, frame):
+    try:
+        pyatspi.Registry.deregisterEventListener(
+            focus_changed_callback,
+            'object:state-changed:focused'
+        )
+    except:
+        pass
     sys.exit(0)
 
 def create_indicator():
@@ -159,14 +168,11 @@ if __name__ == "__main__":
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
 
-    th = threading.Thread(target=create_indicator)
-    th.start()
-
-
     # pyatspi.Registry.registerEventListener(onfocuschanged, 'focus')
     focus_changed_callback = create_focus_changed_callback(dbus_show_keyboard)
     pyatspi.Registry.registerEventListener(
         focus_changed_callback,
         'object:state-changed:focused'
     )
-    pyatspi.Registry.start()
+
+    create_indicator()
