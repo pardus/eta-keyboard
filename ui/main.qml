@@ -69,6 +69,7 @@ ApplicationWindow {
     property int m_settings_width
     property bool keyboardVisible: false
     property bool layoutChange: false
+    property bool atspiChange: false
     property int themeName
     property bool loaded: false
     property string storedMirror
@@ -572,13 +573,20 @@ ApplicationWindow {
             setPosition();
         }
 
-
         onHideCalled: {
             hideKeyboard()
         }
 
         onLayoutChanged: {
             main.layoutChange = !main.layoutChange
+        }
+
+        onAtspiChanged: function(enabled) {
+            if (enabled) {
+                main.atspiChange = true
+            } else {
+                main.atspiChange = false
+            }
         }
 
         onPasswordDetected: {

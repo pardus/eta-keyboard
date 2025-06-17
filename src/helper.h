@@ -41,6 +41,7 @@ class Helper : public QObject
                NOTIFY passwordDetected
                NOTIFY showPinInputCalled
                NOTIFY hidePinInputCalled
+               NOTIFY atspiChanged
                NOTIFY focusChanged)
 public:
     explicit Helper(QObject *parent = 0);
@@ -95,6 +96,7 @@ signals:
     void passwordDetected();
     void showPinInputCalled();
     void hidePinInputCalled();
+    void atspiChanged(bool status);
     void focusChanged();
 };
 

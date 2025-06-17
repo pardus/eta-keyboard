@@ -880,17 +880,28 @@ ApplicationWindow {
                 }
 
 
-                Key{
+                Key {
                     id: autoShowKey
                     leVis4: true
+
+                    property bool atspi: main.atspiChange
+                    property string atspiIconPath: helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.svg" : "qrc:/ui/Images/auto-off.svg"
 
                     Image {
                         id: autoShowImage
                         anchors.centerIn: parent
                         width: parent.width * 0.8
                         height: parent.height * 0.8
-                        source: helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.svg" : "qrc:/ui/Images/auto-off.svg"
+                        source: autoShowKey.atspiIconPath
                         fillMode: Image.PreserveAspectFit
+                    }
+
+                    onAtspiChanged: {
+                        if (main.atspiChange) {
+                            atspiIconPath = "qrc:/ui/Images/auto-on.svg"
+                        } else {
+                            atspiIconPath = "qrc:/ui/Images/auto-off.svg"
+                        }
                     }
 
                     MouseArea {
@@ -912,13 +923,7 @@ ApplicationWindow {
                         onClicked: {
                             autoShowKey.btnClicked()
                             helper.setEnableAtspi(!helper.getEnableAtspi());
-                            autoShowImage.source = helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.svg" : "qrc:/ui/Images/auto-off.svg";
-                            if(helper.getEnableAtspi()){
-                                console.log("Atspi enabled");
-                            }else {
-                                console.log("Atspi disabled");
-                            }
-
+                            autoShowKey.atspiIconPath = helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.svg" : "qrc:/ui/Images/auto-off.svg";
                             settings.setAndSaveConf()
                         }
                     }

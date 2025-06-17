@@ -205,6 +205,7 @@ void Helper::setEnableAtspi(bool status)
     QSettings settings(QDir::homePath() + "/.config/eta/eta-keyboard/config.ini", QSettings::IniFormat);
     settings.setValue("AtspiEnabled", showAtspi);
     settings.sync();
+    emit atspiChanged(status);
 }
 
 bool Helper::getEnableAtspi()
