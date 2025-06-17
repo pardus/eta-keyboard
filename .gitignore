@@ -46,6 +46,7 @@ Thumbs.db
 # Temporary files left by editors #
 ###################################
 *.swp
+.vscode/
 
 # Various signature files #
 ###########################
