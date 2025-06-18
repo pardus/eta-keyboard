@@ -8,3 +8,4 @@ Type=Application
 Categories=
 GenericName=
 X-KDE-Autostart-enabled=true
+X-GNOME-Autostart-Delay=10
