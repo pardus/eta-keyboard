@@ -51,4 +51,7 @@ tif.path = /usr/bin
 tif_desktop.files = atspi/eta-tif-autostart.desktop
 tif_desktop.path = /etc/xdg/autostart
 
-INSTALLS += target desktop_file autostart_file icon icon_project atspi_env tif tif_desktop
+translations.files = locale/*
+translations.path = /usr/share/locale/
+
+INSTALLS += target desktop_file autostart_file icon icon_project atspi_env tif tif_desktop translations

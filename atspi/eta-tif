@@ -4,6 +4,8 @@ import pyatspi
 import dbus
 import signal
 import sys
+import os
+import gettext
 
 from dbus.mainloop.glib import DBusGMainLoop
 
@@ -13,6 +15,13 @@ gi.require_version('XApp', '1.0')
 gi.require_version('Gtk', '3.0')
 
 from gi.repository import GLib, Gtk, XApp
+
+# Setup internationalization
+import locale
+from locale import gettext as _
+
+locale.bindtextdomain('eta-keyboard', '/usr/share/locale')
+locale.textdomain('eta-keyboard')
 
 session_bus = dbus.SessionBus()
 
@@ -127,7 +136,7 @@ def create_indicator():
     menu = Gtk.Menu()
 
     # Show menu item
-    show_item = Gtk.MenuItem.new_with_label('Show')
+    show_item = Gtk.MenuItem.new_with_label(_('Show'))
     show_item.connect('activate', show_action)
     menu.append(show_item)
 
@@ -136,13 +145,13 @@ def create_indicator():
 
     # Create radio menu items
     radio_group = None
-    auto_item = Gtk.RadioMenuItem.new_with_label(radio_group, 'Auto')
+    auto_item = Gtk.RadioMenuItem.new_with_label(radio_group, _('Auto'))
     radio_group = auto_item.get_group()
     auto_item.connect('activate', auto_action)
     auto_item.set_active(True)
     menu.append(auto_item)
 
-    manual_item = Gtk.RadioMenuItem.new_with_label(radio_group, 'Manual')
+    manual_item = Gtk.RadioMenuItem.new_with_label(radio_group, _('Manual'))
     manual_item.connect('activate', manual_action)
     menu.append(manual_item)
 
@@ -154,7 +163,7 @@ def create_indicator():
     status_icon = XApp.StatusIcon()
     status_icon.set_name('eta-keyboard')
     status_icon.set_icon_name('eta-keyboard')
-    status_icon.set_tooltip_text('ETA Klavye')
+    status_icon.set_tooltip_text(_('ETA Keyboard'))
     status_icon.set_primary_menu(menu)
     status_icon.set_visible(True)
 
