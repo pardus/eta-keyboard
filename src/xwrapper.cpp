@@ -43,6 +43,27 @@ XWrapper::XWrapper()
     kbd->active_laypout_index = 0;
     display = QX11Info::display();
 
+    // Track global focus via EWMH (_NET_ACTIVE_WINDOW) on the root
+    // Subscribe to PropertyNotify on the root:
+    ::XSelectInput(display, QX11Info::appRootWindow(), PropertyChangeMask);
+    ::XFlush(display);
+
+    // _NET_ACTIVE_WINDOW atom:
+    {
+        static const char name[] = "_NET_ACTIVE_WINDOW";
+        xcb_intern_atom_cookie_t ck = xcb_intern_atom(kbd->conn, 0, sizeof(name)-1, name);
+        if (auto *rep = xcb_intern_atom_reply(kbd->conn, ck, nullptr)) {
+            net_active_window = rep->atom;
+            free(rep);
+        }
+    }
+
+    // Discover XKB first_event so we can recognize real XKB events
+    if (const xcb_query_extension_reply_t *xkb_ext =
+            xcb_get_extension_data(kbd->conn, &xcb_xkb_id)) {
+        xkb_first_event = xkb_ext->first_event;  // (non-zero when present)
+    }
+
     logger = new Logger();
 }
 
@@ -149,13 +170,38 @@ void XWrapper::processXkbEvents(xcb_generic_event_t *gevent, keyboard *kbd)
 bool XWrapper::nativeEventFilter(const QByteArray &eventType,
                                  void *message, long *)
 {
+    if (eventType != "xcb_generic_event_t")
+        return false;
 
-    if (eventType == "xcb_generic_event_t") {
-        xcb_generic_event_t* ev = static_cast<xcb_generic_event_t *>(message);
+    auto *ev = static_cast<xcb_generic_event_t*>(message);
+    const uint8_t code = ev->response_type & 0x7F;
 
-        processXkbEvents(ev,kbd);
+    // (1) Global focus via EWMH: property changes on the root for _NET_ACTIVE_WINDOW
+    if (code == XCB_PROPERTY_NOTIFY) {
+        auto *pe = reinterpret_cast<xcb_property_notify_event_t*>(ev);
+        if (pe->atom == net_active_window && pe->window == QX11Info::appRootWindow()) {
+            // Read the active window id (one 32-bit XID)
+            xcb_get_property_cookie_t ck =
+                xcb_get_property(kbd->conn, 0,
+                                 QX11Info::appRootWindow(),
+                                 net_active_window,
+                                 XCB_ATOM_WINDOW, 0, 1);
+            if (auto *rep = xcb_get_property_reply(kbd->conn, ck, nullptr)) {
+                if (xcb_get_property_value_length(rep) >= 4) {
+                    xcb_window_t active =
+                        *reinterpret_cast<xcb_window_t*>(xcb_get_property_value(rep));
+                    printf("[GlobalFocus] Active window -> %#x\n", active);
+		    if (focus_change_cb)
+                        focus_change_cb(active);
+                }
+                free(rep);
+            }
+        }
+    }
 
-
+    // (2) XKB keyboard map / state events — only if this *really is* an XKB event
+    if (xkb_first_event && code == xkb_first_event) {
+        processXkbEvents(ev, kbd);
     }
     return false;
 }

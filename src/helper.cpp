@@ -23,7 +23,6 @@
 #include "src/vkdbusinterface.h"
 #include "src/xkblibwrapper.h"
 #include "src/settings.h"
-#include "src/focuswatcher.h"
 #include <QAbstractEventDispatcher>
 #include <QString>
 #include <QProcess>
@@ -58,11 +57,10 @@ Helper::Helper(QObject *parent):
     connect(vkdi,SIGNAL(showPinInput()),this,SIGNAL(showPinInputCalled()));
     connect(vkdi,SIGNAL(hidePinInput()),this,SIGNAL(hidePinInputCalled()));
 
-    // Start focus watcher & connect signal
-    focusWatcher = new FocusWatcher(this);
-    connect(focusWatcher, &FocusWatcher::focusChanged, this, &Helper::focusChanged);
-    focusWatcher->start();
-
+    // Emit focus changed signal
+    xw->registerFocusChangeCb([this](xcb_window_t) {
+        emit focusChanged();
+    });
 }
 
 Helper::~Helper()
