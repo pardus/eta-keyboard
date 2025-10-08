@@ -28,7 +28,6 @@ private:
     QString file_fullpath;
     QString whoami;
 
-    QDir *d;
     QFile file;
 
 
