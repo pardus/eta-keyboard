@@ -73,6 +73,7 @@ XWrapper::~XWrapper()
     xkb_keymap_unref(kbd->keymap);
     xkb_context_unref(kbd->ctx);
     delete kbd;
+    delete logger;
 }
 
 void XWrapper::setHelper(Helper *h)
