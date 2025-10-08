@@ -223,15 +223,16 @@ QString XWrapper::getSymbol(int keycode, int layoutIndex, int keyLevel) const
 {
 
     const xkb_keysym_t *arr;
-    int size = xkb_keymap_key_get_syms_by_level(kbd->keymap, keycode,
-                                                layoutIndex,keyLevel,&arr);
-    char symbol[10];
-    if (size > 0) {
-        xkb_keysym_to_utf8(arr[0],symbol,10);
-    }else {
-        char space[] = " ";
-        strcpy(symbol,space);
-    }
+    char symbol[32];
+    int len = xkb_keymap_key_get_syms_by_level(kbd->keymap, keycode,
+                                               layoutIndex,keyLevel,&arr);
+    if (len <= 0)
+        return QString(" ");
+
+    len = xkb_keysym_to_utf8(arr[0], symbol, sizeof(symbol));
+    if (len <= 0)
+        return QString(" ");
+
     return QString::fromUtf8(symbol);
 }
 

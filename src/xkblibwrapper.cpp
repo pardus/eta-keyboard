@@ -172,9 +172,9 @@ bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
     QStringList variants = names[3].split(OPTIONS_SEPARATOR);
 
     for(int ii=0; ii<layouts.count(); ii++) {
-        xkbConfig->layouts << (layouts[ii] != NULL ? layouts[ii] : "");
+        xkbConfig->layouts << (!layouts[ii].isEmpty() ? layouts[ii] : "");
         xkbConfig->variants << (ii < variants.count()
-                                && variants[ii] != NULL ? variants[ii] : "");
+                                && !variants[ii].isEmpty() ? variants[ii] : "");
     }
 
     XFree(prop_data);
