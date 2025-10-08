@@ -54,12 +54,9 @@ bool Logger::createFile(const QString &file_path, const QString &file_name)
         QFile file(file_fullpath);
         if (file.open(QIODevice::ReadWrite)) {
             file.setPermissions(QFileDevice::ReadOther |
-                                QFileDevice::WriteOther |
                                 QFileDevice::ReadGroup |
-                                QFileDevice::WriteGroup |
                                 QFileDevice::ReadOwner |
-                                QFileDevice::WriteOwner |
-                                QFileDevice::ExeOwner);
+                                QFileDevice::WriteOwner);
             file.close();
             return true;
         } else {
