@@ -28,6 +28,7 @@ Settings::Settings(QObject *parent) :
     QObject(parent),
     m_color(0),
     m_scale(1.0),
+    m_languageLayoutIndex(0),
     m_opacity(1.0),
     m_languageVariant("")
 {
