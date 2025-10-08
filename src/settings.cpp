@@ -33,7 +33,7 @@ Settings::Settings(QObject *parent) :
 {
     configpath = QDir::homePath() + "/.config/eta/eta-keyboard/config.ini";
 
-    preferences = new QSettings(configpath, QSettings::IniFormat);
+    preferences = new QSettings(configpath, QSettings::IniFormat, this);
 
     QFileInfo checkConfig(configpath);
 
