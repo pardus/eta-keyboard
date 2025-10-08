@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     QString pidName = SINGLE_INSTANCE;
     QString username = qgetenv("USER");
     if (username.isEmpty())
-        username = qgetenv("USERNAME");
+	    username = qgetenv("USERNAME");
     QString tmpPath= "/tmp/";
     QString pidPath = tmpPath.append(username);
 

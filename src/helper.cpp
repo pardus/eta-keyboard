@@ -44,7 +44,7 @@ Helper::Helper(QObject *parent):
         return;
 
     // Load Atspi state from QSettings
-    QSettings settings(QDir::homePath() + "/.config/eta/eta-keyboard/config.ini", QSettings::IniFormat);
+    QSettings settings(ETA_CONFIG_PATH, QSettings::IniFormat);
     showAtspi = settings.value("AtspiEnabled", true).toBool();
 
     QAbstractEventDispatcher::instance()->installNativeEventFilter(xw);
@@ -206,7 +206,7 @@ void Helper::setEnableAtspi(bool status)
 {
     showAtspi = status;
     // Save Atspi state to QSettings
-    QSettings settings(QDir::homePath() + "/.config/eta/eta-keyboard/config.ini", QSettings::IniFormat);
+    QSettings settings(ETA_CONFIG_PATH, QSettings::IniFormat);
     settings.setValue("AtspiEnabled", showAtspi);
     settings.sync();
     emit atspiChanged(status);
