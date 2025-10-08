@@ -104,7 +104,6 @@ QString LayoutUnit::toString() const
 
 bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
 {
-    Display *display = XOpenDisplay(NULL);
     static const char* OPTIONS_SEPARATOR = ",";
 
     Atom real_prop_type;
