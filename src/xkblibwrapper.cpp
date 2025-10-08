@@ -64,6 +64,12 @@ QString XKBLibWrapper::getCurrentLayout()
 QString XKBLibWrapper::getLayoutName(unsigned int layoutIndex)
 {
     QList<LayoutUnit> layoutUnits = getLayoutsList();
+    if (layoutIndex >= static_cast<unsigned int>(layoutUnits.size())) {
+        logger->log(logger->red_color
+                    + "Layout index out of bounds: " + QString::number(layoutIndex)
+                    + logger->no_color);
+        return QString();
+    }
     return layoutUnits.at(layoutIndex).toString();
 }
 
