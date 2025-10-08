@@ -89,7 +89,7 @@ void Helper::setKeyboardLayout(const QString &langCode, const QString &variant) 
     if (!variant.isEmpty()) {
         args << "-variant" << variant;
     }
-    QProcess::execute("setxkbmap", args);
+    QProcess::startDetached("setxkbmap", args);
 }
 
 void Helper::setSettings(int color,
