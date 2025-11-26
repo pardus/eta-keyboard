@@ -43,6 +43,7 @@ ApplicationWindow {
     property string fullLayoutText: ""
     property string simpleLayoutText: ""
     property string currentLanguageCode: ""
+    property string trVariant: ""
     property variant colorsCurrentArr: ["Grey","Green","Blue","Brown","White"]
     property variant colorsTr: ["Gri","Yeşil","Mavi","Kahve","Beyaz"]
     property variant colorsUs: ["Grey","Green","Blue","Brown","White"]
@@ -154,6 +155,10 @@ ApplicationWindow {
         var selectedLangData = languageModel.get(settings.languageIndex);
         var selectedLang = selectedLangData ? selectedLangData.text : "tr";
         var selectedVariant = selectedLangData && selectedLangData.variant ? selectedLangData.variant : "";
+
+        if (selectedLang === "tr") {
+            selectedVariant = settings.trVariant;
+        }
 
         currentLanguageCode = selectedLang;
 
@@ -329,6 +334,7 @@ ApplicationWindow {
                             color: {
                                 main.updateTheme;
                                 settings.languageIndex;
+                                settings.trVariant;
                                 return (index === settings.languageIndex) ? main.keyPressedColor : main.keyColor;
                             }
                             border.color: main.color
@@ -345,10 +351,35 @@ ApplicationWindow {
                                 fillMode: Image.PreserveAspectFit
                             }
 
+                            Text {
+                                visible: {
+                                    var langData = languageModel.get(index);
+                                    return langData && langData.text === "tr" && (index === settings.languageIndex) && trVariant === "f";
+                                }
+                                text: "F"
+                                color: "white"
+                                font.pixelSize: parent.height * 0.22
+                                font.bold: true
+                                font.weight: Font.Black
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                anchors.rightMargin: parent.width * 0.08
+                                anchors.bottomMargin: parent.height * 0.08
+                                style: Text.Raised
+                                styleColor: "#000000"
+                            }
+
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
-                                    settings.languageIndex = index
+                                    var langData = languageModel.get(index);
+
+                                    if (langData && langData.text === "tr" && settings.languageIndex === index) {
+                                        settings.trVariant = (settings.trVariant === "f") ? "" : "f"
+                                    } else {
+                                        settings.languageIndex = index
+                                    }
+
                                     changeLanguageLayout()
                                     languageWindow.hide()
                                     languageWindow.isOpen = false
@@ -597,8 +628,26 @@ ApplicationWindow {
                             anchors.centerIn: parent
                             width: parent.width * 0.6
                             height: parent.height * 0.6
-                            source: languageModel.get(settings.languageIndex).flagSrc
+                            source: {
+                                var langData = languageModel.get(settings.languageIndex);
+                                return langData ? langData.flagSrc : "qrc:/ui/Images/flags/tr.svg";
+                            }
                             fillMode: Image.PreserveAspectFit
+                        }
+
+                        Text {
+                            visible: currentLanguageCode === "tr" && trVariant === "f"
+                            text: "F"
+                            color: "white"
+                            font.pixelSize: parent.height * 0.22
+                            font.bold: true
+                            font.weight: Font.Black
+                            anchors.right: parent.right
+                            anchors.bottom: parent.bottom
+                            anchors.rightMargin: parent.width * 0.08
+                            anchors.bottomMargin: parent.height * 0.08
+                            style: Text.Raised
+                            styleColor: "#000000"
                         }
                     }
 
