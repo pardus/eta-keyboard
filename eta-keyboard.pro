@@ -44,6 +44,9 @@ icon.path = /usr/share/icons/hicolor/scalable/apps/
 icon_project.files = keyboard.svg
 icon_project.path = /usr/share/eta/eta-keyboard/
 
+status_icons.files = ui/Images/auto-on-status.svg ui/Images/auto-off-status.svg
+status_icons.path = /usr/share/eta/eta-keyboard/
+
 atspi_env.files = atspi/99eta-a11y
 atspi_env.path = /etc/X11/Xsession.d
 tif.files = atspi/eta-tif
@@ -54,4 +57,4 @@ tif_desktop.path = /etc/xdg/autostart
 translations.files = locale/*
 translations.path = /usr/share/locale/
 
-INSTALLS += target desktop_file autostart_file icon icon_project atspi_env tif tif_desktop translations
+INSTALLS += target desktop_file autostart_file icon icon_project status_icons atspi_env tif tif_desktop translations
