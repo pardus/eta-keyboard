@@ -4,8 +4,6 @@ import pyatspi
 import dbus
 import signal
 import sys
-import os
-import gettext
 
 from dbus.mainloop.glib import DBusGMainLoop
 
@@ -26,6 +24,11 @@ locale.textdomain('eta-keyboard')
 session_bus = dbus.SessionBus()
 
 DBusGMainLoop(set_as_default=True)
+
+# Status icon paths
+ICON_AUTO_ON = '/usr/share/eta/eta-keyboard/auto-on-status.svg'
+ICON_AUTO_OFF = '/usr/share/eta/eta-keyboard/auto-off-status.svg'
+
 
 def get_dbus_interface(name, path, interface):
     try:
@@ -97,38 +100,115 @@ def signal_handler(signum, frame):
         pass
     sys.exit(0)
 
+
+class IndicatorState:
+
+    def __init__(self):
+        self.auto_mode = True
+        self.status_icon = None
+        self.auto_item = None
+        self.manual_item = None
+
+    def update_icon(self):
+
+        if self.status_icon is None:
+            return
+        if self.auto_mode:
+            self.status_icon.set_icon_name(ICON_AUTO_ON)
+            tip = _('ETA Keyboard') + ' - ' + _('Auto')
+        else:
+            self.status_icon.set_icon_name(ICON_AUTO_OFF)
+            tip = _('ETA Keyboard') + ' - ' + _('Manual')
+        self.status_icon.set_tooltip_text(tip)
+
+    def sync_from_keyboard(self):
+        """
+        Sync state from keyboard Dbus interface
+        """
+        keyboard = get_keyboard()
+        if keyboard:
+            try:
+                self.auto_mode = bool(keyboard.getEnableAtspi())
+                self.update_icon()
+            except Exception as e:
+                print(f"Error syncing state from keyboard: {e}")
+
+
 def create_indicator():
-    def on_menu_show(widget):
+
+    state = IndicatorState()
+
+    def on_menu_show(_widget):
+        """
+        Sync menu radio buttons with keyboard state on show
+        """
         keyboard = get_keyboard()
         if keyboard:
             try:
                 current_state = keyboard.getEnableAtspi()
-                auto_item.set_active(current_state)
-                manual_item.set_active(not current_state)
+                state.auto_mode = bool(current_state)
+                state.update_icon()
+                # Block signals to pr
+                state.auto_item.handler_block_by_func(auto_action)
+                state.manual_item.handler_block_by_func(manual_action)
+                state.auto_item.set_active(current_state)
+                state.manual_item.set_active(not current_state)
+                state.auto_item.handler_unblock_by_func(auto_action)
+                state.manual_item.handler_unblock_by_func(manual_action)
             except Exception as e:
                 print(f"Error getting atspi state: {e}")
 
-    def show_action(*args):
+    def show_action(*_args):
         keyboard = get_keyboard()
         if keyboard:
-            keyboard.showForce(True)
+            try:
+                keyboard.showForce(True)
+            except Exception as e:
+                print(f"Error showing keyboard: {e}")
 
-    def auto_action(*args):
-        if auto_item.get_active():
+    def toggle_action(*_args):
+        """
+        Toggle auto/manual mode on left click
+        """
+        keyboard = get_keyboard()
+        if keyboard:
+            try:
+                current_state = keyboard.getEnableAtspi()
+                new_state = not current_state
+                keyboard.setEnableAtspi(new_state)
+                state.auto_mode = new_state
+                state.update_icon()
+                if not new_state:
+                    keyboard.hide()
+            except Exception as e:
+                print(f"Error toggling auto mode: {e}")
+
+    def auto_action(*_args):
+        """
+        Enable auto mode from menu
+        """
+        if state.auto_item.get_active():
             keyboard = get_keyboard()
             if keyboard:
                 try:
                     keyboard.setEnableAtspi(True)
+                    state.auto_mode = True
+                    state.update_icon()
                 except Exception as e:
                     print(f"Error enabling auto mode: {e}")
 
-    def manual_action(*args):
-        if manual_item.get_active():
+    def manual_action(*_args):
+        """
+        Enable manual mode from menu
+        """
+        if state.manual_item.get_active():
             keyboard = get_keyboard()
             if keyboard:
                 try:
                     keyboard.setEnableAtspi(False)
                     keyboard.hide()
+                    state.auto_mode = False
+                    state.update_icon()
                 except Exception as e:
                     print(f"Error enabling manual mode: {e}")
 
@@ -145,30 +225,35 @@ def create_indicator():
 
     # Create radio menu items
     radio_group = None
-    auto_item = Gtk.RadioMenuItem.new_with_label(radio_group, _('Auto'))
-    radio_group = auto_item.get_group()
-    auto_item.connect('activate', auto_action)
-    auto_item.set_active(True)
-    menu.append(auto_item)
+    state.auto_item = Gtk.RadioMenuItem.new_with_label(radio_group, _('Auto'))
+    radio_group = state.auto_item.get_group()
+    state.auto_item.connect('activate', auto_action)
+    state.auto_item.set_active(True)
+    menu.append(state.auto_item)
 
-    manual_item = Gtk.RadioMenuItem.new_with_label(radio_group, _('Manual'))
-    manual_item.connect('activate', manual_action)
-    menu.append(manual_item)
+    state.manual_item = Gtk.RadioMenuItem.new_with_label(
+        radio_group, _('Manual')
+    )
+    state.manual_item.connect('activate', manual_action)
+    menu.append(state.manual_item)
 
     menu.connect('show', on_menu_show)
 
     menu.show_all()
 
     # Configure status icon
-    status_icon = XApp.StatusIcon()
-    status_icon.set_name('eta-keyboard')
-    status_icon.set_icon_name('eta-keyboard')
-    status_icon.set_tooltip_text(_('ETA Keyboard'))
-    status_icon.set_primary_menu(menu)
-    status_icon.set_visible(True)
+    state.status_icon = XApp.StatusIcon()
+    state.status_icon.set_name('eta-keyboard')
 
-    # Connect show action to show the keyboard
-    status_icon.connect('activate', show_action)
+    # Sync initial state from keyboard and set icon
+    state.sync_from_keyboard()
+
+    # Set menu as secondary (right-click) instead of primary (left-click)
+    state.status_icon.set_secondary_menu(menu)
+    state.status_icon.set_visible(True)
+
+    # Connect toggle action to left-click (activate signal)
+    state.status_icon.connect('activate', toggle_action)
 
     Gtk.main()
 
