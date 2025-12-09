@@ -28,7 +28,8 @@ Settings::Settings(QObject *parent) :
     QObject(parent),
     m_color(0),
     m_scale(1.0),
-    m_opacity(1.0)
+    m_opacity(1.0),
+    m_languageVariant("")
 {
     configpath = QDir::homePath() + "/.config/eta/eta-keyboard/config.ini";
 
@@ -43,6 +44,7 @@ Settings::Settings(QObject *parent) :
         m_scale = preferences->value("Scale").toDouble();
         m_languageLayoutIndex = preferences->value("LanguageLayoutIndex").toUInt();
         m_opacity = preferences->value("Opacity").toDouble();
+        m_languageVariant = preferences->value("LanguageVariant").toString();
 
         preferences->endGroup();
     }
@@ -51,13 +53,15 @@ Settings::Settings(QObject *parent) :
 void Settings::setSettings(const int color, const QString& layoutType,
                            double scale,
                            unsigned int languageLayoutIndex,
-                           double opacity)
+                           double opacity,
+                           const QString& languageVariant)
 {
     this->m_color = color;
     this->m_layoutType = layoutType;
     this->m_scale = scale;
     this->m_languageLayoutIndex = languageLayoutIndex;
     this->m_opacity = opacity;
+    this->m_languageVariant = languageVariant;
 }
 
 int Settings::getColor() const
@@ -85,6 +89,11 @@ double Settings::getOpacity()
     return this->m_opacity;
 }
 
+QString Settings::getLanguageVariant() const
+{
+    return this->m_languageVariant;
+}
+
 void Settings::saveSettings()
 {
     preferences->beginGroup("eta-keyboard");
@@ -94,6 +103,7 @@ void Settings::saveSettings()
     preferences->setValue("Scale", this->m_scale);
     preferences->setValue("LanguageLayoutIndex", this->m_languageLayoutIndex);
     preferences->setValue("Opacity", this->m_opacity);
+    preferences->setValue("LanguageVariant", this->m_languageVariant);
 
     preferences->endGroup();
     preferences->sync();

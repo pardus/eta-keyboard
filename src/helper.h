@@ -63,11 +63,13 @@ public:
                                  const QString& layoutType,
                                  double scale,
                                  unsigned int languageLayoutIndex,
-                                 double opacity);
+                                 double opacity,
+                                 const QString& languageVariant = "");
     Q_INVOKABLE int getColor() const;
     Q_INVOKABLE QString getLayoutType() const;
     Q_INVOKABLE double getScale();
     Q_INVOKABLE double getOpacity();
+    Q_INVOKABLE QString getLanguageVariant() const;
     Q_INVOKABLE void saveSettings();
     Q_INVOKABLE void layoutChangedCallback();
     Q_INVOKABLE void setEnableAtspi(bool status);

@@ -98,9 +98,10 @@ void Helper::setSettings(int color,
                          const QString& layoutType,
                          double scale,
                          unsigned int languageLayoutIndex,
-                         double opacity)
+                         double opacity,
+                         const QString& languageVariant)
 {
-    s->setSettings(color, layoutType, scale, languageLayoutIndex, opacity);
+    s->setSettings(color, layoutType, scale, languageLayoutIndex, opacity, languageVariant);
 }
 
 int Helper::getColor() const
@@ -121,6 +122,11 @@ double Helper::getScale()
 double Helper::getOpacity()
 {
     return s->getOpacity();
+}
+
+QString Helper::getLanguageVariant() const
+{
+    return s->getLanguageVariant();
 }
 
 void Helper::saveSettings()

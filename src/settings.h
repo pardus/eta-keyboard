@@ -33,12 +33,14 @@ public:
     void setSettings(const int color, const QString& layoutType,
                      double scale,
                      unsigned int languageLayoutIndex,
-                     double opacity);
+                     double opacity,
+                     const QString& languageVariant = "");
     int getColor() const;
     QString getLayoutType() const;
     double getScale();
     unsigned int getLanguageLayoutIndex();
     double getOpacity();
+    QString getLanguageVariant() const;
     void saveSettings();
 private:
     int m_color;
@@ -48,6 +50,7 @@ private:
     QString configpath;
     QSettings *preferences;
     double m_opacity;
+    QString m_languageVariant;
 };
 
 #endif // SETTINGS_H

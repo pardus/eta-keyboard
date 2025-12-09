@@ -1040,6 +1040,7 @@ ApplicationWindow {
         if (settings.languageIndex >= languageModel.count) {
             settings.languageIndex = 0;
         }
+        settings.trVariant = helper.getLanguageVariant();
         changeLanguageLayout();
         hideSettings.start();
     }

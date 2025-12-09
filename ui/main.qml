@@ -104,7 +104,8 @@ ApplicationWindow {
                                main.layout,
                                main.scale,
                                settings.languageIndex,
-                               main.opacity)
+                               main.opacity,
+                               settings.trVariant)
             helper.saveSettings()
         }
     }
