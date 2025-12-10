@@ -64,6 +64,12 @@ QString XKBLibWrapper::getCurrentLayout()
 QString XKBLibWrapper::getLayoutName(unsigned int layoutIndex)
 {
     QList<LayoutUnit> layoutUnits = getLayoutsList();
+    if (layoutIndex >= static_cast<unsigned int>(layoutUnits.size())) {
+        logger->log(logger->red_color
+                    + "Layout index out of bounds: " + QString::number(layoutIndex)
+                    + logger->no_color);
+        return QString();
+    }
     return layoutUnits.at(layoutIndex).toString();
 }
 
@@ -104,7 +110,6 @@ QString LayoutUnit::toString() const
 
 bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
 {
-    Display *display = XOpenDisplay(NULL);
     static const char* OPTIONS_SEPARATOR = ",";
 
     Atom real_prop_type;
@@ -167,9 +172,9 @@ bool XKBLibWrapper::getGroupNames(XkbConfig* xkbConfig)
     QStringList variants = names[3].split(OPTIONS_SEPARATOR);
 
     for(int ii=0; ii<layouts.count(); ii++) {
-        xkbConfig->layouts << (layouts[ii] != NULL ? layouts[ii] : "");
+        xkbConfig->layouts << (!layouts[ii].isEmpty() ? layouts[ii] : "");
         xkbConfig->variants << (ii < variants.count()
-                                && variants[ii] != NULL ? variants[ii] : "");
+                                && !variants[ii].isEmpty() ? variants[ii] : "");
     }
 
     XFree(prop_data);

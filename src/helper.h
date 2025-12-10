@@ -21,6 +21,9 @@
 #define HELPER_H
 
 #include <QObject>
+#include <QDir>
+
+#define ETA_CONFIG_PATH (QDir::homePath() + "/.config/eta/eta-keyboard/config.ini")
 
 class QDBusInterface;
 class QString;

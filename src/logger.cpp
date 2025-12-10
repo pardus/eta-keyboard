@@ -48,18 +48,15 @@ bool Logger::createFile(const QString &file_path, const QString &file_name)
 {
     file_fullpath = file_path + "/" + file_name;
     QFileInfo checkFile(file_fullpath);
-    d = new QDir(file_path);
+    QDir d(file_path);
     if(!checkFile.exists() || !checkFile.isFile()) {
-        d->mkpath(file_path);
+        d.mkpath(file_path);
         QFile file(file_fullpath);
         if (file.open(QIODevice::ReadWrite)) {
             file.setPermissions(QFileDevice::ReadOther |
-                                QFileDevice::WriteOther |
                                 QFileDevice::ReadGroup |
-                                QFileDevice::WriteGroup |
                                 QFileDevice::ReadOwner |
-                                QFileDevice::WriteOwner |
-                                QFileDevice::ExeOwner);
+                                QFileDevice::WriteOwner);
             file.close();
             return true;
         } else {

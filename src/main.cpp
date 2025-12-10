@@ -35,6 +35,8 @@
 #include <QRect>
 #include <QDesktopWidget>
 #include <QDebug>
+#include <QDBusInterface>
+#include <QDBusReply>
 
 #define SINGLE_INSTANCE ".virtualkeyboard"
 static int setup_unix_signal_handlers();
@@ -58,7 +60,7 @@ int main(int argc, char *argv[])
     QString pidName = SINGLE_INSTANCE;
     QString username = qgetenv("USER");
     if (username.isEmpty())
-        username = qgetenv("USERNAME");
+	    username = qgetenv("USERNAME");
     QString tmpPath= "/tmp/";
     QString pidPath = tmpPath.append(username);
 
@@ -76,8 +78,12 @@ int main(int argc, char *argv[])
     {
         if (argc == 2 && QString(argv[1]) == "show") {
             qDebug("Trying to show");
-            return system("qdbus org.eta.virtualkeyboard /VirtualKeyboard "
-                          "org.eta.virtualkeyboard.showForce false");
+            QDBusInterface iface("org.eta.virtualkeyboard",
+                                "/VirtualKeyboard",
+                                "org.eta.virtualkeyboard",
+                                QDBusConnection::sessionBus());
+            QDBusReply<void> reply = iface.call("showForce", false);
+            return reply.isValid() ? 0 : 1;
         } else {
             qDebug("eta-keyboard is allready running");
             return 0;

@@ -18,6 +18,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .          *
  *****************************************************************************/
 #include "src/settings.h"
+#include "src/helper.h"
 #include <QDir>
 #include <QFileInfo>
 #include <QSettings>
@@ -28,12 +29,13 @@ Settings::Settings(QObject *parent) :
     QObject(parent),
     m_color(0),
     m_scale(1.0),
+    m_languageLayoutIndex(0),
     m_opacity(1.0),
     m_languageVariant("")
 {
-    configpath = QDir::homePath() + "/.config/eta/eta-keyboard/config.ini";
+    configpath = ETA_CONFIG_PATH;
 
-    preferences = new QSettings(configpath, QSettings::IniFormat);
+    preferences = new QSettings(configpath, QSettings::IniFormat, this);
 
     QFileInfo checkConfig(configpath);
 

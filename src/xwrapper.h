@@ -22,6 +22,7 @@
 
 #include <QAbstractNativeEventFilter>
 #include <xcb/xcb.h>
+#include <functional>
 
 typedef struct xcb_connection_t xcb_connection_t;
 struct xkb_context;
@@ -44,6 +45,8 @@ struct keyboard {
 class XWrapper : public QAbstractNativeEventFilter
 {
 public:
+    using callback = std::function<void(xcb_window_t xid)>;
+
     XWrapper();
     ~XWrapper();
     QString getSymbol(int keycode, int layoutIndex, int keyLevel) const;
@@ -51,16 +54,30 @@ public:
     void fakeKeyRelease(unsigned int code);
     int getNumberOfLayouts();
     int getCapslockStatus();
-    virtual bool nativeEventFilter(const QByteArray &eventType,
-                                   void *message, long * );
+    bool nativeEventFilter(const QByteArray &eventType,
+                           void *message, long *) override;
     void setHelper(Helper *h);
+    void registerFocusChangeCb(callback cb);
+
 private:
     int updateKeymap(struct keyboard *kbd);
     void processXkbEvents(xcb_generic_event_t *gevent, struct keyboard *kbd);
+
     keyboard *kbd;
     Display *display;
     Helper *helper;
     Logger *logger;
+
+    uint8_t xkb_first_event = 0;                  // base event code for XKB
+    xcb_atom_t net_active_window = XCB_ATOM_NONE; // EWMH focus tracking
+
+    callback focus_change_cb;
 };
+
+inline void XWrapper::registerFocusChangeCb(callback cb)
+{
+    focus_change_cb = std::move(cb);
+}
+
 
 #endif // XWRAPPER_H

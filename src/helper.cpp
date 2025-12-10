@@ -23,7 +23,6 @@
 #include "src/vkdbusinterface.h"
 #include "src/xkblibwrapper.h"
 #include "src/settings.h"
-#include "src/focuswatcher.h"
 #include <QAbstractEventDispatcher>
 #include <QString>
 #include <QProcess>
@@ -45,7 +44,7 @@ Helper::Helper(QObject *parent):
         return;
 
     // Load Atspi state from QSettings
-    QSettings settings(QDir::homePath() + "/.config/eta/eta-keyboard/config.ini", QSettings::IniFormat);
+    QSettings settings(ETA_CONFIG_PATH, QSettings::IniFormat);
     showAtspi = settings.value("AtspiEnabled", true).toBool();
 
     QAbstractEventDispatcher::instance()->installNativeEventFilter(xw);
@@ -58,11 +57,10 @@ Helper::Helper(QObject *parent):
     connect(vkdi,SIGNAL(showPinInput()),this,SIGNAL(showPinInputCalled()));
     connect(vkdi,SIGNAL(hidePinInput()),this,SIGNAL(hidePinInputCalled()));
 
-    // Start focus watcher & connect signal
-    focusWatcher = new FocusWatcher(this);
-    connect(focusWatcher, &FocusWatcher::focusChanged, this, &Helper::focusChanged);
-    focusWatcher->start();
-
+    // Emit focus changed signal
+    xw->registerFocusChangeCb([this](xcb_window_t) {
+        emit focusChanged();
+    });
 }
 
 Helper::~Helper()
@@ -91,7 +89,7 @@ void Helper::setKeyboardLayout(const QString &langCode, const QString &variant) 
     if (!variant.isEmpty()) {
         args << "-variant" << variant;
     }
-    QProcess::execute("setxkbmap", args);
+    QProcess::startDetached("setxkbmap", args);
 }
 
 void Helper::setSettings(int color,
@@ -208,7 +206,7 @@ void Helper::setEnableAtspi(bool status)
 {
     showAtspi = status;
     // Save Atspi state to QSettings
-    QSettings settings(QDir::homePath() + "/.config/eta/eta-keyboard/config.ini", QSettings::IniFormat);
+    QSettings settings(ETA_CONFIG_PATH, QSettings::IniFormat);
     settings.setValue("AtspiEnabled", showAtspi);
     settings.sync();
     emit atspiChanged(status);

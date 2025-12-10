@@ -11,8 +11,7 @@ SOURCES += src/xwrapper.cpp \
     src/main.cpp \
     src/helper.cpp \
     src/adaptor.cpp \
-    src/logger.cpp \
-    src/focuswatcher.cpp
+    src/logger.cpp
 
 RESOURCES += qml.qrc images.qrc
 
@@ -23,8 +22,7 @@ HEADERS += src/xwrapper.h \
     src/settings.h \
     src/helper.h \
     src/adaptor.h \
-    src/logger.h \
-    src/focuswatcher.h
+    src/logger.h
 
 LIBS += -lxcb -lxkbcommon -lxkbcommon-x11 -lX11 -lXtst -lxcb-xkb
 

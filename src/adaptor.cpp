@@ -73,8 +73,9 @@ Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::setEnableAtspi(bool enabled)
 bool VirtualKeyboardInterfaceAdaptor::getEnableAtspi()
 {
     Helper* helper = qobject_cast<Helper*>(parent()->parent());
-    if (helper) {
-        return helper->getEnableAtspi();
+    if (!helper) {
+        qWarning() << "Failed to get Helper object in getEnableAtspi()";
+        return true;
     }
-    return true;
+    return helper->getEnableAtspi();
 }
