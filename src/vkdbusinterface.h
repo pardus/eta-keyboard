@@ -22,11 +22,14 @@
 
 #include <QObject>
 
+class VirtualKeyboardInterfaceAdaptor;
+
 class VkDbusInterface : public QObject
 {
     Q_OBJECT
 public:
     explicit VkDbusInterface(QObject *parent = 0);
+    void emitAtspiStateChanged(bool enabled);
 signals:
     void show(bool password);
     void showForce(bool password);
@@ -43,6 +46,8 @@ public Q_SLOTS:
     void toggleAutoShowSlot();
     void showPinInputSlot();
     void hidePinInputSlot();
+private:
+    VirtualKeyboardInterfaceAdaptor *m_adaptor;
 };
 
 #endif // VKDBUSINTERFACE_H

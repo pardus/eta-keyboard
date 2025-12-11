@@ -56,6 +56,7 @@ Helper::Helper(QObject *parent):
     connect(vkdi,SIGNAL(toggle()),this,SIGNAL(toggleCalled()));
     connect(vkdi,SIGNAL(showPinInput()),this,SIGNAL(showPinInputCalled()));
     connect(vkdi,SIGNAL(hidePinInput()),this,SIGNAL(hidePinInputCalled()));
+    connect(this, &Helper::atspiChanged, vkdi, &VkDbusInterface::emitAtspiStateChanged);
 
     // Emit focus changed signal
     xw->registerFocusChangeCb([this](xcb_window_t) {

@@ -29,6 +29,7 @@ class VirtualKeyboardInterfaceAdaptor : public QDBusAbstractAdaptor
     Q_CLASSINFO("D-Bus Interface", "org.eta.virtualkeyboard")
 public:
     VirtualKeyboardInterfaceAdaptor(QObject *parent);
+    void emitAtspiStateChanged(bool enabled);
 public slots:
     Q_NOREPLY void show(bool password);
     Q_NOREPLY void showForce(bool password);
@@ -39,6 +40,8 @@ public slots:
     Q_NOREPLY void hidePinInput();
     Q_NOREPLY void setEnableAtspi(bool enabled);
     bool getEnableAtspi();
+signals:
+    void atspiStateChanged(bool enabled);
 };
 
 #endif // ADAPTOR_H

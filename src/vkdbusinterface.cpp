@@ -24,7 +24,7 @@
 VkDbusInterface::VkDbusInterface(QObject *parent) :
     QObject(parent)
 {
-    new VirtualKeyboardInterfaceAdaptor(this);
+    m_adaptor = new VirtualKeyboardInterfaceAdaptor(this);
     QDBusConnection connection = QDBusConnection::sessionBus();
     auto ok = connection.registerObject("/VirtualKeyboard", this);
     if (!ok)
@@ -32,6 +32,11 @@ VkDbusInterface::VkDbusInterface(QObject *parent) :
     ok = connection.registerService("org.eta.virtualkeyboard");
     if (!ok)
         qCritical() << "eta-kbd: D-Bus: failed to register service";
+}
+
+void VkDbusInterface::emitAtspiStateChanged(bool enabled)
+{
+    m_adaptor->emitAtspiStateChanged(enabled);
 }
 
 void VkDbusInterface::showSlot(bool password)

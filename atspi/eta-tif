@@ -21,9 +21,8 @@ from locale import gettext as _
 locale.bindtextdomain('eta-keyboard', '/usr/share/locale')
 locale.textdomain('eta-keyboard')
 
-session_bus = dbus.SessionBus()
-
 DBusGMainLoop(set_as_default=True)
+session_bus = dbus.SessionBus()
 
 # Status icon paths
 ICON_AUTO_ON = '/usr/share/eta/eta-keyboard/auto-on-status.svg'
@@ -121,6 +120,21 @@ class IndicatorState:
             tip = _('ETA Keyboard') + ' - ' + _('Manual')
         self.status_icon.set_tooltip_text(tip)
 
+    def update_menu_items(self, auto_action_func, manual_action_func):
+        """
+        Update radio menu items to match current state
+        """
+        if self.auto_item and self.manual_item:
+            try:
+                self.auto_item.handler_block_by_func(auto_action_func)
+                self.manual_item.handler_block_by_func(manual_action_func)
+                self.auto_item.set_active(self.auto_mode)
+                self.manual_item.set_active(not self.auto_mode)
+                self.auto_item.handler_unblock_by_func(auto_action_func)
+                self.manual_item.handler_unblock_by_func(manual_action_func)
+            except Exception as e:
+                print(f"Error updating menu items: {e}")
+
     def sync_from_keyboard(self):
         """
         Sync state from keyboard Dbus interface
@@ -148,13 +162,7 @@ def create_indicator():
                 current_state = keyboard.getEnableAtspi()
                 state.auto_mode = bool(current_state)
                 state.update_icon()
-                # Block signals to pr
-                state.auto_item.handler_block_by_func(auto_action)
-                state.manual_item.handler_block_by_func(manual_action)
-                state.auto_item.set_active(current_state)
-                state.manual_item.set_active(not current_state)
-                state.auto_item.handler_unblock_by_func(auto_action)
-                state.manual_item.handler_unblock_by_func(manual_action)
+                state.update_menu_items(auto_action, manual_action)
             except Exception as e:
                 print(f"Error getting atspi state: {e}")
 
@@ -254,6 +262,24 @@ def create_indicator():
 
     # Connect toggle action to left-click (activate signal)
     state.status_icon.connect('activate', toggle_action)
+
+    # Listen for atspiStateChanged DBus signal
+    def on_atspi_state_changed(enabled):
+        """
+        Callback for DBus atspiStateChanged signal - triggered when
+        atspi state is changed from QML Settings
+        """
+        state.auto_mode = bool(enabled)
+        state.update_icon()
+        state.update_menu_items(auto_action, manual_action)
+
+    session_bus.add_signal_receiver(
+        on_atspi_state_changed,
+        signal_name='atspiStateChanged',
+        dbus_interface='org.eta.virtualkeyboard',
+        bus_name='org.eta.virtualkeyboard',
+        path='/VirtualKeyboard'
+    )
 
     Gtk.main()
 
