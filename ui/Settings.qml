@@ -354,9 +354,9 @@ ApplicationWindow {
                             Text {
                                 visible: {
                                     var langData = languageModel.get(index);
-                                    return langData && langData.text === "tr" && (index === settings.languageIndex) && trVariant === "f";
+                                    return langData && langData.text === "tr" && (index === settings.languageIndex);
                                 }
-                                text: "F"
+                                text: trVariant === "f" ? "F" : "Q"
                                 color: "white"
                                 font.pixelSize: parent.height * 0.22
                                 font.bold: true
@@ -636,8 +636,8 @@ ApplicationWindow {
                         }
 
                         Text {
-                            visible: currentLanguageCode === "tr" && trVariant === "f"
-                            text: "F"
+                            visible: currentLanguageCode === "tr"
+                            text: trVariant === "f" ? "F" : "Q"
                             color: "white"
                             font.pixelSize: parent.height * 0.22
                             font.bold: true

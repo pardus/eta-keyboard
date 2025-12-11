@@ -191,7 +191,6 @@ bool XWrapper::nativeEventFilter(const QByteArray &eventType,
                 if (xcb_get_property_value_length(rep) >= 4) {
                     xcb_window_t active =
                         *reinterpret_cast<xcb_window_t*>(xcb_get_property_value(rep));
-                    printf("[GlobalFocus] Active window -> %#x\n", active);
 		    if (focus_change_cb)
                         focus_change_cb(active);
                 }
