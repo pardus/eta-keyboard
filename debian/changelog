@@ -1,3 +1,32 @@
+eta-keyboard (1.1.4) unstable; urgency=medium
+
+  [ Emel Öztürk ]
+  * Add turkish F variant
+  * Change system tray icons based on atspi state
+  * Save turkish variants for user
+  * Improve tray indicator with toggle mode
+
+  [ Cihangir Akturk ]
+  * xwrapper: replace FocusWatcher with XCB-based focus tracking
+  * main: fix command injection vulnerability
+  * xkblibwrapper: fix Display resource leak
+  * logger: fix QDir memory leak
+  * settings: fix QSettings memory leak
+  * xwrapper: fix Logger memory leak
+  * logger: fix world-writable log file permissions
+  * xkblibwrapper: add bounds checking for layout index
+  * adaptor: fix potential null pointer dereference
+  * settings: initialize m_languageLayoutIndex member
+  * Replace unsafe C functions with safe alternatives
+  * helper: make keyboard layout change non-blocking
+  * Consolidate duplicate code patterns
+
+  [ Emel Öztürk ]
+  * Sync atspi state between qml and indicator
+  * Add Q text for q variant & del print
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Thu, 11 Dec 2025 14:22:12 +0300
+
 eta-keyboard (1.1.3) unstable; urgency=medium
 
   * Add menu for indicator
