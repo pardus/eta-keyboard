@@ -89,13 +89,17 @@ int XWrapper::updateKeymap(keyboard *kbd)
     new_keymap = xkb_x11_keymap_new_from_device(kbd->ctx, kbd->conn,
                                                 kbd->device_id,
                                                 (xkb_keymap_compile_flags)0);
-    if (!new_keymap)
+    if (!new_keymap) {
+        logger->log("Failed to create new keymap");
         goto err_out;
+    }
 
     new_state = xkb_x11_state_new_from_device(new_keymap, kbd->conn,
                                               kbd->device_id);
-    if (!new_state)
+    if (!new_state) {
+        logger->log("Failed to create new keyboard state");
         goto err_keymap;
+    }
 
     if (kbd->keymap) {
         //logger->log("Keymap updated!");

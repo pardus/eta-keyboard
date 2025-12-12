@@ -23,6 +23,7 @@
 #include <QObject>
 
 class VirtualKeyboardInterfaceAdaptor;
+class Logger;
 
 class VkDbusInterface : public QObject
 {
@@ -48,6 +49,7 @@ public Q_SLOTS:
     void hidePinInputSlot();
 private:
     VirtualKeyboardInterfaceAdaptor *m_adaptor;
+    Logger *logger;
 };
 
 #endif // VKDBUSINTERFACE_H

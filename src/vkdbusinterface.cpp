@@ -19,19 +19,25 @@
  *****************************************************************************/
 #include "src/vkdbusinterface.h"
 #include "src/adaptor.h"
+#include "src/logger.h"
 #include <QDBusConnection>
 
 VkDbusInterface::VkDbusInterface(QObject *parent) :
     QObject(parent)
 {
+    logger = new Logger(this);
     m_adaptor = new VirtualKeyboardInterfaceAdaptor(this);
     QDBusConnection connection = QDBusConnection::sessionBus();
     auto ok = connection.registerObject("/VirtualKeyboard", this);
-    if (!ok)
+    if (!ok) {
+        logger->log("D-Bus: failed to register object");
         qCritical() << "eta-kbd: D-Bus: failed to register object";
+    }
     ok = connection.registerService("org.eta.virtualkeyboard");
-    if (!ok)
+    if (!ok) {
+        logger->log("D-Bus: failed to register service");
         qCritical() << "eta-kbd: D-Bus: failed to register service";
+    }
 }
 
 void VkDbusInterface::emitAtspiStateChanged(bool enabled)

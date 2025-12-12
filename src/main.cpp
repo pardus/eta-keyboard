@@ -19,6 +19,7 @@
  *****************************************************************************/
 #include "src/helper.h"
 #include "src/singleinstance.h"
+#include "src/logger.h"
 #include <signal.h>
 #include <unistd.h>
 #include <QApplication>
@@ -91,10 +92,13 @@ int main(int argc, char *argv[])
 
     }
 
+    Logger logger;
+
     if (cInstance.listen(name)) {
         qDebug() << "Creating single instance";
         setup_unix_signal_handlers();
     } else {
+        logger.log("Failed to create single instance");
         qFatal("Couldn't create single instance aborting");
     }
 
@@ -110,8 +114,10 @@ int main(int argc, char *argv[])
                                              qApp->desktop()->logicalDpiX());
 
     engine.load(QUrl(QStringLiteral("qrc:/ui/main.qml")));
-    if (engine.rootObjects().isEmpty())
+    if (engine.rootObjects().isEmpty()) {
+        logger.log("Failed to load QML engine");
         return -1;
+    }
 
     QObject::connect(screen, &QScreen::geometryChanged, [&engine](const QRect &geometry){
         QVariant returnedValue;

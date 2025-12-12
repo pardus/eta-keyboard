@@ -32,6 +32,7 @@ class VkDbusInterface;
 class XKBLibWrapper;
 class XWrapper;
 class FocusWatcher;
+class Logger;
 
 class Helper : public QObject
 {
@@ -86,6 +87,7 @@ private:
     XKBLibWrapper *xkblw;
     Settings *s;    
     FocusWatcher *focusWatcher;
+    Logger *logger;
 private slots:    
     void showSlot(bool password);
     void showForceSlot(bool password);

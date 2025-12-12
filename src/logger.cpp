@@ -7,8 +7,7 @@
 #include <QTextStream>
 #include <QCoreApplication>
 
-#define log_file_path "/var/log"
-#define log_file_name "eta.log"
+#define log_file_name "eta-keyboard.log"
 
 Logger::Logger(QObject *parent) : QObject(parent)
 {
@@ -18,7 +17,8 @@ Logger::Logger(QObject *parent) : QObject(parent)
             QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
     whoami = homePath.first().split(QDir::separator()).last();
 
-    createFile(log_file_path, log_file_name);
+    QString logPath = QDir::homePath() + "/.cache/eta/eta-keyboard";
+    createFile(logPath, log_file_name);
 }
 
 QString Logger::getPath() const
@@ -80,8 +80,8 @@ void Logger::updateTime()
 
 bool Logger::writeData(const QString &str)
 {
-    updateTime();
-    QTextStream out(&file);
-    out << m_current_time + " " + getPath() + " : " + str + "\n";
-    return true;
+        updateTime();
+        QTextStream out(&file);
+        out << m_current_time + " " + yellow_color + getPath() + no_color + " : " + str + "\n";
+        return true;
 }

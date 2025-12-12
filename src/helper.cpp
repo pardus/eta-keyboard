@@ -23,6 +23,7 @@
 #include "src/vkdbusinterface.h"
 #include "src/xkblibwrapper.h"
 #include "src/settings.h"
+#include "src/logger.h"
 #include <QAbstractEventDispatcher>
 #include <QString>
 #include <QProcess>
@@ -35,6 +36,7 @@ static bool showAtspi = true;
 Helper::Helper(QObject *parent):
     QObject (parent)
 {
+    logger = new Logger(this);
     xw = new XWrapper;
     xw->setHelper(this);
     xkblw = new XKBLibWrapper(this);
@@ -85,6 +87,12 @@ void Helper::showSlot(bool password)
 }
 
 void Helper::setKeyboardLayout(const QString &langCode, const QString &variant) {
+    QString logMsg = "Layout changed to: " + langCode;
+    if (!variant.isEmpty()) {
+        logMsg += " (variant: " + variant + ")";
+    }
+    logger->log(logMsg);
+
     QStringList args;
     args << "-layout" << langCode;
     if (!variant.isEmpty()) {
