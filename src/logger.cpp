@@ -33,6 +33,11 @@ QString Logger::getUser() const
 
 void Logger::log(const QString &str)
 {
+    QFileInfo fi(file_fullpath);
+    if (fi.exists() && fi.size() > 1024 * 1024) {
+        QFile::remove(file_fullpath);
+    }
+
     file.setFileName(file_fullpath);
     if (file.open(QIODevice::WriteOnly | QIODevice::Append)){
         if (writeData(str)) {
