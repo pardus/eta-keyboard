@@ -18,6 +18,7 @@ Logger::Logger(QObject *parent) : QObject(parent)
             QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
     whoami = homePath.first().split(QDir::separator()).last();
 
+    createFile(log_file_path, log_file_name);
 }
 
 QString Logger::getPath() const
@@ -32,7 +33,6 @@ QString Logger::getUser() const
 
 void Logger::log(const QString &str)
 {
-    createFile(log_file_path, log_file_name);
     file.setFileName(file_fullpath);
     if (file.open(QIODevice::WriteOnly | QIODevice::Append)){
         if (writeData(str)) {
@@ -75,12 +75,8 @@ void Logger::updateTime()
 
 bool Logger::writeData(const QString &str)
 {
-    try {
-        updateTime();
-        QTextStream out(&file);
-        out << m_current_time + " " + yellow_color + getPath() + no_color + " : " + str + "\n";
-        return true;
-    } catch (...) {
-        return false;
-    }
+    updateTime();
+    QTextStream out(&file);
+    out << m_current_time + " " + getPath() + " : " + str + "\n";
+    return true;
 }
