@@ -247,7 +247,7 @@ ApplicationWindow {
                 stickyNum+= btnShift ? -1 : 1
                 main.keyLevel+= btnShift ? -1 : 1
                 btnShift = !btnShift
-                updateCapsLockState(capsLockOn)
+                updateCapsLockState(helper.getCapslockStatus())
                 sticky = true
                 break
             }
@@ -383,7 +383,7 @@ ApplicationWindow {
             sticky = false
         }
 
-        updateCapsLockState(capsLockOn)
+        updateCapsLockState(helper.getCapslockStatus())
     }
 
 

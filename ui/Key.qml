@@ -280,9 +280,8 @@ Rectangle {
             if (key.keyCode == 22){
                 main.pressedBackspace()
             }
-
-            else {
-                main.keyClicked(key.keyCode,mirror,keyText,key.symbolLevel,
+            else if (key.keyCode != 66){
+                main.keyClicked(key.keyCode, mirror, keyText, key.symbolLevel,
                                 key.keyCodeSymbol)
                 if (main.pinMode) {
                     main.shuffle = !main.shuffle
