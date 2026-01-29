@@ -58,6 +58,7 @@ public:
                            void *message, long *) override;
     void setHelper(Helper *h);
     void registerFocusChangeCb(callback cb);
+    void resetModifiers();
 
 private:
     int updateKeymap(struct keyboard *kbd);

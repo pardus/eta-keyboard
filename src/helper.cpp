@@ -39,6 +39,7 @@ Helper::Helper(QObject *parent):
     logger = new Logger(this);
     xw = new XWrapper;
     xw->setHelper(this);
+    xw->resetModifiers();
     xkblw = new XKBLibWrapper(this);
     s = new Settings(this);
 

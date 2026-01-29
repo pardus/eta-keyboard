@@ -250,3 +250,18 @@ void XWrapper::fakeKeyRelease(unsigned int code)
     XTestFakeKeyEvent(display, code, false, 0);
     XSync(display, False);
 }
+
+void XWrapper::resetModifiers()
+{
+    int32_t new_device_id = xkb_x11_get_core_keyboard_device_id(kbd->conn);
+    if (new_device_id >= 0) {
+        kbd->device_id = new_device_id;
+    }
+
+    updateKeymap(kbd);
+
+    XkbLockModifiers(display, XkbUseCoreKbd, 0xFF, 0);
+    XkbLatchModifiers(display, XkbUseCoreKbd, 0xFF, 0);
+
+    XSync(display, False);
+}
