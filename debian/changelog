@@ -1,3 +1,9 @@
+eta-keyboard (1.1.6) unstable; urgency=medium
+
+  * Fix capslock toggle and state syns issues
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Thu, 29 Jan 2026 10:59:35 +0300
+
 eta-keyboard (1.1.5) unstable; urgency=medium
 
   * Move file check to init, cleanup unused code
