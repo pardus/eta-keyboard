@@ -28,5 +28,8 @@ msgstr "Otomatik"
 msgid "Manual"
 msgstr "Manuel"
 
+msgid "Auto Hide"
+msgstr "Otomatik Gizle"
+
 msgid "ETA Keyboard"
 msgstr "ETA Klavye"
