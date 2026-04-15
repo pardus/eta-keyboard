@@ -84,3 +84,21 @@ bool VirtualKeyboardInterfaceAdaptor::getEnableAtspi()
     }
     return helper->getEnableAtspi();
 }
+
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::setAutoHide(bool enabled)
+{
+    Helper* helper = qobject_cast<Helper*>(parent()->parent());
+    if (helper) {
+        helper->setAutoHide(enabled);
+    }
+}
+
+bool VirtualKeyboardInterfaceAdaptor::getAutoHide()
+{
+    Helper* helper = qobject_cast<Helper*>(parent()->parent());
+    if (!helper) {
+        qWarning() << "Failed to get Helper object in getAutoHide()";
+        return false;
+    }
+    return helper->getAutoHide();
+}

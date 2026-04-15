@@ -78,6 +78,8 @@ public:
     Q_INVOKABLE void layoutChangedCallback();
     Q_INVOKABLE void setEnableAtspi(bool status);
     Q_INVOKABLE bool getEnableAtspi();
+    Q_INVOKABLE void setAutoHide(bool status);
+    Q_INVOKABLE bool getAutoHide();
     static bool login;
     static bool showOnStart;
 private:

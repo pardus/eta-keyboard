@@ -40,6 +40,8 @@ public slots:
     Q_NOREPLY void hidePinInput();
     Q_NOREPLY void setEnableAtspi(bool enabled);
     bool getEnableAtspi();
+    Q_NOREPLY void setAutoHide(bool enabled);
+    bool getAutoHide();
 signals:
     void atspiStateChanged(bool enabled);
 };

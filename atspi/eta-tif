@@ -55,12 +55,13 @@ def dbus_show_keyboard(show, is_password):
     keyboard = get_keyboard()
     if keyboard:
         try:
-            if not keyboard.getEnableAtspi():
-                return
             if show:
+                if not keyboard.getEnableAtspi():
+                    return
                 keyboard.show(is_password)
             else:
-                pass
+                if keyboard.getAutoHide():
+                    keyboard.hide()
         except dbus.DBusException as e:
             print(f"Failed to call method on keyboard: {e}")
         except Exception as e:
@@ -104,9 +105,11 @@ class IndicatorState:
 
     def __init__(self):
         self.auto_mode = True
+        self.auto_hide = False
         self.status_icon = None
         self.auto_item = None
         self.manual_item = None
+        self.auto_hide_item = None
 
     def update_icon(self):
 
@@ -143,6 +146,7 @@ class IndicatorState:
         if keyboard:
             try:
                 self.auto_mode = bool(keyboard.getEnableAtspi())
+                self.auto_hide = bool(keyboard.getAutoHide())
                 self.update_icon()
             except Exception as e:
                 print(f"Error syncing state from keyboard: {e}")
@@ -163,8 +167,15 @@ def create_indicator():
                 state.auto_mode = bool(current_state)
                 state.update_icon()
                 state.update_menu_items(auto_action, manual_action)
+
+                current_auto_hide = keyboard.getAutoHide()
+                state.auto_hide = bool(current_auto_hide)
+                if state.auto_hide_item:
+                    state.auto_hide_item.handler_block_by_func(auto_hide_action)
+                    state.auto_hide_item.set_active(state.auto_hide)
+                    state.auto_hide_item.handler_unblock_by_func(auto_hide_action)
             except Exception as e:
-                print(f"Error getting atspi state: {e}")
+                print(f"Error getting keyboard state: {e}")
 
     def show_action(*_args):
         keyboard = get_keyboard()
@@ -220,6 +231,16 @@ def create_indicator():
                 except Exception as e:
                     print(f"Error enabling manual mode: {e}")
 
+    def auto_hide_action(*_args):
+        keyboard = get_keyboard()
+        if keyboard:
+            try:
+                new_state = state.auto_hide_item.get_active()
+                keyboard.setAutoHide(new_state)
+                state.auto_hide = new_state
+            except Exception as e:
+                print(f"Error toggling auto hide: {e}")
+
     # Create the menu for indicator
     menu = Gtk.Menu()
 
@@ -244,6 +265,14 @@ def create_indicator():
     )
     state.manual_item.connect('activate', manual_action)
     menu.append(state.manual_item)
+
+    separator2 = Gtk.SeparatorMenuItem()
+    menu.append(separator2)
+
+    state.auto_hide_item = Gtk.CheckMenuItem.new_with_label(_('Auto Hide'))
+    state.auto_hide_item.set_active(state.auto_hide)
+    state.auto_hide_item.connect('toggled', auto_hide_action)
+    menu.append(state.auto_hide_item)
 
     menu.connect('show', on_menu_show)
 

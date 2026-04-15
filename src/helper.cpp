@@ -32,6 +32,7 @@
 bool Helper::login = false;
 bool Helper::showOnStart = false;
 static bool showAtspi = true;
+static bool autoHideEnabled = false;
 
 Helper::Helper(QObject *parent):
     QObject (parent)
@@ -49,6 +50,7 @@ Helper::Helper(QObject *parent):
     // Load Atspi state from QSettings
     QSettings settings(ETA_CONFIG_PATH, QSettings::IniFormat);
     showAtspi = settings.value("AtspiEnabled", true).toBool();
+    autoHideEnabled = settings.value("AutoHideEnabled", false).toBool();
 
     QAbstractEventDispatcher::instance()->installNativeEventFilter(xw);
     vkdi = new VkDbusInterface(this);
@@ -225,5 +227,18 @@ void Helper::setEnableAtspi(bool status)
 bool Helper::getEnableAtspi()
 {
     return showAtspi;
+}
+
+void Helper::setAutoHide(bool status)
+{
+    autoHideEnabled = status;
+    QSettings settings(ETA_CONFIG_PATH, QSettings::IniFormat);
+    settings.setValue("AutoHideEnabled", autoHideEnabled);
+    settings.sync();
+}
+
+bool Helper::getAutoHide()
+{
+    return autoHideEnabled;
 }
 
