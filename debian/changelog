@@ -1,3 +1,22 @@
+eta-keyboard (1.1.8) unstable; urgency=medium
+
+  [ Hugo Carvalho ]
+  * Create pt folder
+  * Add Portuguese translations
+  * Delete empty file
+  * Update Portuguese translations
+
+  [ Emel Öztürk ]
+  * Add auto hide opt to close keyboard when clicking outside text fields - #AKYAYMEB-429
+  * Add translations for system tray - #AKYAYMEB-429
+  * Add icons for auto hide - #AKYAYMEB-429
+  * Rearrange settings panel into 3x3 grid - #AKYAYMEB-429
+  * Change icons - #AKYAYMEB-429
+  * Sync auto hide state between system tray and settings menu - #AKYAYMEB-429
+  * Edit icons - #AKYAYMEB-429
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Fri, 17 Apr 2026 16:03:03 +0300
+
 eta-keyboard (1.1.7) unstable; urgency=medium
 
   * Reset xkb state and keymap on startup tp prevent input freeze
