@@ -695,6 +695,7 @@ ApplicationWindow {
                     id: autoHideKey
                     leVis4: true
 
+                    property bool autoHide: main.autoHideChange
                     property string autoHideIconPath: helper.getAutoHide() ? "qrc:/ui/Images/auto-hide-on.svg" : "qrc:/ui/Images/auto-hide-off.svg"
 
                     Image {
@@ -704,6 +705,14 @@ ApplicationWindow {
                         height: parent.height * 0.8
                         source: autoHideKey.autoHideIconPath
                         fillMode: Image.PreserveAspectFit
+                    }
+
+                    onAutoHideChanged: {
+                        if (main.autoHideChange) {
+                            autoHideIconPath = "qrc:/ui/Images/auto-hide-on.svg"
+                        } else {
+                            autoHideIconPath = "qrc:/ui/Images/auto-hide-off.svg"
+                        }
                     }
 
                     MouseArea {

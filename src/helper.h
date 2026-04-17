@@ -106,6 +106,7 @@ signals:
     void showPinInputCalled();
     void hidePinInputCalled();
     void atspiChanged(bool status);
+    void autoHideChanged(bool status);
     void focusChanged();
 };
 

@@ -32,6 +32,11 @@ void VirtualKeyboardInterfaceAdaptor::emitAtspiStateChanged(bool enabled)
     emit atspiStateChanged(enabled);
 }
 
+void VirtualKeyboardInterfaceAdaptor::emitAutoHideStateChanged(bool enabled)
+{
+    emit autoHideStateChanged(enabled);
+}
+
 Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::show(bool password)
 {
     QMetaObject::invokeMethod(parent(), "showSlot", Q_ARG(bool, password));

@@ -70,6 +70,7 @@ ApplicationWindow {
     property bool keyboardVisible: false
     property bool layoutChange: false
     property bool atspiChange: false
+    property bool autoHideChange: false
     property int themeName
     property bool loaded: false
     property string storedMirror
@@ -588,6 +589,10 @@ ApplicationWindow {
             } else {
                 main.atspiChange = false
             }
+        }
+
+        onAutoHideChanged: function(enabled) {
+            main.autoHideChange = enabled
         }
 
         onPasswordDetected: {

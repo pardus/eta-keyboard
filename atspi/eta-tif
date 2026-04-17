@@ -138,6 +138,19 @@ class IndicatorState:
             except Exception as e:
                 print(f"Error updating menu items: {e}")
 
+    def update_auto_hide_item(self, auto_hide_action_func):
+        """
+        Update the auto Hide check menu item to match current state without
+        retriggering the toggled handler.
+        """
+        if self.auto_hide_item:
+            try:
+                self.auto_hide_item.handler_block_by_func(auto_hide_action_func)
+                self.auto_hide_item.set_active(self.auto_hide)
+                self.auto_hide_item.handler_unblock_by_func(auto_hide_action_func)
+            except Exception as e:
+                print(f"Error updating auto hide item: {e}")
+
     def sync_from_keyboard(self):
         """
         Sync state from keyboard Dbus interface
@@ -170,10 +183,7 @@ def create_indicator():
 
                 current_auto_hide = keyboard.getAutoHide()
                 state.auto_hide = bool(current_auto_hide)
-                if state.auto_hide_item:
-                    state.auto_hide_item.handler_block_by_func(auto_hide_action)
-                    state.auto_hide_item.set_active(state.auto_hide)
-                    state.auto_hide_item.handler_unblock_by_func(auto_hide_action)
+                state.update_auto_hide_item(auto_hide_action)
             except Exception as e:
                 print(f"Error getting keyboard state: {e}")
 
@@ -305,6 +315,23 @@ def create_indicator():
     session_bus.add_signal_receiver(
         on_atspi_state_changed,
         signal_name='atspiStateChanged',
+        dbus_interface='org.eta.virtualkeyboard',
+        bus_name='org.eta.virtualkeyboard',
+        path='/VirtualKeyboard'
+    )
+
+    # Listen for autoHideStateChanged DBus signal
+    def on_auto_hide_state_changed(enabled):
+        """
+        Callback for DBus autoHideStateChanged signal, triggered when
+        auto hide state is changed from QML Settings
+        """
+        state.auto_hide = bool(enabled)
+        state.update_auto_hide_item(auto_hide_action)
+
+    session_bus.add_signal_receiver(
+        on_auto_hide_state_changed,
+        signal_name='autoHideStateChanged',
         dbus_interface='org.eta.virtualkeyboard',
         bus_name='org.eta.virtualkeyboard',
         path='/VirtualKeyboard'

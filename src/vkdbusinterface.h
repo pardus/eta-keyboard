@@ -31,6 +31,7 @@ class VkDbusInterface : public QObject
 public:
     explicit VkDbusInterface(QObject *parent = 0);
     void emitAtspiStateChanged(bool enabled);
+    void emitAutoHideStateChanged(bool enabled);
 signals:
     void show(bool password);
     void showForce(bool password);

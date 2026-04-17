@@ -62,6 +62,7 @@ Helper::Helper(QObject *parent):
     connect(vkdi,SIGNAL(showPinInput()),this,SIGNAL(showPinInputCalled()));
     connect(vkdi,SIGNAL(hidePinInput()),this,SIGNAL(hidePinInputCalled()));
     connect(this, &Helper::atspiChanged, vkdi, &VkDbusInterface::emitAtspiStateChanged);
+    connect(this, &Helper::autoHideChanged, vkdi, &VkDbusInterface::emitAutoHideStateChanged);
 
     // Emit focus changed signal
     xw->registerFocusChangeCb([this](xcb_window_t) {
@@ -235,6 +236,7 @@ void Helper::setAutoHide(bool status)
     QSettings settings(ETA_CONFIG_PATH, QSettings::IniFormat);
     settings.setValue("AutoHideEnabled", autoHideEnabled);
     settings.sync();
+    emit autoHideChanged(status);
 }
 
 bool Helper::getAutoHide()

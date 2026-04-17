@@ -45,6 +45,11 @@ void VkDbusInterface::emitAtspiStateChanged(bool enabled)
     m_adaptor->emitAtspiStateChanged(enabled);
 }
 
+void VkDbusInterface::emitAutoHideStateChanged(bool enabled)
+{
+    m_adaptor->emitAutoHideStateChanged(enabled);
+}
+
 void VkDbusInterface::showSlot(bool password)
 {
     puts("Show");
