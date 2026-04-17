@@ -32,6 +32,11 @@ void VirtualKeyboardInterfaceAdaptor::emitAtspiStateChanged(bool enabled)
     emit atspiStateChanged(enabled);
 }
 
+void VirtualKeyboardInterfaceAdaptor::emitAutoHideStateChanged(bool enabled)
+{
+    emit autoHideStateChanged(enabled);
+}
+
 Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::show(bool password)
 {
     QMetaObject::invokeMethod(parent(), "showSlot", Q_ARG(bool, password));
@@ -83,4 +88,22 @@ bool VirtualKeyboardInterfaceAdaptor::getEnableAtspi()
         return true;
     }
     return helper->getEnableAtspi();
+}
+
+Q_NOREPLY void VirtualKeyboardInterfaceAdaptor::setAutoHide(bool enabled)
+{
+    Helper* helper = qobject_cast<Helper*>(parent()->parent());
+    if (helper) {
+        helper->setAutoHide(enabled);
+    }
+}
+
+bool VirtualKeyboardInterfaceAdaptor::getAutoHide()
+{
+    Helper* helper = qobject_cast<Helper*>(parent()->parent());
+    if (!helper) {
+        qWarning() << "Failed to get Helper object in getAutoHide()";
+        return false;
+    }
+    return helper->getAutoHide();
 }

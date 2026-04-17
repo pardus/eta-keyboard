@@ -30,6 +30,7 @@ class VirtualKeyboardInterfaceAdaptor : public QDBusAbstractAdaptor
 public:
     VirtualKeyboardInterfaceAdaptor(QObject *parent);
     void emitAtspiStateChanged(bool enabled);
+    void emitAutoHideStateChanged(bool enabled);
 public slots:
     Q_NOREPLY void show(bool password);
     Q_NOREPLY void showForce(bool password);
@@ -40,8 +41,11 @@ public slots:
     Q_NOREPLY void hidePinInput();
     Q_NOREPLY void setEnableAtspi(bool enabled);
     bool getEnableAtspi();
+    Q_NOREPLY void setAutoHide(bool enabled);
+    bool getAutoHide();
 signals:
     void atspiStateChanged(bool enabled);
+    void autoHideStateChanged(bool enabled);
 };
 
 #endif // ADAPTOR_H

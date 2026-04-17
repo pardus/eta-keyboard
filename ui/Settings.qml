@@ -249,7 +249,7 @@ ApplicationWindow {
 
     function updateWindowSize() {
         if (languageWindow) {
-            var buttonSize = Math.min(transUp.width, transUp.height)
+            var buttonSize = Math.min(languageKey.width, languageKey.height)
 
             // Calculate total number of rows and columns
             var totalButtons = languageModel.count
@@ -266,15 +266,8 @@ ApplicationWindow {
             languageWindow.width = windowWidth
             languageWindow.height = windowHeight
 
-            var windowLeftX = keyboardX - windowWidth
-            var windowTopY = keyboardY - (keyboardHeight * 0.13)
-
-            // Adjust Y position based on layout
-            if (main.layout === "Sade") {
-                windowTopY -= keyboardHeight * 0.2
-            } else {
-                windowTopY += keyboardHeight * 0.15
-            }
+            var windowLeftX = settings.x + settings.width - windowWidth - main.spacing
+            var windowTopY = settings.y - windowHeight - main.spacing
 
             // Keep window on screen
             windowLeftX = Math.max(0, windowLeftX)
@@ -329,8 +322,8 @@ ApplicationWindow {
                     Repeater {
                         model: languageModel.count
                         Rectangle {
-                            width: transUp.width
-                            height: transUp.height
+                            width: languageKey.width
+                            height: languageKey.height
                             color: {
                                 main.updateTheme;
                                 settings.languageIndex;
@@ -339,7 +332,7 @@ ApplicationWindow {
                             }
                             border.color: main.color
                             border.width: 1
-                            radius: transUp.radius
+                            radius: languageKey.radius
                             opacity: main.transparency
 
 
@@ -444,7 +437,7 @@ ApplicationWindow {
     }
 
     function closeLanguageWindowIfOpen() {
-        if (languageWindow && languageWindow.isOpen) {
+        if (languageWindow && (languageWindow.visible || languageWindow.isOpen)) {
             languageWindow.hide()
             languageWindow.isOpen = false
         }
@@ -452,26 +445,10 @@ ApplicationWindow {
 
     Connections {
         target: main
-        function onWidthChanged() {
-            keyboardWidth = main.width
-            updateWindowSize()
-            closeLanguageWindowIfOpen()
-        }
-        function onHeightChanged() {
-            keyboardHeight = main.height
-            updateWindowSize()
-            closeLanguageWindowIfOpen()
-        }
-        function onXChanged() {
-            keyboardX = main.x
-            updateWindowSize()
-            closeLanguageWindowIfOpen()
-        }
-        function onYChanged() {
-            keyboardY = main.y
-            updateWindowSize()
-            closeLanguageWindowIfOpen()
-        }
+        function onWidthChanged()  { keyboardWidth = main.width;  closeLanguageWindowIfOpen() }
+        function onHeightChanged() { keyboardHeight = main.height; closeLanguageWindowIfOpen() }
+        function onXChanged()      { keyboardX = main.x;          closeLanguageWindowIfOpen() }
+        function onYChanged()      { keyboardY = main.y;          closeLanguageWindowIfOpen() }
     }
 
     ListModel {
@@ -559,62 +536,8 @@ ApplicationWindow {
             }
 
             Row {
-                id: row1
+                id: r1
                 spacing: main.spacing
-
-                Key {
-                    id: transUp
-                    leVis4: true
-
-                    Rectangle {
-                        anchors.fill: parent
-                        color: "transparent"
-
-                        Image {
-                            id: transUpImage
-                            anchors.centerIn: parent
-                            width: parent.width * 0.6
-                            height: parent.height * 0.6
-                            source: "Images/transparent-inc.svg"
-                            fillMode: Image.PreserveAspectFit
-                        }
-                    }
-
-                    MouseArea {
-                        id: ma8
-                        anchors.fill: parent
-
-                        onEntered: {
-                            transUp.btnHovered()
-                        }
-
-                        onExited: {
-                            transUp.btnHovered()
-                        }
-
-                        onPressed: {
-                            transUp.btnPressed()
-                        }
-
-                        onPressAndHold: {
-                            transUp.btnHold()
-                        }
-
-                        onReleased: {
-                            transUp.btnReleased()
-                        }
-
-                        onClicked: {
-                            transUp.btnClicked()
-                            if (main.transparency < 1) {
-                                main.transparency += 0.1
-                                settings.opacity = main.transparency
-                            }
-
-                            settings.setAndSaveConf()
-                        }
-                    }
-                }
 
                 Key{
                     id: languageKey
@@ -769,6 +692,216 @@ ApplicationWindow {
                 spacing: main.spacing
 
                 Key {
+                    id: autoHideKey
+                    leVis4: true
+
+                    property bool autoHide: main.autoHideChange
+                    property string autoHideIconPath: helper.getAutoHide() ? "qrc:/ui/Images/auto-hide-on.svg" : "qrc:/ui/Images/auto-hide-off.svg"
+
+                    Image {
+                        id: autoHideImage
+                        anchors.centerIn: parent
+                        width: parent.width * 0.8
+                        height: parent.height * 0.8
+                        source: autoHideKey.autoHideIconPath
+                        fillMode: Image.PreserveAspectFit
+                    }
+
+                    onAutoHideChanged: {
+                        if (main.autoHideChange) {
+                            autoHideIconPath = "qrc:/ui/Images/auto-hide-on.svg"
+                        } else {
+                            autoHideIconPath = "qrc:/ui/Images/auto-hide-off.svg"
+                        }
+                    }
+
+                    MouseArea {
+                        id: ma5
+                        anchors.fill: parent
+
+                        onPressed: {
+                            autoHideKey.btnPressed()
+                        }
+
+                        onPressAndHold: {
+                            autoHideKey.btnHold()
+                        }
+
+                        onReleased: {
+                            autoHideKey.btnReleased()
+                        }
+
+                        onClicked: {
+                            autoHideKey.btnClicked()
+                            helper.setAutoHide(!helper.getAutoHide());
+                            autoHideKey.autoHideIconPath = helper.getAutoHide() ? "qrc:/ui/Images/auto-hide-on.svg" : "qrc:/ui/Images/auto-hide-off.svg";
+                            settings.setAndSaveConf()
+                        }
+                    }
+                }
+
+                Key {
+                    id: transUp
+                    leVis4: true
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "transparent"
+
+                        Image {
+                            id: transUpImage
+                            anchors.centerIn: parent
+                            width: parent.width * 0.6
+                            height: parent.height * 0.6
+                            source: "Images/transparent-inc.svg"
+                            fillMode: Image.PreserveAspectFit
+                        }
+                    }
+
+                    MouseArea {
+                        id: ma8
+                        anchors.fill: parent
+
+                        onEntered: {
+                            transUp.btnHovered()
+                        }
+
+                        onExited: {
+                            transUp.btnHovered()
+                        }
+
+                        onPressed: {
+                            transUp.btnPressed()
+                        }
+
+                        onPressAndHold: {
+                            transUp.btnHold()
+                        }
+
+                        onReleased: {
+                            transUp.btnReleased()
+                        }
+
+                        onClicked: {
+                            transUp.btnClicked()
+                            if (main.transparency < 1) {
+                                main.transparency += 0.1
+                                settings.opacity = main.transparency
+                            }
+
+                            settings.setAndSaveConf()
+                        }
+                    }
+                }
+
+                Key {
+                    id: scaleUp
+                    leVis4: true
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "transparent"
+
+                        Image {
+                            id: scaleUpImage
+                            anchors.centerIn: parent
+                            width: parent.width * 0.6
+                            height: parent.height * 0.6
+                            source: "Images/k+.svg"
+                            fillMode: Image.PreserveAspectFit
+                        }
+                    }
+
+                    MouseArea {
+                        id: ma4
+                        anchors.fill: parent
+
+                        onEntered: {
+                            scaleUp.btnHovered()
+                        }
+
+                        onExited: {
+                            scaleUp.btnHovered()
+                        }
+
+                        onPressed: {
+                            scaleUp.btnPressed()
+                        }
+
+                        onPressAndHold: {
+                            scaleUp.btnHold()
+                        }
+
+                        onReleased: {
+                            scaleUp.btnReleased()
+                        }
+
+                        onClicked: {
+                            scaleUp.btnClicked()
+                            if (main.scale < 1.5) {
+                                main.scale += 0.1
+                            }
+
+                            settings.setAndSaveConf()
+                        }
+                    }
+                }
+            }
+
+            Row {
+                id: r3
+                spacing: main.spacing
+
+                Key {
+                    id: autoShowKey
+                    leVis4: true
+
+                    property bool atspi: main.atspiChange
+                    property string atspiIconPath: helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.svg" : "qrc:/ui/Images/auto-off.svg"
+
+                    Image {
+                        id: autoShowImage
+                        anchors.centerIn: parent
+                        width: parent.width * 0.8
+                        height: parent.height * 0.8
+                        source: autoShowKey.atspiIconPath
+                        fillMode: Image.PreserveAspectFit
+                    }
+
+                    onAtspiChanged: {
+                        if (main.atspiChange) {
+                            atspiIconPath = "qrc:/ui/Images/auto-on.svg"
+                        } else {
+                            atspiIconPath = "qrc:/ui/Images/auto-off.svg"
+                        }
+                    }
+
+                    MouseArea {
+                        id: ma6
+                        anchors.fill: parent
+
+                        onPressed: {
+                            autoShowKey.btnPressed()
+                        }
+
+                        onPressAndHold: {
+                            autoShowKey.btnHold()
+                        }
+
+                        onReleased: {
+                            autoShowKey.btnReleased()
+                        }
+
+                        onClicked: {
+                            autoShowKey.btnClicked()
+                            helper.setEnableAtspi(!helper.getEnableAtspi());
+                            autoShowKey.atspiIconPath = helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.svg" : "qrc:/ui/Images/auto-off.svg";
+                            settings.setAndSaveConf()
+                        }
+                    }
+                }
+
+                Key {
                     id: transDown
                     leVis4: true
 
@@ -870,109 +1003,6 @@ ApplicationWindow {
                                 main.scale -= 0.1
                             }
 
-                            settings.setAndSaveConf()
-                        }
-                    }
-                }
-
-                Key {
-                    id: scaleUp
-                    leVis4: true
-
-                    Rectangle {
-                        anchors.fill: parent
-                        color: "transparent"
-
-                        Image {
-                            id: scaleUpImage
-                            anchors.centerIn: parent
-                            width: parent.width * 0.6
-                            height: parent.height * 0.6
-                            source: "Images/k+.svg"
-                            fillMode: Image.PreserveAspectFit
-                        }
-                    }
-
-                    MouseArea {
-                        id: ma4
-                        anchors.fill: parent
-
-                        onEntered: {
-                            scaleUp.btnHovered()
-                        }
-
-                        onExited: {
-                            scaleUp.btnHovered()
-                        }
-
-                        onPressed: {
-                            scaleUp.btnPressed()
-                        }
-
-                        onPressAndHold: {
-                            scaleUp.btnHold()
-                        }
-
-                        onReleased: {
-                            scaleUp.btnReleased()
-                        }
-
-                        onClicked: {
-                            scaleUp.btnClicked()
-                            if (main.scale < 1.5) {
-                                main.scale += 0.1
-                            }
-
-                            settings.setAndSaveConf()
-                        }
-                    }
-                }
-
-
-                Key {
-                    id: autoShowKey
-                    leVis4: true
-
-                    property bool atspi: main.atspiChange
-                    property string atspiIconPath: helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.svg" : "qrc:/ui/Images/auto-off.svg"
-
-                    Image {
-                        id: autoShowImage
-                        anchors.centerIn: parent
-                        width: parent.width * 0.8
-                        height: parent.height * 0.8
-                        source: autoShowKey.atspiIconPath
-                        fillMode: Image.PreserveAspectFit
-                    }
-
-                    onAtspiChanged: {
-                        if (main.atspiChange) {
-                            atspiIconPath = "qrc:/ui/Images/auto-on.svg"
-                        } else {
-                            atspiIconPath = "qrc:/ui/Images/auto-off.svg"
-                        }
-                    }
-
-                    MouseArea {
-                        id: ma6
-                        anchors.fill: parent
-
-                        onPressed: {
-                            autoShowKey.btnPressed()
-                        }
-
-                        onPressAndHold: {
-                            autoShowKey.btnHold()
-                        }
-
-                        onReleased: {
-                            autoShowKey.btnReleased()
-                        }
-
-                        onClicked: {
-                            autoShowKey.btnClicked()
-                            helper.setEnableAtspi(!helper.getEnableAtspi());
-                            autoShowKey.atspiIconPath = helper.getEnableAtspi() ? "qrc:/ui/Images/auto-on.svg" : "qrc:/ui/Images/auto-off.svg";
                             settings.setAndSaveConf()
                         }
                     }

@@ -25,6 +25,8 @@
         <file>ui/Images/auto-on-status.svg</file>
         <file>ui/Images/auto-off.svg</file>
         <file>ui/Images/auto-off-status.svg</file>
+        <file>ui/Images/auto-hide-on.svg</file>
+        <file>ui/Images/auto-hide-off.svg</file>
         <file>ui/Images/transparent-inc.svg</file>
         <file>ui/Images/transparent-dec.svg</file>
         <file>ui/Images/k+.svg</file>
