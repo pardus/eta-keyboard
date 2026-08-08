@@ -277,9 +277,10 @@ Rectangle {
 
             btnPressed()
 
-            if (key.keyCode == 22){
-                main.pressedBackspace()
+            if (key.keyCode == 22 || key.keyCode == 111 || key.keyCode == 113 || key.keyCode == 114 || key.keyCode == 116) {
+                main.pressedRepeatingKey(key.keyCode)
             }
+            
             else if (key.keyCode != 66){
                 main.keyClicked(key.keyCode, mirror, keyText, key.symbolLevel,
                                 key.keyCodeSymbol)
@@ -299,8 +300,8 @@ Rectangle {
 
         onReleased: {
             btnReleased()
-            if (key.keyCode == 22){
-                main.releasedBackspace()
+            if (key.keyCode == 22 || key.keyCode == 111 || key.keyCode == 113 || key.keyCode == 114 || key.keyCode == 116) {
+                main.releasedRepeatingKey(key.keyCode)
             }
         }
 

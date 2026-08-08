@@ -486,14 +486,16 @@ ApplicationWindow {
         main.m_settings_width = settings.width
     }
 
-    function pressedBackspace(){
-        helper.fakeKeyPress(22)
-        mirrorText.text = mirrorText.text.substring(0, mirrorText.text.length - 1)
-        main.storedMirror = main.storedMirror.substring(0, main.storedMirror.length - 1)
+    function pressedRepeatingKey(keyCode){
+        helper.fakeKeyPress(keyCode)
+        if(keyCode == 22) {
+            mirrorText.text = mirrorText.text.substring(0, mirrorText.text.length - 1)
+            main.storedMirror = main.storedMirror.substring(0, main.storedMirror.length - 1)
+        }
     }
 
-    function releasedBackspace(){
-        helper.fakeKeyRelease(22)
+    function releasedRepeatingKey(keyCode){
+        helper.fakeKeyRelease(keyCode)
     }
 
     function holdBackspace(keyCode) {
