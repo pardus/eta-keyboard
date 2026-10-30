@@ -72,7 +72,7 @@ Key {
             btnReleased()
             helper.fakeKeyRelease(66)
             main.updateCapsLockState(helper.getCapslockStatus())
-            key.clickedFlag = !key.clickedFlag
+            key.clickedFlag = helper.getCapslockStatus()
         }
 
         onClicked: {
@@ -80,10 +80,13 @@ Key {
         }
     }
 
+    // getCapslockStatus is a round trip to the X server. The keyboard runs all
+    // day, most of the time hidden, so only ask while it is on the screen.
     Timer {
-        running: true
+        running: main.visible && key.visible
         repeat: true
-        interval: 5
+        interval: 250
+        triggeredOnStart: true
         onTriggered: {
             key.clickedFlag = helper.getCapslockStatus();
         }
