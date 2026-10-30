@@ -38,9 +38,20 @@
 #include <QDebug>
 #include <QDBusInterface>
 #include <QDBusReply>
+#include <QStandardPaths>
 
 #define SINGLE_INSTANCE ".virtualkeyboard"
 static int setup_unix_signal_handlers();
+static QByteArray instancePath;
+
+// The socket lives in the user's runtime dir (/run/user/<uid>, 0700).
+// A fixed /tmp/<username> dir can be created by another user first, then
+// the keyboard can't start for this user (also on the login screen).
+static QString instanceName()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation)
+           + "/" + SINGLE_INSTANCE;
+}
 
 int main(int argc, char *argv[])
 {
@@ -58,20 +69,8 @@ int main(int argc, char *argv[])
 
     // app.setOverrideCursor(QCursor(Qt::BlankCursor));
 
-    QString pidName = SINGLE_INSTANCE;
-    QString username = qgetenv("USER");
-    if (username.isEmpty())
-	    username = qgetenv("USERNAME");
-    QString tmpPath= "/tmp/";
-    QString pidPath = tmpPath.append(username);
-
-
-    QDir dir(pidPath);
-    if (!dir.exists()) {
-        dir.mkpath(".");
-    }
-
-    QString name = pidPath.append("/").append(pidName);
+    QString name = instanceName();
+    instancePath = name.toLocal8Bit();
 
     SingleInstance cInstance;
 
@@ -132,16 +131,8 @@ int main(int argc, char *argv[])
 
 static void handle_signal(int sig)
 {
-    QString pidName = SINGLE_INSTANCE;
-    QString username = qgetenv("USER");
-    if (username.isEmpty())
-        username = qgetenv("USERNAME");
-    QString tmpPath= "/tmp/";
-    QString pidPath = tmpPath.append(username);
-    QString name = pidPath.append("/").append(pidName);
-    QByteArray ba = name.toLatin1();
     Q_UNUSED(sig);
-    unlink(ba.data());
+    unlink(instancePath.constData());
     exit(0);
 }
 
